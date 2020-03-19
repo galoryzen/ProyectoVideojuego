@@ -1,17 +1,13 @@
 package Handlers;
 
 import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
 import java.util.ArrayList;
-import GameStates.GameStateManager;
 
-public class detectorTeclas implements KeyListener {
+public class detectorTeclas{
 
-    ArrayList<Key> teclas = new ArrayList<Key>();
-    GameStateManager gsm;
+    static ArrayList<Key> teclas = new ArrayList<Key>();
     
-    public detectorTeclas(GameStateManager gsm) {
-        this.gsm = gsm;
+    public detectorTeclas() {
         setKeys();
     }
 
@@ -21,16 +17,16 @@ public class detectorTeclas implements KeyListener {
         public int tecla;
     }
 
-    Key UP = new Key();
-    Key DOWN = new Key();
-    Key RIGHT = new Key();
-    Key LEFT = new Key();
-    Key ACTION = new Key();
-    Key MENU = new Key();
-    Key PAUSE = new Key();
-    Key TEST = new Key();
+    public Key UP = new Key();
+    public Key DOWN = new Key();
+    public Key RIGHT = new Key();
+    public Key LEFT = new Key();
+    public Key ACTION = new Key();
+    public Key MENU = new Key();
+    public Key PAUSE = new Key();
+    public Key TEST = new Key();
 
-    void checkKeyPressed(int key, String evento) {
+    public void checkKeyPressed(int key, String evento) {
         boolean isPressed = false;
         if (evento.equals("pressed")) {
             isPressed = !isPressed;
@@ -42,7 +38,7 @@ public class detectorTeclas implements KeyListener {
         }
     }
 
-    void setKeys() {
+    private void setKeys() {
         UP.tecla = KeyEvent.VK_W;
         UP.nombre = "ARRIBA";
         teclas.add(UP);
@@ -55,6 +51,7 @@ public class detectorTeclas implements KeyListener {
         LEFT.tecla = KeyEvent.VK_A;
         LEFT.nombre = "IZQUIERDA";
         teclas.add(LEFT);
+        ACTION.tecla = KeyEvent.VK_E;
         ACTION.nombre = "INTERACTUAR";
         teclas.add(ACTION);
         MENU.tecla = KeyEvent.VK_ESCAPE;
@@ -68,25 +65,9 @@ public class detectorTeclas implements KeyListener {
         teclas.add(TEST);
     }
 
-    void checkKeyDebug() {
-        for (Key tecla : teclas) {
+    public void checkKeyDebug() {
+        for(Key tecla : teclas) {
             System.out.println("TECLA " + tecla.nombre + " esta presionda: " + tecla.esPresionada);
         }
-    }
-
-    @Override
-    public void keyTyped(KeyEvent e) {
-
-    }
-
-    @Override
-    public void keyPressed(KeyEvent e) {
-
-    }
-
-    @Override
-    public void keyReleased(KeyEvent e) {
-        int key = e.getKeyCode();
-        checkKeyPressed(key, "relased");
     }
 }

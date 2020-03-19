@@ -16,12 +16,8 @@ public class Background {
 
     private double moveScale;
 
-    public Background(String s, double ms) {
-        try {
-            image = ImageIO.read(getClass().getResourceAsStream(s));
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+    public Background(BufferedImage image, double ms) {
+        this.image = image;
         moveScale = ms;
     }
     
