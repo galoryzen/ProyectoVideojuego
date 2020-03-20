@@ -5,5 +5,5 @@ Integrantes del grupo:
 -Isaac Blanco
 -German Vargas
 -Jorge Salazar
--Alex Garcia
+-Alex Figueroa
 -Raul Lopez
