@@ -6,7 +6,7 @@ import java.util.ArrayList;
 public class detectorTeclas{
 
     static ArrayList<Key> teclas = new ArrayList<Key>();
-    
+ 
     public detectorTeclas() {
         setKeys();
     }

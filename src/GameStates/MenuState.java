@@ -31,7 +31,7 @@ public class MenuState extends GameState {
         super(gsm);
         try {
             bg = new Background(Assets.fondoMenu, 1);
-            bg.setVector(-0.1, 0);
+            bg.setVector(2, 0);
             titleColor = new Color(128, 0, 0);
             titleFont = new Font("Century Gothic", Font.PLAIN, 28);
             font = new Font("Arial", Font.PLAIN, 12);
@@ -85,6 +85,8 @@ public class MenuState extends GameState {
             if (currentChoice <= 0) {
                 currentChoice = 4;
             }
+        }else if(Teclas.TEST.esPresionada){
+            gsm.setState(4);
         }
     }
 }

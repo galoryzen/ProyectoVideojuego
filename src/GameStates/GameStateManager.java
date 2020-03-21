@@ -5,10 +5,10 @@ import Handlers.detectorTeclas;
 
 public class GameStateManager {
 
-    private GameState[] gameStates;
+    private static GameState[] gameStates;
     private int currentState;
     public detectorTeclas teclas = new detectorTeclas();
-
+    
     private final int MENUSTATE = 0;
     private final int MAINLEVELSTATE = 1;
     private final int LEVEL1STATE = 2;
@@ -41,7 +41,7 @@ public class GameStateManager {
             case LEVEL2STATE:
                 gameStates[state] = new Level2State(this);
                 break;
-            default:
+            case LEVEL3STATE:
                 gameStates[state] = new Level3State(this);
                 break;
         }
@@ -49,9 +49,6 @@ public class GameStateManager {
 
     public void update() {
         gameStates[currentState].update();
-        if(teclas.ACTION.esPresionada){
-            setState(4);
-        }
     }
 
     public void draw(java.awt.Graphics2D g) {

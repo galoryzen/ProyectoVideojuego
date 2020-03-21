@@ -16,6 +16,7 @@ public class GamePanel extends JPanel implements Runnable{
 
     // Hilo del  juego y Game Loop
     private Thread hiloPrinicipal;
+    
     // Volatile permite solo ser usadara por un Hilo, no puede ser modificad simultaneamente por dos hilos.
     private volatile boolean running = false;
     private static int UPS = 0;
@@ -23,7 +24,7 @@ public class GamePanel extends JPanel implements Runnable{
     final int NANO_POR_SEG = 1000000000; // Equivalencia de segundos en nanosegundos  
     final int PREFERED_UPS = 60; // Actualizacion por segundos deseads
     final double NANO_PER_UPS = NANO_POR_SEG / PREFERED_UPS; // Nanosegundos por actualizacion
-
+    
     // game state manager
     GameStateManager gsm;
 
