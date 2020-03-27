@@ -1,21 +1,34 @@
 package MainG;
 
+import Audio.AudioClip;
+import Audio.AudioPlayer;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 import javax.swing.*;
 import GameStates.GameStateManager;
-import Handlers.detectorTeclas;
+import Handlers.ThreadPool;
 import Tilemaps.Assets;
+import Handlers.KeyManager;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
-public class GamePanel extends JPanel implements Runnable{
+public class GamePanel extends JPanel implements Runnable {
 
     public static final int WIDTH_G = 1080;
     public static final int HEIGHT_G = 720;
 
     // Hilo del  juego y Game Loop
     private Thread hiloPrinicipal;
+
+    // ThreadPool del juego
+    ThreadPool pool = new ThreadPool(2);
+
+    // KeyManager
+    public KeyManager keyManager;
+    public Handler handler;
+
     // Volatile permite solo ser usadara por un Hilo, no puede ser modificad simultaneamente por dos hilos.
     private volatile boolean running = false;
     private static int UPS = 0;
@@ -32,32 +45,22 @@ public class GamePanel extends JPanel implements Runnable{
     private Graphics2D g;
 
     // KeyListener
-    detectorTeclas teclas;
-
     public GamePanel(int width, int height) {
         super();
         setPreferredSize(new Dimension(width, height));
         setVisible(false);
         setFocusable(true);
         requestFocus();
+        handler = new Handler(this);
+        keyManager = new KeyManager();
     }
 
     // Funcion que se llama una vez que se cree el panel, para poder iniciar el juego
     public void addNotify() {
         super.addNotify();
-        gameStart();
-    }
-
-    private void gameStart() {
         Assets.init();
-        if (running == false) {
-            running = true;
-            hiloPrinicipal = new Thread(this, "GameThread");
-            image = new BufferedImage(WIDTH_G, HEIGHT_G, BufferedImage.TYPE_INT_RGB);
-            g = (Graphics2D) image.getGraphics();
-            gsm = new GameStateManager();
-            hiloPrinicipal.start();
-        }
+        AudioClip.init();
+        pool.runTask(this);
     }
 
     // Volatile pero para funciones 
@@ -111,6 +114,7 @@ public class GamePanel extends JPanel implements Runnable{
     public void gameUpdate() {
         UPS++;
         gsm.update();
+        keyManager.update();
     }
 
     // Dibujar en la memoria de video
@@ -128,6 +132,14 @@ public class GamePanel extends JPanel implements Runnable{
 
     @Override
     public void run() {
+        running = true;
+        image = new BufferedImage(WIDTH_G, HEIGHT_G, BufferedImage.TYPE_INT_RGB);
+        g = (Graphics2D) image.getGraphics();
+        gsm = new GameStateManager(pool, handler);
         init();
+    }
+
+    public KeyManager getKeyManager() {
+        return keyManager;
     }
 }

@@ -1,21 +1,31 @@
 package GameStates;
 
+import Audio.AudioClip;
+import Audio.AudioPlayer;
+import Handlers.ThreadPool;
 import java.awt.image.BufferedImage;
 import Tilemaps.Background;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics2D;
-import Handlers.detectorTeclas;
+import Handlers.KeyManager;
+import MainG.Handler;
 import Tilemaps.*;
-
 
 public class MenuState extends GameState {
 
-    private detectorTeclas Teclas = new detectorTeclas();
 
+    AudioPlayer menuMovement, menuMomementDown;
+    AudioPlayer bgMusic;
     Background bg;
+    Handler handler;
+    ThreadPool pool;
 
     private int currentChoice = 0;
+    public long lastPressedTime = 0;
+
+    static final long minPressedDelay = 100;
+
     private String[] options = {
         "Start",
         "Help",
@@ -27,22 +37,27 @@ public class MenuState extends GameState {
     private Font titleFont;
     private Font font;
 
-    public MenuState(GameStateManager gsm) {
+    public MenuState(GameStateManager gsm, ThreadPool pool, Handler handler) {
         super(gsm);
-        try {
+        this.handler = handler;
+        this.pool = pool;
+         try {
             bg = new Background(Assets.fondoMenu, 1);
-            bg.setVector(-0.1, 0);
+            bg.setVector(2, 0);
             titleColor = new Color(128, 0, 0);
             titleFont = new Font("Century Gothic", Font.PLAIN, 28);
             font = new Font("Arial", Font.PLAIN, 12);
         } catch (Exception e) {
             e.printStackTrace();
         }
+        init();
     }
 
+    @Override
     public void update() {
         handleInput();
         bg.update();
+        musicControl();
     }
 
     public void draw(Graphics2D g) {
@@ -70,21 +85,42 @@ public class MenuState extends GameState {
 
     @Override
     public void init() {
+        bgMusic = new AudioPlayer(AudioClip.bgMusic, -15);
+        menuMovement = new AudioPlayer(AudioClip.movementMenu, 0);
+        menuMomementDown = new AudioPlayer(AudioClip.movementMenuDown, 0);
+        pool.runTask(bgMusic);
+    }
 
+    public void handleInput() {
+        long now = System.currentTimeMillis();
+        if(now - lastPressedTime < minPressedDelay){
+            return;
+        }
+        if(handler.getGame().getKeyManager().up){
+            while (!menuMovement.clip.isRunning()) {
+                menuMovement.play();
+            }
+            currentChoice--;
+            if (currentChoice < 0) {
+                currentChoice = 4;
+            }
+        } else if (handler.getGame().getKeyManager().down) {
+            while (!menuMovement.clip.isRunning()) {
+                menuMovement.play();
+            }
+            currentChoice++;
+            if (currentChoice > 4) {
+                currentChoice = 0;
+            }
+        } else if (handler.getGame().getKeyManager().space) {
+            gsm.setState(4);
+            bgMusic.clip.stop();
+        }
+        lastPressedTime = now;
     }
 
     @Override
-    public void handleInput() {
-        if (Teclas.UP.esPresionada) {
-            currentChoice++;
-            if (currentChoice >= options.length) {
-                currentChoice = 0;
-            }
-        } else if (Teclas.DOWN.esPresionada) {
-            currentChoice--;
-            if (currentChoice <= 0) {
-                currentChoice = 4;
-            }
-        }
+    public void musicControl() {
+
     }
 }
