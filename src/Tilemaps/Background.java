@@ -52,6 +52,9 @@ public class Background {
         if(x <= -540 || x >= 540){
             x = x * moveScale % 540;
         }
+        if(y <= -360 || y >= 360){
+            y = y * moveScale % 360;
+        }
     }
 
 }

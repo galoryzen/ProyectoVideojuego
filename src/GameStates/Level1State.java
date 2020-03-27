@@ -1,10 +1,15 @@
 package GameStates;
 
+import Handlers.ThreadPool;
+import MainG.Handler;
 import java.awt.Graphics2D;
 
 public class Level1State extends GameState{
 
-    public Level1State(GameStateManager gsm){
+    ThreadPool pool;
+    Handler handler;
+    
+    public Level1State(GameStateManager gsm, ThreadPool pool, Handler handler){
         super(gsm);
     }
     
@@ -23,7 +28,8 @@ public class Level1State extends GameState{
     }
 
     @Override
-    public void handleInput() {
+    public void musicControl() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
     
 }

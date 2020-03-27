@@ -1,43 +1,57 @@
 package GameStates;
 
+import Audio.AudioClip;
+import Audio.AudioPlayer;
+import Entities.Creatures.Player;
+import Entities.EntityManager;
+import Handlers.ThreadPool;
 import Tilemaps.Background;
 import java.awt.Graphics2D;
-import Handlers.detectorTeclas;
-import Tilemaps.Assets;
-import java.awt.Color;
+import Handlers.KeyManager;
+import MainG.Handler;
+import ThirdMinigame.World;
 import Tilemaps.Assets;
 import java.awt.image.BufferedImage;
-import ThirdMinigame.Nave;
 
-public class Level3State extends GameState implements Mechanics {
+public class Level3State extends GameState {
 
-    Background bg;
-    public detectorTeclas teclas;
-    BufferedImage personaje_nave;
-    Nave nave;
+    private Background bg;
+    private AudioPlayer bgMusicSpaceTalk;
+    private Handler handler;
+    private World world;
 
-    public Level3State(GameStateManager gsm) {
+    public KeyManager teclas;
+    Player nave;
+    private EntityManager entityManager;
+
+    ThreadPool pool;
+
+    public Level3State(GameStateManager gsm, ThreadPool pool, Handler handler) {
         super(gsm);
-        teclas = new detectorTeclas();
+        this.pool = pool;
+        this.handler = handler;
         try {
             bg = new Background(Assets.fondoSpaceInvaders, 1);
             bg.setVector(-3, 0);
         } catch (Exception e) {
             System.out.print(e);
         }
-        personaje_nave = Assets.spriteNina;
-        nave = new Nave(personaje_nave, 0, 0, true, 0f, 0f);
+        entityManager = new EntityManager(handler, nave);
+        world = new World(entityManager,handler);
+        init();
     }
 
     @Override
     public void init() {
-
+        bgMusicSpaceTalk = new AudioPlayer(AudioClip.bgMusicTalk, -15);
+        pool.runTask(bgMusicSpaceTalk);
     }
 
     @Override
     public void update() {
-        handleInput();
+        musicControl();
         bg.update();
+        world.update();
     }
 
     @Override
@@ -46,42 +60,16 @@ public class Level3State extends GameState implements Mechanics {
         bg.draw(g);
 
         // Crear Personaje
-        g.drawImage(nave.getSprite(), (int) nave.getX(), (int) nave.getY(), null);
+        world.render(g);
     }
-
-    @Override
-    // ALEX E ISAAC
-    // Mecanicas de cada minijuego
-    public void handleInput() {
-        // Se mueve arriba
-        if (teclas.UP.esPresionada) {
-            nave.setY( (int) nave.getY() - 1);
-        }
-        // Se mueve abajo
-        if (teclas.DOWN.esPresionada) {
-            nave.setY((int)nave.getY() + 1);
-        }
-        // Se mueve a la derecha
-        if (teclas.RIGHT.esPresionada) {
-            nave.setX((int)nave.getX() + 1);
-        }
-        // Se mueve a la izquierda
-        if (teclas.LEFT.esPresionada) {
-            nave.setX((int) nave.getX() - 1);
-        }
-        // Dispara balas
-        if (teclas.TEST.esPresionada) {
-
-        }
-    }
-
+    
     // Jorge 
     // Generar asteroides aleatorios en pantalla
     public void generarAsteroides() {
 
     }
 
-    @Override
-    public void detectarColisiones() {
+    public void musicControl() {
+
     }
 }
