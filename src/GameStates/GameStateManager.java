@@ -1,57 +1,66 @@
 package GameStates;
 
+import Handlers.ThreadPool;
 import java.util.ArrayList;
-import Handlers.detectorTeclas;
+import Handlers.KeyManager;
+import MainG.Handler;
 
 public class GameStateManager {
-
-    private GameState[] gameStates;
+    
+    public ThreadPool pool;
+    public Handler handler;
+    
+    public static final int NUMGAMESTATE = 5;
+    private static GameState[] gameStates;
     private int currentState;
-    public detectorTeclas teclas = new detectorTeclas();
-
+    
     private final int MENUSTATE = 0;
     private final int MAINLEVELSTATE = 1;
     private final int LEVEL1STATE = 2;
     private final int LEVEL2STATE = 3;
     private final int LEVEL3STATE = 4;
 
-    public GameStateManager() {
-        gameStates = new GameState[5];
+    public GameStateManager(ThreadPool pool, Handler handler) {
+        this.pool = pool;
+        this.handler = handler;
+        gameStates = new GameState[NUMGAMESTATE];
         currentState = MENUSTATE;
-        loadState(MENUSTATE);
+        loadState(currentState);
     }
 
     public void setState(int state) {
+        unloadState(state);
         currentState = state;
         loadState(currentState);
+    }
+    
+    public void unloadState(int state){
+        gameStates[state] = null;
     }
 
     // Funcion encargada de cargar los State, controlador de niveles
     private void loadState(int state) {
         switch (state) {
             case MENUSTATE:
-                gameStates[state] = new MenuState(this);
+                gameStates[state] = new MenuState(this, this.pool, this.handler);
                 break;
             case MAINLEVELSTATE:
-                gameStates[state] = new MainLevel(this);
+                gameStates[state] = new MainLevel(this, this.pool, this.handler);
                 break;
             case LEVEL1STATE:
-                gameStates[state] = new Level1State(this);
+                gameStates[state] = new Level1State(this, this.pool, this.handler);
                 break;
             case LEVEL2STATE:
-                gameStates[state] = new Level2State(this);
+                gameStates[state] = new Level2State(this, this.pool, this.handler);
                 break;
-            default:
-                gameStates[state] = new Level3State(this);
+            case LEVEL3STATE:
+                gameStates[state] = new Level3State(this, this.pool, this.handler);
                 break;
         }
     }
 
     public void update() {
         gameStates[currentState].update();
-        if(teclas.ACTION.esPresionada){
-            setState(4);
-        }
     }
 
     public void draw(java.awt.Graphics2D g) {

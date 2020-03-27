@@ -1,8 +1,13 @@
 package GameStates;
 
+import Handlers.ThreadPool;
+import MainG.Handler;
+
 public abstract class GameState{
 
     protected GameStateManager gsm;
+    protected Handler handler;
+    protected ThreadPool pool;
     
     public GameState(GameStateManager gsm){
         this.gsm = gsm;
@@ -13,6 +18,6 @@ public abstract class GameState{
     public abstract void update();
     
     public abstract void draw(java.awt.Graphics2D g);
-  
-    public abstract void handleInput();
+      
+    public abstract void musicControl();
 }
