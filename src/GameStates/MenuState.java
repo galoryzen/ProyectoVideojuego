@@ -1,30 +1,29 @@
 package GameStates;
 
-import Audio.AudioClip;
-import Audio.AudioPlayer;
+import Audio.AudioLoader;
 import Handlers.ThreadPool;
-import java.awt.image.BufferedImage;
 import Tilemaps.Background;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics2D;
-import Handlers.KeyManager;
 import MainG.Handler;
 import Tilemaps.*;
+import java.util.concurrent.ThreadPoolExecutor;
+import kuusisto.tinysound.Music;
+import kuusisto.tinysound.TinySound;
 
 public class MenuState extends GameState {
 
 
-    AudioPlayer menuMovement, menuMomementDown;
-    AudioPlayer bgMusic;
+    Music bgMusic;
     Background bg;
     Handler handler;
-    ThreadPool pool;
+    ThreadPoolExecutor pool;
 
     private int currentChoice = 0;
     public long lastPressedTime = 0;
 
-    static final long minPressedDelay = 100;
+    static final long minPressedDelay = 200;
 
     private String[] options = {
         "Start",
@@ -37,7 +36,7 @@ public class MenuState extends GameState {
     private Font titleFont;
     private Font font;
 
-    public MenuState(GameStateManager gsm, ThreadPool pool, Handler handler) {
+    public MenuState(GameStateManager gsm, ThreadPoolExecutor pool, Handler handler) {
         super(gsm);
         this.handler = handler;
         this.pool = pool;
@@ -80,15 +79,13 @@ public class MenuState extends GameState {
             }
             g.drawString(options[i], 270, 160 + i * 15);
         }
-
     }
 
     @Override
     public void init() {
-        bgMusic = new AudioPlayer(AudioClip.bgMusic, -15);
-        menuMovement = new AudioPlayer(AudioClip.movementMenu, 0);
-        menuMomementDown = new AudioPlayer(AudioClip.movementMenuDown, 0);
-        pool.runTask(bgMusic);
+        bgMusic = AudioLoader.bgMusic;
+        bgMusic.setVolume(0.3);
+        bgMusic.play(true);
     }
 
     public void handleInput() {
@@ -97,24 +94,18 @@ public class MenuState extends GameState {
             return;
         }
         if(handler.getGame().getKeyManager().up){
-            while (!menuMovement.clip.isRunning()) {
-                menuMovement.play();
-            }
             currentChoice--;
             if (currentChoice < 0) {
                 currentChoice = 4;
             }
         } else if (handler.getGame().getKeyManager().down) {
-            while (!menuMovement.clip.isRunning()) {
-                menuMovement.play();
-            }
             currentChoice++;
             if (currentChoice > 4) {
                 currentChoice = 0;
             }
         } else if (handler.getGame().getKeyManager().space) {
             gsm.setState(4);
-            bgMusic.clip.stop();
+            bgMusic.stop();
         }
         lastPressedTime = now;
     }

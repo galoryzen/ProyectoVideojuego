@@ -1,7 +1,6 @@
 package Entities.Creatures;
 
-import Audio.AudioClip;
-import Audio.AudioPlayer;
+import Audio.AudioLoader;
 import Entities.EntityManager;
 import Entities.Items.Bullet;
 import Tilemaps.Assets;
@@ -13,6 +12,7 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
+import kuusisto.tinysound.Sound;
 
 /**
  *
@@ -21,7 +21,7 @@ import java.util.ArrayList;
 
 public class Player extends Creature {
 
-    private AudioPlayer shot = new AudioPlayer(AudioClip.spaceShot,-1);
+    private Sound shot = AudioLoader.shot;
     
     public Bullet bullet;
     public static int bullcount = 0;
@@ -82,9 +82,7 @@ public class Player extends Creature {
             Xmove = -speed;
         }
         if (handler.getGame().getKeyManager().space && canShoot(clock-now)) {
-            while(!shot.clip.isRunning()){
-              shot.play();
-            }
+            shot.play();
             manager.addEntity(new Bullet (handler,manager,this.getX() + this.getWidth()/1.3f,this.getY() + this.getHeight()/3.3f,100,100));  
         }
     }
@@ -127,6 +125,10 @@ public class Player extends Creature {
         }else{
             return Assets.naveOff;
         }
+    }
+    
+    public int getBulletCount(){
+        return bullcount;
     }
     
 }

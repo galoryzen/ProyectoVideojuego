@@ -1,7 +1,6 @@
 package MainG;
 
-import Audio.AudioClip;
-import Audio.AudioPlayer;
+import Audio.AudioLoader;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
@@ -11,8 +10,11 @@ import GameStates.GameStateManager;
 import Handlers.ThreadPool;
 import Tilemaps.Assets;
 import Handlers.KeyManager;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ThreadPoolExecutor;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import kuusisto.tinysound.TinySound;
 
 public class GamePanel extends JPanel implements Runnable {
 
@@ -23,7 +25,7 @@ public class GamePanel extends JPanel implements Runnable {
     private Thread hiloPrinicipal;
 
     // ThreadPool del juego
-    ThreadPool pool = new ThreadPool(2);
+    ThreadPoolExecutor executor = (ThreadPoolExecutor) Executors.newFixedThreadPool(2);
 
     // KeyManager
     public KeyManager keyManager;
@@ -58,9 +60,10 @@ public class GamePanel extends JPanel implements Runnable {
     // Funcion que se llama una vez que se cree el panel, para poder iniciar el juego
     public void addNotify() {
         super.addNotify();
+        TinySound.init();
         Assets.init();
-        AudioClip.init();
-        pool.runTask(this);
+        AudioLoader.init();
+        executor.submit(this);
     }
 
     // Volatile pero para funciones 
@@ -135,7 +138,7 @@ public class GamePanel extends JPanel implements Runnable {
         running = true;
         image = new BufferedImage(WIDTH_G, HEIGHT_G, BufferedImage.TYPE_INT_RGB);
         g = (Graphics2D) image.getGraphics();
-        gsm = new GameStateManager(pool, handler);
+        gsm = new GameStateManager(executor, handler);
         init();
     }
 

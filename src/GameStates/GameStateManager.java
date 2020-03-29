@@ -4,10 +4,11 @@ import Handlers.ThreadPool;
 import java.util.ArrayList;
 import Handlers.KeyManager;
 import MainG.Handler;
+import java.util.concurrent.ThreadPoolExecutor;
 
 public class GameStateManager {
     
-    public ThreadPool pool;
+    public ThreadPoolExecutor pool;
     public Handler handler;
     
     public static final int NUMGAMESTATE = 5;
@@ -20,7 +21,7 @@ public class GameStateManager {
     private final int LEVEL2STATE = 3;
     private final int LEVEL3STATE = 4;
 
-    public GameStateManager(ThreadPool pool, Handler handler) {
+    public GameStateManager(ThreadPoolExecutor pool, Handler handler) {
         this.pool = pool;
         this.handler = handler;
         gameStates = new GameState[NUMGAMESTATE];
