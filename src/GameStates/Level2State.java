@@ -3,13 +3,14 @@ package GameStates;
 import Handlers.ThreadPool;
 import MainG.Handler;
 import java.awt.Graphics2D;
+import java.util.concurrent.ThreadPoolExecutor;
 
 public class Level2State extends GameState{
     
-    ThreadPool pool;
+    ThreadPoolExecutor pool;
     Handler handler;
     
-    public Level2State(GameStateManager gsm, ThreadPool pool, Handler handler){
+    public Level2State(GameStateManager gsm, ThreadPoolExecutor pool, Handler handler){
         super(gsm);
     }
    
