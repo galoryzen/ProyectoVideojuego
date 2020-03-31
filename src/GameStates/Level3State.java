@@ -7,12 +7,11 @@ import Tilemaps.Background;
 import java.awt.Graphics2D;
 import Handlers.KeyManager;
 import MainG.Handler;
+import ThirdMinigame.HUD;
 import ThirdMinigame.TutorialLoader;
 import ThirdMinigame.World;
 import Tilemaps.Assets;
 import java.util.concurrent.ThreadPoolExecutor;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import kuusisto.tinysound.Music;
 
 public class Level3State extends GameState {
@@ -22,9 +21,10 @@ public class Level3State extends GameState {
     private Handler handler;
     private World world;
     private TutorialLoader tutorialL;
+    private HUD hud;
 
     public KeyManager teclas;
-    Player nave;
+    private Player nave;
     private EntityManager entityManager;
 
     ThreadPoolExecutor pool;
@@ -45,6 +45,8 @@ public class Level3State extends GameState {
         entityManager = new EntityManager(handler, nave);
         world = new World(entityManager, handler);
         tutorialL = new TutorialLoader(handler);
+        hud = new HUD(entityManager);
+        world.setHUD(hud);
         init();
     }
 
@@ -60,6 +62,7 @@ public class Level3State extends GameState {
         musicControl();
         bg.update();
         world.update(tutorial);
+        hud.update();
     }
 
     @Override
@@ -67,21 +70,21 @@ public class Level3State extends GameState {
         // Dibuja el fondo
         bg.draw(g);
         world.render(g);
-        if (tutorialL.getTutorialTerminator() == true) {
+        hud.render(g);
+        if (handler.getKeyManager().test) {
+            tutorial = false;
+        }
+        if (tutorial == true) {
             tutorialL.draw(g);
         } else {
             if (ya) {
-                try {
-                    Thread.sleep(300);
-                } catch (InterruptedException ex) {
-                    Logger.getLogger(Level3State.class.getName()).log(Level.SEVERE, null, ex);
-                }
                 ya = !ya;
                 bgTalkMusic.stop();
                 bgMusic.setVolume(0.3);
                 bgMusic.play(true);
                 tutorial = tutorialL.getTutorialTerminator();
-                bg.setVector(-6, 0);
+                tutorialL = null;
+                bg.setVector(-12, 0);
             }
         }
     }

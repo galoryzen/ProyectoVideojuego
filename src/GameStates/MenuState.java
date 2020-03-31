@@ -1,7 +1,6 @@
 package GameStates;
 
 import Audio.AudioLoader;
-import Handlers.ThreadPool;
 import Tilemaps.Background;
 import java.awt.Color;
 import java.awt.Font;
@@ -23,7 +22,7 @@ public class MenuState extends GameState {
     private int currentChoice = 0;
     public long lastPressedTime = 0;
 
-    static final long minPressedDelay = 200;
+    static final long minPressedDelay = 150;
 
     private String[] options = {
         "Start",
