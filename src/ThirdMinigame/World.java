@@ -3,12 +3,8 @@ package ThirdMinigame;
 import Entities.Creatures.Asteroid;
 import Entities.Entity;
 import Entities.EntityManager;
-import GameStates.Level3State;
-import Tilemaps.Assets;
 import MainG.Handler;
-import java.awt.Color;
 import java.awt.Graphics;
-import java.awt.Graphics2D;
 
 /**
  *
@@ -19,7 +15,8 @@ public class World {
     private EntityManager manager;
     private Handler handler;
     private boolean tutorial;
-
+    private HUD hud;
+    
     public World(EntityManager manager, Handler handler) {
         this.manager = manager;
         this.handler = handler;
@@ -35,7 +32,7 @@ public class World {
             }
             if (j < 8) {
                 for (int i = j; i <= 8; i++) {
-                    manager.addEntity(new Asteroid(handler, manager, 800, (float) (Math.random() * 550 + 50), 100, 100));
+                    manager.addEntity(new Asteroid(handler, manager, 800, (float) (Math.random() * 550 + 50), 100, 100,this.hud));
                 }
             }
         }
@@ -44,5 +41,9 @@ public class World {
 
     public void render(Graphics g) {
         manager.render(g);
+    }
+    
+    public void setHUD(HUD hud){
+        this.hud = hud;
     }
 }

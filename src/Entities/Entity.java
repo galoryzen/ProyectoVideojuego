@@ -3,6 +3,7 @@ package Entities;
 
 import MainG.GamePanel;
 import MainG.Handler;
+import ThirdMinigame.HUD;
 import java.awt.Graphics;
 import java.awt.Rectangle;
 
@@ -21,7 +22,7 @@ public abstract class Entity {
     protected Rectangle bounds;
     protected int health;
     protected boolean active=true;
-    protected EntityManager manager;
+    protected EntityManager manager; 
     
     public Entity(Handler handler,EntityManager manager,float x, float y,int width, int height) {
         
@@ -98,6 +99,10 @@ public abstract class Entity {
 
     public void setHealth(int health) {
         this.health = health;
+    }
+
+    public int getHealth() {
+        return health;
     }
     
     

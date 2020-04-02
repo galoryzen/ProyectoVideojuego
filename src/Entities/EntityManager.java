@@ -16,7 +16,7 @@ public class EntityManager {
     private Handler handler;
     private Player nave;
     private ArrayList <Entity> entities;
-    private int Score=0;
+    private static int Score =0;
     
     //Comparador
     private Comparator<Entity> renderSorter = new Comparator<Entity>(){

@@ -7,7 +7,6 @@ import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 import javax.swing.*;
 import GameStates.GameStateManager;
-import Handlers.ThreadPool;
 import Tilemaps.Assets;
 import Handlers.KeyManager;
 import java.util.concurrent.Executors;

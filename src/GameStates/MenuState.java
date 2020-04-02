@@ -1,7 +1,6 @@
 package GameStates;
 
 import Audio.AudioLoader;
-import Handlers.ThreadPool;
 import Tilemaps.Background;
 import java.awt.Color;
 import java.awt.Font;

@@ -1,6 +1,5 @@
 package GameStates;
 
-import Handlers.ThreadPool;
 import java.util.ArrayList;
 import Handlers.KeyManager;
 import MainG.Handler;

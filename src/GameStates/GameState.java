@@ -1,13 +1,12 @@
 package GameStates;
 
-import Handlers.ThreadPool;
 import MainG.Handler;
+import java.util.concurrent.ThreadPoolExecutor;
 
 public abstract class GameState{
 
     protected GameStateManager gsm;
     protected Handler handler;
-    protected ThreadPool pool;
     
     public GameState(GameStateManager gsm){
         this.gsm = gsm;

@@ -1,10 +1,10 @@
-Beta:
+BETA
 -Readme.md para el inicio del proyecto
 
-Version 1.0
+VERSION 1.0
 -Se realizó el modelo del videojuego y se añadieron las primeras clases el GameLoop y la ventana del juego.
 
-Version 1.1
+VERSION 1.1
 - Se realizó la implementación de los threads al programa
 - Completada la organizacion del juego
 - Añadido folder de Recursos ( Imagenes, sonidos...)
@@ -15,12 +15,12 @@ Version 1.1
 - Trabajar sobre Level1State
 - En la siguiente version se comenta todo
 
-Version 1.2
+VERSION 1.2
 - Se realizó una nueva configuración para los KeyListeners y el audio
 - Se realizó la estructura base de los minijuegos posteriores
 - Se añadió un menu con musica
 
-Version 1.3
+VERSION 1.3
 - Fusionado las implementacion para terminar de una manera general el croquis del primer nivel
 - Se añade Handlers, Entity y su Manager, balas y personajes, además de modificar el KeyListener
  

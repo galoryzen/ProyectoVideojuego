@@ -7,14 +7,13 @@ package Entities.Creatures;
 
 import Entities.Entity;
 import Entities.EntityManager;
-import MainG.GamePanel;
 import MainG.Handler;
-import java.awt.Graphics;
 
 /**
  *
  * @author German David
  */
+
 public abstract class Creature extends Entity{
     
     protected float Xmove=0,Ymove=0;

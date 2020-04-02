@@ -11,12 +11,16 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
+import ThirdMinigame.HUD;
 import kuusisto.tinysound.Sound;
+
+
 
 /**
  *
  * @author German David
  */
+
 public class Player extends Creature {
 
     private Sound shot = AudioLoader.shot;
@@ -25,10 +29,12 @@ public class Player extends Creature {
     public static int bullcount = 0;
     private long clock, now = 0;
     private float ShootSpeed = 0.3f;
+    private HUD hud;
 
     public Player(Handler handler, EntityManager manager, float x, float y) {
         super(handler, manager, x, y, Creature.DEFAULT_CREATURE_WIDTH, Creature.DEFAULT_CREATUR_HEIGHT);
 
+        this.setHealth(15);
         bounds.x = 46;
         bounds.y = 38;
         bounds.width = 61;
@@ -41,8 +47,7 @@ public class Player extends Creature {
         clock = System.nanoTime();
         getInput();
         move();
-
-    }
+    }   
 
     @Override
     public void move() {
@@ -55,8 +60,8 @@ public class Player extends Creature {
             x = handler.getGame().getWidth() - bounds.width;
         }
         y += Ymove;
-        if (y < -bounds.height) {
-            y = -bounds.height + 1;
+        if (y < 0) {
+            y = 1;
         }
         if (y + bounds.height > handler.getGame().getHeight()) {
             y = handler.getGame().getHeight() - bounds.height;
@@ -90,7 +95,7 @@ public class Player extends Creature {
 
     @Override
     public void render(Graphics g) {
-
+        System.out.println();
         g.setColor(Color.red);
         g.fillRect((int) (bounds.x + x), (int) (bounds.y + y), bounds.width, bounds.height);
         g.drawImage(getCurrentImage(), (int) (x), (int) (y), null);
@@ -117,7 +122,7 @@ public class Player extends Creature {
 
     @Override
     public void die() {
-        System.out.println("You lose");
+       System.out.println("You lose");
     }
 
     private BufferedImage getCurrentImage() {
@@ -127,7 +132,7 @@ public class Player extends Creature {
             return Assets.naveOff;
         }
     }
-
+    
     public int getBulletCount() {
         return bullcount;
     }

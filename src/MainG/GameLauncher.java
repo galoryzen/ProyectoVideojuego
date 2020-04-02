@@ -1,6 +1,5 @@
 package MainG;
 
-import Handlers.ThreadPool;
 
 public class GameLauncher {
     
