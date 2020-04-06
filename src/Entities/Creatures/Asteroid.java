@@ -5,7 +5,6 @@ import Entities.EntityManager;
 import Tilemaps.Assets;
 import MainG.Handler;
 import ThirdMinigame.HUD;
-import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Rectangle;
 
@@ -13,6 +12,7 @@ import java.awt.Rectangle;
  *
  * @author German David
  */
+
 public class Asteroid extends Creature {
 
     private HUD hud;
@@ -21,6 +21,7 @@ public class Asteroid extends Creature {
         super(handler, manager, x, y, width, height);
 
         this.hud = hud;
+        this.setHealth(25);
 
         this.width = (int) (Math.random() * 70 + 30);
         this.height = this.width;
@@ -45,13 +46,11 @@ public class Asteroid extends Creature {
 
     @Override
     public void move() {
-        x -= Xmove;
+        this.x -= Xmove;
     }
 
     @Override
     public void render(Graphics g) {
-        g.setColor(Color.red);
-        g.fillRect((int) (bounds.x + x), (int) (bounds.y + y), bounds.height, bounds.height);
         g.drawImage(Assets.asteroids, (int) x, (int) y, width, height, null);
     }
 
@@ -70,11 +69,12 @@ public class Asteroid extends Creature {
                             e.setActive(false);
                         }
                     } else {
-                        //Si no es un asteroide, le hace 5 de daño
-                        System.out.println("Golpeó con" + e);
-                        e.hurt(5);
-                        hud.setPoint(hud.getPoint() + 1);
-                        this.setActive(false);
+                        if(!(e instanceof Enemy)){
+                            e.hurt(5);
+                            hud.setPoint(hud.getPoint() + 1);
+                            this.setActive(false);
+                        }
+                        //Si no es un asteroide, le hace 5 de daño                            
                     }
                 }
             }

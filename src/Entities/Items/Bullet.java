@@ -1,10 +1,10 @@
 package Entities.Items;
 
+import Entities.Creatures.Creature;
 import Entities.Creatures.Player;
 import Entities.Entity;
 import Entities.EntityManager;
 import Tilemaps.Assets;
-import MainG.GamePanel;
 import MainG.Handler;
 import java.awt.Color;
 import java.awt.Graphics;
@@ -14,20 +14,22 @@ import java.awt.Rectangle;
  *
  * @author German David
  */
+
 public class Bullet extends Entity {
 
     private int X;
     private int Y;
     private int BulletSpeed = 8;
+    private Creature creature;
 
-    public Bullet(Handler handler, EntityManager manager, float x, float y, int width, int height) {
-
+    public Bullet(Handler handler, EntityManager manager, float x, float y, int width, int height, Creature creature) {
         super(handler, manager, x, y, width, height);
 
         bounds.x = 2;
         bounds.y = 10;
         bounds.width = 46;
         bounds.height = 22;
+        this.creature = creature;
 
     }
 
@@ -39,7 +41,12 @@ public class Bullet extends Entity {
     }
 
     public void move() {
-        x += BulletSpeed;
+        if (this.creature instanceof Player) {
+            x += BulletSpeed;
+        } else {
+            x -= BulletSpeed;
+        }
+
     }
 
     @Override
@@ -64,16 +71,13 @@ public class Bullet extends Entity {
 
     public void checkAttacks() {
         Rectangle cb = getCollisionBounds();
-        System.out.println("" + cb.x + " " + cb.y + " " + cb.width + " " + cb.height);
         for (Entity e : manager.getEntities()) {
-            if (!(e instanceof Bullet) && !(e instanceof Player)) {
+            if (!(e instanceof Bullet) && !(e.equals(this.creature))) {
                 if (e.getCollisionBounds().intersects(cb)) {
-                    e.hurt(1);
+                    e.hurt(5);
                     this.setActive(false);
-                    System.out.println("Me golpeé con " + e);
                 }
             }
         }
     }
-
 }

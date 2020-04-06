@@ -57,4 +57,8 @@ public class Background {
         }
     }
 
+    public double getDx() {
+        return dx;
+    }
+
 }

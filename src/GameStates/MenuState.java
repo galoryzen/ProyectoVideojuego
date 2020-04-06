@@ -9,11 +9,9 @@ import MainG.Handler;
 import Tilemaps.*;
 import java.util.concurrent.ThreadPoolExecutor;
 import kuusisto.tinysound.Music;
-import kuusisto.tinysound.TinySound;
 
 public class MenuState extends GameState {
-
-
+    
     Music bgMusic;
     Background bg;
     Handler handler;

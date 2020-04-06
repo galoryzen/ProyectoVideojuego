@@ -35,6 +35,10 @@ public class HUD {
         }
     }
 
+    public static int getHealth() {
+        return health;
+    }
+
     public void update() {
         health = manager.getPlayer().getHealth();
         points = getPoint();

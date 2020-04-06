@@ -44,7 +44,7 @@ public class EntityManager {
         for (int i = 0; i < entities.size(); i++) {
             Entity e= entities.get(i);
             e.update();
-            if(!e.isActive() || e.getX()<-e.getWidth() || e.getX()>handler.getGame().getWidth())
+            if(!e.isActive() || e.getX() < -e.getWidth() || e.getX()> 540)
                 entities.remove(e);
         }
         entities.sort(renderSorter);

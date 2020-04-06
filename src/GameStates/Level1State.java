@@ -1,5 +1,6 @@
 package GameStates;
 
+import FirstMinigame.Level1UpManager;
 import MainG.Handler;
 import java.awt.Graphics2D;
 import java.util.concurrent.ThreadPoolExecutor;
@@ -9,7 +10,7 @@ public class Level1State extends GameState{
     ThreadPoolExecutor pool;
     Handler handler;
     
-    public Level1State(GameStateManager gsm, ThreadPoolExecutor pool, Handler handler){
+    public Level1State(GameStateManager gsm, ThreadPoolExecutor pool, Handler handler, Level1UpManager manager){
         super(gsm);
     }
     
