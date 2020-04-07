@@ -9,7 +9,7 @@ public class Level2State extends GameState{
     ThreadPoolExecutor pool;
     Handler handler;
     
-    public Level2State(GameStateManager gsm, ThreadPoolExecutor pool, Handler handler){
+    public Level2State(GameStateManager gsm, ThreadPoolExecutor pool, Handler handler, LevelUpManager manager){
         super(gsm);
     }
    

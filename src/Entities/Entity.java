@@ -1,9 +1,7 @@
 package Entities;
 
 
-import MainG.GamePanel;
 import MainG.Handler;
-import ThirdMinigame.HUD;
 import java.awt.Graphics;
 import java.awt.Rectangle;
 

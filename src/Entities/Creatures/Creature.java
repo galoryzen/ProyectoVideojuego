@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package Entities.Creatures;
 
 import Entities.Entity;
@@ -33,9 +28,11 @@ public abstract class Creature extends Entity{
 
     public void move(){
         x +=Xmove;
-        y+=Ymove;
+        y +=Ymove;
     }
-//Getters and setters
+
+    //Getters and setters
+    
     public float getXmove() {
         return Xmove;
     }

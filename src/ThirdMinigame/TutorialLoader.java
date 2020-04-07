@@ -37,7 +37,7 @@ public class TutorialLoader{
                 g.drawString("Los hombres a bordos del Apolo 11 se han enfermado", 90, 290);
                 g.drawString("Entonces tu mision, es estar al mando del manejo de la nave y cambiar", 90, 310);
                 g.drawString("la historia", 90, 330);
-                if (timeAnimation >= 3000) {
+                if (timeAnimation >= 2500) {
                     tutorialState = 2;
                     timeAnimation = 0;
                 }
@@ -47,7 +47,7 @@ public class TutorialLoader{
                 g.drawString("Eres la mujer que mando al Apolo 11 a la Luna en el año 1969", 90, 280);
                 g.drawString("Es tu momento de cambiar la historia, si ganas aqui, reescribes la historia", 90, 300);
                 g.drawString("Ahora te explico que tienes que hacer Katherine", 90, 320);
-                if (timeAnimation >= 3000) {
+                if (timeAnimation >= 2500) {
                     tutorialState = 3;
                     timeAnimation = 0;
                 }
@@ -57,7 +57,7 @@ public class TutorialLoader{
                 g.drawString("Debes esquivar los asteroides y acabar con los Aliens", 90, 280);
                 g.drawString("Si... es un secreto de Estado, pero si existen los Aliens", 90, 300);
                 g.drawString("Ahora te enseño a tripular la nave", 90, 320);
-                if (timeAnimation >= 3000) {
+                if (timeAnimation >= 2500) {
                     tutorialState = 4;
                     timeAnimation = 0;
                 }
@@ -84,5 +84,9 @@ public class TutorialLoader{
     
     public boolean getTutorialTerminator(){
         return tutorialMark;
+    }
+    
+    public void setTutorialTerminator(){
+        tutorialMark = true;
     }
 }

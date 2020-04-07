@@ -4,7 +4,7 @@ import java.awt.image.BufferedImage;
 
 public class Assets {
 
-    public static BufferedImage vida, astronautTalker, fondoMenu, fondoSpaceInvaders, spriteNina, naveOff, naveOn, asteroids, bullet;
+    public static BufferedImage laser, vida, astronautTalker, fondoMenu, fondoSpaceInvaders, spriteNina, naveOff, naveOn, asteroids, bullet,enemy,LaserAlien;
 
     private static final int WIDHT = 131;
     private static final int HEIGHT = 110;
@@ -17,6 +17,9 @@ public class Assets {
         naveOff = ImageLoader.loadImage("/Player/naveOff.png");
         naveOn = ImageLoader.loadImage("/Player/naveOn.png");
         astronautTalker = ImageLoader.loadImage("/Player/talkAstronaut.png");
+        enemy = ImageLoader.loadImage(("/Tilesets/Pursoid.png"));
+        LaserAlien = ImageLoader.loadImage("/Tilesets/LaserAlien.png");
+        laser = ImageLoader.loadImage("/Tilesets/Laser.png");
         SpriteSheet sheetAsteroids = new SpriteSheet(ImageLoader.loadImage("/Sprites/Tilesets/Sheetasteroids.png"));
         for (int i = 0; i < 2; i++) {
             for (int j = 0; j < 2; j++) {

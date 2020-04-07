@@ -8,6 +8,7 @@ import java.awt.Graphics2D;
 import Handlers.KeyManager;
 import MainG.Handler;
 import ThirdMinigame.HUD;
+import ThirdMinigame.Level3UpManager;
 import ThirdMinigame.TutorialLoader;
 import ThirdMinigame.World;
 import Tilemaps.Assets;
@@ -22,7 +23,8 @@ public class Level3State extends GameState {
     private World world;
     private TutorialLoader tutorialL;
     private HUD hud;
-
+    
+    private Level3UpManager levelManager;
     public KeyManager teclas;
     private Player nave;
     private EntityManager entityManager;
@@ -32,11 +34,12 @@ public class Level3State extends GameState {
     private boolean tutorial = true;
     private boolean ya = true;
 
-    public Level3State(GameStateManager gsm, ThreadPoolExecutor pool, Handler handler) {
+    public Level3State(GameStateManager gsm, ThreadPoolExecutor pool, Handler handler, Level3UpManager manager) {
         super(gsm);
         this.pool = pool;
         this.handler = handler;
-        try {
+        this.levelManager = manager;
+         try {
             bg = new Background(Assets.fondoSpaceInvaders, 1);
             bg.setVector(-3, 0);
         } catch (Exception e) {
@@ -47,6 +50,7 @@ public class Level3State extends GameState {
         tutorialL = new TutorialLoader(handler);
         hud = new HUD(entityManager);
         world.setHUD(hud);
+        levelManager.setLevel(this);
         init();
     }
 
@@ -63,6 +67,7 @@ public class Level3State extends GameState {
         bg.update();
         world.update(tutorial);
         hud.update();
+        levelManager.levelUpManager(hud.getPoint(), hud.getHealth());
     }
 
     @Override
@@ -83,12 +88,17 @@ public class Level3State extends GameState {
                 bgMusic.setVolume(0.3);
                 bgMusic.play(true);
                 tutorial = false;
-                bg.setVector(-12, 0);
+                bg.setVector(-5, 0);
             }
         }
     }
 
+    @Override
     public void musicControl() {
 
+    }
+
+    public Background getBg() {
+        return bg;
     }
 }

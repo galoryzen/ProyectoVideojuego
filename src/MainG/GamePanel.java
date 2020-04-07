@@ -11,8 +11,6 @@ import Tilemaps.Assets;
 import Handlers.KeyManager;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ThreadPoolExecutor;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import kuusisto.tinysound.TinySound;
 
 public class GamePanel extends JPanel implements Runnable {

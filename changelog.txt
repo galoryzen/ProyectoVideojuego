@@ -29,3 +29,13 @@ VERSION 1.4
 - Se añade la clase TutorialLoader que se encarga de cargar el Tutorial del nivel de SpaceInvaders.
 - Se dispondrá en un futuro a remplazar el ThreadPool implementado por nosotros, por el que trae Java con el Executor con fines de la sencillez del codigo.
 - Los archivos de Sonido se pasaran de manera WAV y no MP3, ademas de manejar Music como la Musica y Sound los sonidos.
+
+VERSION 1.5
+-Se realizó el HUD Funcional
+-Se agregaron 3 vidas al personaje
+-Se agrego una función que nos permite saltarnos el dialogo inicial presionando la tecla E
+
+VERSION 1.6
+-Se añaden los enemigos y el final boss
+-Falta implementacion para el nivel
+-Se necesita mejorar la detección de balas en función de los enemigos y sus choques con los asteroide
