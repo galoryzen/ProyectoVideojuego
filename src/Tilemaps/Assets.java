@@ -16,7 +16,7 @@ public class Assets {
         fondoSpaceInvaders = ImageLoader.loadImage("/Backgrounds/spaceInvaders.png");
         naveOff = ImageLoader.loadImage("/Player/naveOff.png");
         naveOn = ImageLoader.loadImage("/Player/naveOn.png");
-        astronautTalker = ImageLoader.loadImage("/Player/talkAstronaut.png");
+        astronautTalker = ImageLoader.loadImage("/HUD/HUD_DIALOGUE.png");
         enemy = ImageLoader.loadImage(("/Tilesets/Pursoid.png"));
         LaserAlien = ImageLoader.loadImage("/Tilesets/LaserAlien.png");
         laser = ImageLoader.loadImage("/Tilesets/Laser.png");

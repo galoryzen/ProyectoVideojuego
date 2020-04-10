@@ -26,6 +26,7 @@
  */
 package kuusisto.tinysound;
 
+import tinysound.Music;
 import java.io.BufferedOutputStream;
 import java.io.ByteArrayInputStream;
 import java.io.File;

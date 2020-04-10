@@ -42,7 +42,7 @@ public class AerialEnemy extends Enemy{
 
     @Override
     public void die() {
-        
+        this.setActive(false);
     }
 
     @Override

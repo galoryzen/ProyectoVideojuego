@@ -1,5 +1,6 @@
 package Entities.Creatures;
 
+import Audio.AudioLoader;
 import Entities.Entity;
 import Entities.EntityManager;
 import Entities.Items.Bullet;
@@ -8,13 +9,15 @@ import ThirdMinigame.HUD;
 import Tilemaps.Assets;
 import java.awt.Graphics;
 import java.awt.Rectangle;
+import tinysound.Music;
 
 public class DownEnemy extends Enemy {
 
     private HUD hud;
     private long lastAttackTimer, attackCooldown = 2000, attackTimer = 0;
     private boolean updownswitch = false;
-
+    private Music explosionEnemy = AudioLoader.damageEnemyShip;
+    
     public DownEnemy(Handler handler, EntityManager manager, float x, float y, int width, int height, HUD hud) {
         super(handler, manager, x, y, width, height, hud);
         this.hud = hud;
@@ -31,6 +34,7 @@ public class DownEnemy extends Enemy {
     public void die() { 
         hud.setPoint(hud.getPoint() + 2);
         this.setActive(false);
+        explosionEnemy.play(false);
     }
 
     @Override
@@ -73,14 +77,15 @@ public class DownEnemy extends Enemy {
         {
             return;
         }
-
+        
         Rectangle cb = getCollisionBounds();
 
         attackTimer = 0;
 
         for (Entity e : manager.getEntities()) {
-            if (!e.equals(this)) {
+            if (!e.equals(this) && !(e instanceof Asteroid)) {
                 if (e.getCollisionBounds().intersects(cb)) {
+                    System.out.println("Me pego");
                     e.hurt(5);
                     return;
                 }

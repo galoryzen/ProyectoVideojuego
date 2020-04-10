@@ -1,12 +1,13 @@
 package Entities.Items;
 
+import Entities.Creatures.Asteroid;
 import Entities.Creatures.Creature;
+import Entities.Creatures.Enemy;
 import Entities.Creatures.Player;
 import Entities.Entity;
 import Entities.EntityManager;
 import Tilemaps.Assets;
 import MainG.Handler;
-import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Rectangle;
 
@@ -51,8 +52,6 @@ public class Bullet extends Entity {
 
     @Override
     public void render(Graphics g) {
-        g.setColor(Color.red);
-        g.fillRect((int) (bounds.x + x), (int) (bounds.y + y), bounds.width, bounds.height);
         g.drawImage(Assets.bullet, (int) x, (int) y, null);
     }
 
@@ -74,8 +73,10 @@ public class Bullet extends Entity {
         for (Entity e : manager.getEntities()) {
             if (!(e instanceof Bullet) && !(e.equals(this.creature))) {
                 if (e.getCollisionBounds().intersects(cb)) {
-                    e.hurt(5);
-                    this.setActive(false);
+                    if (!(e instanceof Asteroid && this.creature instanceof Enemy)) {
+                        e.hurt(5);
+                        this.setActive(false);
+                    }
                 }
             }
         }

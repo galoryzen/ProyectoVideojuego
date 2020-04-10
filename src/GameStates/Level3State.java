@@ -9,11 +9,11 @@ import Handlers.KeyManager;
 import MainG.Handler;
 import ThirdMinigame.HUD;
 import ThirdMinigame.Level3UpManager;
-import ThirdMinigame.TutorialLoader;
+import ThirdMinigame.DialogueLoader;
 import ThirdMinigame.World;
 import Tilemaps.Assets;
 import java.util.concurrent.ThreadPoolExecutor;
-import kuusisto.tinysound.Music;
+import tinysound.Music;
 
 public class Level3State extends GameState {
 
@@ -21,9 +21,9 @@ public class Level3State extends GameState {
     private Background bg;
     private Handler handler;
     private World world;
-    private TutorialLoader tutorialL;
+    private DialogueLoader dialogueLoader;
     private HUD hud;
-    
+
     private Level3UpManager levelManager;
     public KeyManager teclas;
     private Player nave;
@@ -31,26 +31,30 @@ public class Level3State extends GameState {
 
     ThreadPoolExecutor pool;
 
-    private boolean tutorial = true;
+    private volatile boolean tutorial = true;
     private boolean ya = true;
+    private float volume = 0.3f;
 
     public Level3State(GameStateManager gsm, ThreadPoolExecutor pool, Handler handler, Level3UpManager manager) {
         super(gsm);
         this.pool = pool;
         this.handler = handler;
         this.levelManager = manager;
-         try {
+        try {
             bg = new Background(Assets.fondoSpaceInvaders, 1);
             bg.setVector(-3, 0);
         } catch (Exception e) {
             System.out.print(e);
         }
         entityManager = new EntityManager(handler, nave);
-        world = new World(entityManager, handler);
-        tutorialL = new TutorialLoader(handler);
+        dialogueLoader = new DialogueLoader(handler);
         hud = new HUD(entityManager);
+        world = new World(entityManager, handler, levelManager);
         world.setHUD(hud);
         levelManager.setLevel(this);
+        levelManager.setWorld(world);
+        levelManager.setDialogueLoader(dialogueLoader);
+        levelManager.setPool(pool);
         init();
     }
 
@@ -63,39 +67,39 @@ public class Level3State extends GameState {
 
     @Override
     public void update() {
+        if (handler.getKeyManager().test) {
+            hud.setPoint(10);
+        }
         musicControl();
         bg.update();
-        world.update(tutorial);
         hud.update();
-        levelManager.levelUpManager(hud.getPoint(), hud.getHealth());
+        world.update();
+        levelManager.update(hud.getPoint(), hud.getHealth());
     }
 
     @Override
     public void draw(Graphics2D g) {
         // Dibuja el fondo
+        if (ya) {
+            levelManager.setGraphics(g);
+            ya = !ya;
+        }
         bg.draw(g);
-        world.render(g);
-        hud.render(g);
+        levelManager.render();
         if (handler.getKeyManager().test) {
             tutorial = false;
         }
-        if (tutorialL.getTutorialTerminator()) {
-            tutorialL.draw(g);
-        } else {
-            if (ya) {
-                ya = !ya;
-                bgTalkMusic.stop();
-                bgMusic.setVolume(0.3);
-                bgMusic.play(true);
-                tutorial = false;
-                bg.setVector(-5, 0);
-            }
-        }
+        hud.render(g);
     }
 
     @Override
     public void musicControl() {
-
+        if (dialogueLoader.getInfo() > 0) {
+            bgTalkMusic.stop();
+            if (bgMusic.done()) {
+                bgMusic.play(true, volume);
+            }
+        }
     }
 
     public Background getBg() {

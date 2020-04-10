@@ -26,7 +26,7 @@
  */
 package kuusisto.tinysound.internal;
 
-import kuusisto.tinysound.Music;
+import tinysound.Music;
 import kuusisto.tinysound.TinySound;
 
 /**
