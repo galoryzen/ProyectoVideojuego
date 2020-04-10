@@ -8,7 +8,7 @@ import java.awt.Graphics2D;
 import MainG.Handler;
 import Tilemaps.*;
 import java.util.concurrent.ThreadPoolExecutor;
-import kuusisto.tinysound.Music;
+import tinysound.Music;
 
 public class MenuState extends GameState {
     

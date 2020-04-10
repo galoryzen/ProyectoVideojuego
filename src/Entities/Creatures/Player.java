@@ -51,7 +51,6 @@ public class Player extends Creature {
 
     @Override
     public void move() {
-
         x += Xmove;
         if (x + bounds.width < 0) {
             x = -bounds.width;

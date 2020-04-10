@@ -9,13 +9,12 @@ public class HUD {
     private static int points = 0;
     private static int health;
     private EntityManager manager;
-    
+
     public HUD(EntityManager manager) {
         this.manager = manager;
     }
 
     public void render(Graphics2D g) {
-        g.drawString(Integer.toString(points), 65, 30);
         g.drawImage(Assets.asteroids, 10, 10, 46, 35, null);
         switch (health) {
             case 15:
@@ -27,12 +26,14 @@ public class HUD {
                 g.drawImage(Assets.vida, 420, 10, 38, 45, null);
                 g.drawImage(Assets.vida, 390, 10, 38, 45, null);
                 break;
-            case 5 :
+            case 5:
                 g.drawImage(Assets.vida, 390, 10, 38, 45, null);
                 break;
             default:
                 break;
         }
+        g.drawString(Integer.toString(points), 65, 30);
+
     }
 
     public static int getHealth() {
