@@ -1,6 +1,7 @@
 package Entities;
 
 import Entities.Creatures.Player;
+import Entities.Creatures.Player_Joan;
 import MainG.Handler;
 import java.awt.Graphics;
 import java.util.ArrayList;
@@ -11,7 +12,7 @@ import java.util.Comparator;
  * @author German David
  */
 
-public class EntityManager {
+ public class EntityManager {
 
     private Handler handler;
     private Player nave;

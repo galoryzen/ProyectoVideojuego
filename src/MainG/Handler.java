@@ -2,7 +2,11 @@ package MainG;
 
 
 import Entities.EntityManager;
+import GameStates.GameCamara;
 import Handlers.KeyManager;
+import FirstMinigame.WorldGenerator.World;
+import GameStates.GameState;
+import GameStates.GameStateManager;
 
 /**
  *
@@ -37,7 +41,9 @@ public class Handler {
     public void setGame(GamePanel game) {
         this.game = game;
     }
-
-    
+   
+    public GameCamara getGameCamara(){
+        return game.getGameCamara();
+    }
     
 }

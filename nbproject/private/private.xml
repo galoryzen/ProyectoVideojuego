@@ -3,14 +3,23 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/Users/Omen/Documents/GitHub/ProyectoVideojuego/src/ThirdMinigame/Level3UpManager.java</file>
-            <file>file:/C:/Users/Omen/Documents/GitHub/ProyectoVideojuego/src/ThirdMinigame/World.java</file>
-            <file>file:/C:/Users/Omen/Documents/GitHub/ProyectoVideojuego/src/GameStates/Level3State.java</file>
-            <file>file:/C:/Users/Omen/Documents/GitHub/ProyectoVideojuego/src/Tilemaps/Assets.java</file>
-            <file>file:/C:/Users/Omen/Documents/GitHub/ProyectoVideojuego/src/ThirdMinigame/DialogueLoader.java</file>
+            <file>file:/C:/Users/Omen/Documents/GitHub/ProyectoVideojuego/src/Entities/Creatures/Creature.java</file>
+            <file>file:/C:/Users/Omen/Documents/GitHub/ProyectoVideojuego/src/MainG/Handler.java</file>
+            <file>file:/C:/Users/Omen/Documents/GitHub/ProyectoVideojuego/src/Entities/Creatures/Player_Joan.java</file>
+            <file>file:/C:/Users/Omen/Documents/GitHub/ProyectoVideojuego/src/GameStates/GameCamara.java</file>
+            <file>file:/C:/Users/Omen/Documents/GitHub/ProyectoVideojuego/src/Entities/EntityManager.java</file>
+            <file>file:/C:/Users/Omen/Documents/GitHub/ProyectoVideojuego/src/Entities/Static/BookPile.java</file>
+            <file>file:/C:/Users/Omen/Documents/GitHub/ProyectoVideojuego/src/MainG/Window.java</file>
+            <file>file:/C:/Users/Omen/Documents/GitHub/ProyectoVideojuego/src/FirstMinigame/Tiles/LibraryTile.java</file>
+            <file>file:/C:/Users/Omen/Documents/GitHub/ProyectoVideojuego/src/Entities/Entity.java</file>
+            <file>file:/C:/Users/Omen/Documents/GitHub/ProyectoVideojuego/src/FirstMinigame/WorldGenerator/World.java</file>
             <file>file:/C:/Users/Omen/Documents/GitHub/ProyectoVideojuego/src/Entities/Creatures/Player.java</file>
-            <file>file:/C:/Users/Omen/Documents/GitHub/ProyectoVideojuego/src/ThirdMinigame/HUD.java</file>
-            <file>file:/C:/Users/Omen/Documents/GitHub/ProyectoVideojuego/src/Entities/Items/Bullet.java</file>
+            <file>file:/C:/Users/Omen/Documents/GitHub/ProyectoVideojuego/src/FirstMinigame/Tiles/Tile.java</file>
+            <file>file:/C:/Users/Omen/Documents/GitHub/ProyectoVideojuego/src/FirstMinigame/Tiles/FloorTile.java</file>
+            <file>file:/C:/Users/Omen/Documents/GitHub/ProyectoVideojuego/src/Entities/Creatures/Character.java</file>
+            <file>file:/C:/Users/Omen/Documents/GitHub/ProyectoVideojuego/src/GameStates/GameStateManager.java</file>
+            <file>file:/C:/Users/Omen/Documents/GitHub/ProyectoVideojuego/src/Handlers/KeyManager.java</file>
+            <file>file:/C:/Users/Omen/Documents/GitHub/ProyectoVideojuego/src/MainG/GamePanel.java</file>
         </group>
     </open-files>
 </project-private>

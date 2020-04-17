@@ -21,7 +21,7 @@ import kuusisto.tinysound.Sound;
  * @author German David
  */
 
-public class Player extends Creature {
+public class Player extends Character {
 
     private Sound shot = AudioLoader.shot;
 
@@ -68,7 +68,7 @@ public class Player extends Creature {
     }
 
     private void getInput() {
-
+        
         Xmove = 0;
         Ymove = 0;
 

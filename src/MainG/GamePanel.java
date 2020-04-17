@@ -1,6 +1,7 @@
 package MainG;
 
 import Audio.AudioLoader;
+import GameStates.GameCamara;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
@@ -27,6 +28,10 @@ public class GamePanel extends JPanel implements Runnable {
     // KeyManager
     public KeyManager keyManager;
     public Handler handler;
+    
+    // Camera
+    private GameCamara gameCamara;
+    
 
     // Volatile permite solo ser usadara por un Hilo, no puede ser modificad simultaneamente por dos hilos.
     private volatile boolean running = false;
@@ -141,5 +146,9 @@ public class GamePanel extends JPanel implements Runnable {
 
     public KeyManager getKeyManager() {
         return keyManager;
+    }
+    
+    public GameCamara getGameCamara(){
+        return gameCamara;
     }
 }

@@ -54,6 +54,10 @@ public abstract class Entity {
         return new Rectangle ((int)(x+bounds.x),(int)(y+bounds.y),bounds.width,bounds.height);
     }
     
+    public Rectangle getCollisionBounds(int Ox, int Oy){
+        return new Rectangle ((int)(x+bounds.x+Ox),(int)(y+bounds.y + Oy),bounds.width,bounds.height);
+    }
+    
     //GETTERS AND SETTERS
     public float getX() {
         return x;
