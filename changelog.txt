@@ -45,3 +45,13 @@ VERSION 1.6
 -Se creó el atributo static GameTime, el cual, tomará como valor la duración de tiempo que el usuario empleó para llegar al GameState.
 -Falta implementacion para el nivel
 -Se necesita mejorar la detección de balas en función de los enemigos y sus choques con los asteroide
+
+VERSION 1.7
+-Se añaden otros enemigos y el boss final
+-Falta mejorara la detección de balas y corregir detalles
+
+VERSION 1.7b
+-Se añaden los sprites que no se añadieron en la version 1.7
+
+VERSION 1.7c
+-Se actualizó el changelog
