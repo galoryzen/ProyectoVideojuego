@@ -55,6 +55,10 @@ public abstract class Entity {
         return new Rectangle ((int)(x+bounds.x),(int)(y+bounds.y),bounds.width,bounds.height);
     }
     
+    public Rectangle getCollisionBounds(float xo, float yo){
+        return new Rectangle ((int)(x+bounds.x+xo),(int)(y+bounds.y+yo),bounds.width,bounds.height);
+    }
+    
     //GETTERS AND SETTERS
     public float getX() {
         return x;
@@ -99,6 +103,11 @@ public abstract class Entity {
     public void setHealth(int health) {
         this.health = health;
     }
+
+    public int getHealth() {
+        return health;
+    }
+    
     
     
     

@@ -11,29 +11,38 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
-import kuusisto.tinysound.Sound;
+import tinysound.Sound;
 
 /**
  *
  * @author German David
  */
-public class Player extends Creature {
+public class Player extends Character {
 
     private Sound shot = AudioLoader.shot;
-
+    public int Score;
     public Bullet bullet;
     public static int bullcount = 0;
     private long clock, now = 0;
     private float ShootSpeed = 0.3f;
+    private BufferedImage[] naveStates = new BufferedImage[3];
+
+    public int i = 0;
+    private long timerAnimation = 0;
 
     public Player(Handler handler, EntityManager manager, float x, float y) {
         super(handler, manager, x, y, Creature.DEFAULT_CREATURE_WIDTH, Creature.DEFAULT_CREATUR_HEIGHT);
-
+        
+        timerAnimation = System.currentTimeMillis();
+        Score = 0;
         bounds.x = 46;
         bounds.y = 38;
         bounds.width = 61;
         bounds.height = 27;
-
+        this.setHealth(15);
+        naveStates[0] = Assets.naveOn;
+        naveStates[1] = Assets.naveSemiOff;
+        naveStates[2] = Assets.naveOff;
     }
 
     @Override
@@ -84,17 +93,13 @@ public class Player extends Creature {
         }
         if (handler.getGame().getKeyManager().space && canShoot(clock - now)) {
             shot.play();
-            manager.addEntity(new Bullet(handler, manager, this.getX() + this.getWidth() / 1.3f, this.getY() + this.getHeight() / 3.3f, 100, 100));
+            manager.addEntity(new Bullet(handler, manager, this.getX() + this.getWidth() / 1.3f, this.getY() + this.getHeight() / 3.3f, 100, 100, this));
         }
     }
 
     @Override
     public void render(Graphics g) {
-
-        g.setColor(Color.red);
-        g.fillRect((int) (bounds.x + x), (int) (bounds.y + y), bounds.width, bounds.height);
         g.drawImage(getCurrentImage(), (int) (x), (int) (y), null);
-
     }
 
     public boolean canShoot(long c) {
@@ -121,15 +126,26 @@ public class Player extends Creature {
     }
 
     private BufferedImage getCurrentImage() {
-        if (Xmove > 0) {
-            return Assets.naveOn;
-        } else {
-            return Assets.naveOff;
+        if (System.currentTimeMillis() - timerAnimation>= 100) {
+            i++;
+            if(i == 3){
+                i = 0;
+            }
+            timerAnimation = System.currentTimeMillis();
         }
+        return naveStates[i];
     }
 
     public int getBulletCount() {
         return bullcount;
+    }
+
+    public int getScore() {
+        return Score;
+    }
+
+    public void setScore(int Score) {
+        this.Score = Score;
     }
 
 }

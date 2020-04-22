@@ -39,22 +39,26 @@ public class Background {
     public void draw(Graphics2D g) {
         g.drawImage(image, (int) x, (int) y, null);
         if (x < 0) {
-            g.drawImage(image, (int) x + 540, (int) y, null);
+            g.drawImage(image, (int) x + 1080, (int) y, null);
         } else if (x > 0) {
-            g.drawImage(image,(int) x - 540, (int) y, null);
+            g.drawImage(image, (int) x - 1080, (int) y, null);
 
         } else if (y > 0) {
-            g.drawImage(image, (int) x, (int) y - 360, null);
+            g.drawImage(image, (int) x, (int) y - 720, null);
 
         } else if (y < 0) {
-            g.drawImage(image, (int) x, (int) y + 360, null);
+            g.drawImage(image, (int) x, (int) y + 720, null);
         }
-        if(x <= -540 || x >= 540){
-            x = x * moveScale % 540;
+        if (x <= -1080 || x >= 1080) {
+            x = x * moveScale % 1080;
         }
-        if(y <= -360 || y >= 360){
-            y = y * moveScale % 360;
+        if (y <= -720 || y >= 720) {
+            y = y * moveScale % 720;
         }
+    }
+
+    public double getDx() {
+        return dx;
     }
 
 }

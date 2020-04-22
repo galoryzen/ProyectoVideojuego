@@ -1,20 +1,19 @@
 package MainG;
 
 import Audio.AudioLoader;
+import GameStates.GameCamara;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 import javax.swing.*;
 import GameStates.GameStateManager;
-import Handlers.ThreadPool;
 import Tilemaps.Assets;
 import Handlers.KeyManager;
+import java.awt.MouseInfo;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ThreadPoolExecutor;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import kuusisto.tinysound.TinySound;
+import tinysound.TinySound;
 
 public class GamePanel extends JPanel implements Runnable {
 
@@ -30,6 +29,9 @@ public class GamePanel extends JPanel implements Runnable {
     // KeyManager
     public KeyManager keyManager;
     public Handler handler;
+
+    // Camara
+    private GameCamara gameCamera;
 
     // Volatile permite solo ser usadara por un Hilo, no puede ser modificad simultaneamente por dos hilos.
     private volatile boolean running = false;
@@ -129,7 +131,7 @@ public class GamePanel extends JPanel implements Runnable {
     // Dibujar en pantalla
     public void gameDrawToScreen() {
         Graphics g2 = getGraphics();
-        g2.drawImage(image, 0, 0, WIDTH_G * 2, HEIGHT_G * 2, null);
+        g2.drawImage(image, 0, 0, WIDTH_G, HEIGHT_G, null);
         g2.dispose();
     }
 
@@ -138,11 +140,16 @@ public class GamePanel extends JPanel implements Runnable {
         running = true;
         image = new BufferedImage(WIDTH_G, HEIGHT_G, BufferedImage.TYPE_INT_RGB);
         g = (Graphics2D) image.getGraphics();
-        gsm = new GameStateManager(executor, handler);
+        gameCamera = new GameCamara(handler, 0, 0);
+        gsm = new GameStateManager(executor, handler, gameCamera);
         init();
     }
 
     public KeyManager getKeyManager() {
         return keyManager;
+    }
+
+    public GameCamara getGameCamara() {
+        return gameCamera;
     }
 }

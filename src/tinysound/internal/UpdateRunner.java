@@ -24,12 +24,13 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package kuusisto.tinysound.internal;
+package tinysound.internal;
+
 import java.util.concurrent.atomic.AtomicBoolean;
 
 import javax.sound.sampled.SourceDataLine;
 
-import kuusisto.tinysound.TinySound;
+import tinysound.TinySound;
 
 /**
  * The UpdateRunner class implements Runnable and is what performs automatic

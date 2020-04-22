@@ -1,36 +1,53 @@
 package GameStates;
 
-import Handlers.ThreadPool;
+import Entities.Creatures.Player_Joan;
+import Entities.EntityManager;
+import FirstMinigame.Level1UpManager;
+import FirstMinigame.WorldGenerator.World;
 import MainG.Handler;
+import FirstMinigame.Level1UpManager;
 import java.awt.Graphics2D;
 import java.util.concurrent.ThreadPoolExecutor;
 
-public class Level1State extends GameState{
+public class Level1State extends GameState {
 
     ThreadPoolExecutor pool;
     Handler handler;
-    
-    public Level1State(GameStateManager gsm, ThreadPoolExecutor pool, Handler handler){
+    private World world;
+    private EntityManager entityManager;
+    private String path = "Resources/Worlds/World1.txt";
+    private Player_Joan joan;
+    private Level1UpManager levelManager;
+
+    public Level1State(GameStateManager gsm, ThreadPoolExecutor pool, Handler handler, Level1UpManager manager) {
         super(gsm);
+        this.handler = handler;
+        this.levelManager = manager;
+        entityManager = new EntityManager(handler, joan);
+        this.world = new World(this.handler, entityManager, path);
+        init();
     }
-    
+
     @Override
     public void init() {
     }
 
     @Override
     public void update() {
-
+        world.update();
     }
 
     @Override
     public void draw(Graphics2D g) {
-
+        world.render(g);
     }
 
     @Override
     public void musicControl() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
-    
+
+    public World getWorld() {
+        return this.world;
+    }
 }

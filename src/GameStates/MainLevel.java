@@ -1,6 +1,5 @@
 package GameStates;
 
-import Handlers.ThreadPool;
 import MainG.Handler;
 import java.awt.Graphics2D;
 import java.util.concurrent.ThreadPoolExecutor;

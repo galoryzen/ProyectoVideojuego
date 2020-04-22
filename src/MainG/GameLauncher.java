@@ -1,11 +1,9 @@
 package MainG;
 
-import Handlers.ThreadPool;
-
 public class GameLauncher {
     
-    private final int widthG = 1080;
-    private final int heightG = 720;    
+    private final static int widthG = 1080;
+    private final static int heightG = 720;    
     
     public GameLauncher(){
         new Window(widthG,heightG);

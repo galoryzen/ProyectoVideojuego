@@ -1,7 +1,6 @@
 package GameStates;
 
 import Audio.AudioLoader;
-import Handlers.ThreadPool;
 import Tilemaps.Background;
 import java.awt.Color;
 import java.awt.Font;
@@ -9,13 +8,13 @@ import java.awt.Graphics2D;
 import MainG.Handler;
 import Tilemaps.*;
 import java.util.concurrent.ThreadPoolExecutor;
-import kuusisto.tinysound.Music;
-import kuusisto.tinysound.TinySound;
+import tinysound.Music;
+import tinysound.Sound;
 
 public class MenuState extends GameState {
 
-
     Music bgMusic;
+    Sound menuUp;
     Background bg;
     Handler handler;
     ThreadPoolExecutor pool;
@@ -40,7 +39,7 @@ public class MenuState extends GameState {
         super(gsm);
         this.handler = handler;
         this.pool = pool;
-         try {
+        try {
             bg = new Background(Assets.fondoMenu, 1);
             bg.setVector(2, 0);
             titleColor = new Color(128, 0, 0);
@@ -86,26 +85,33 @@ public class MenuState extends GameState {
         bgMusic = AudioLoader.bgMusic;
         bgMusic.setVolume(0.3);
         bgMusic.play(true);
+        menuUp = AudioLoader.upMenu;
     }
 
     public void handleInput() {
         long now = System.currentTimeMillis();
-        if(now - lastPressedTime < minPressedDelay){
+        if (now - lastPressedTime < minPressedDelay) {
             return;
         }
-        if(handler.getGame().getKeyManager().up){
+        if (handler.getGame().getKeyManager().up) {
             currentChoice--;
+            menuUp.play();
             if (currentChoice < 0) {
                 currentChoice = 4;
             }
         } else if (handler.getGame().getKeyManager().down) {
             currentChoice++;
+            menuUp.play();
             if (currentChoice > 4) {
                 currentChoice = 0;
             }
         } else if (handler.getGame().getKeyManager().space) {
-            gsm.setState(4);
             bgMusic.stop();
+            gsm.setState(4);
+        }
+        if (handler.getGame().getKeyManager().enter) {
+            bgMusic.stop();
+            gsm.setState(2);
         }
         lastPressedTime = now;
     }
