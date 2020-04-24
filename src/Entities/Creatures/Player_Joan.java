@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package Entities.Creatures;
 
 import Entities.EntityManager;
@@ -19,6 +14,7 @@ import java.awt.image.BufferedImage;
  *
  * @author German David
  */
+
 public class Player_Joan extends Character {
 
     public Bullet[] bullets= new Bullet[100];
@@ -30,7 +26,7 @@ public class Player_Joan extends Character {
     //Attack range
     private int attackR;
     
-    //Attack timer, AttackCooldown=
+    //Attack timer, AttackCooldown
     private long lastAttackTimer,attackCooldown=800, attackTimer=attackCooldown;
     
     //Animations
@@ -63,6 +59,7 @@ public class Player_Joan extends Character {
 
     @Override
     public void update() {
+        
         //Actualiza los frames
         animDown.update();
         animUp.update();
@@ -70,6 +67,7 @@ public class Player_Joan extends Character {
         animL.update();
         getInput();
         move();
+        
         //Attack
         checkAttacks();
         handler.getGameCamara().centerOnEntity(this);
@@ -88,16 +86,16 @@ public class Player_Joan extends Character {
         
         ar.width=attackR;
         ar.height= attackR;
-        if(handler.getKeyManager().up){
+        if(handler.getGame().getKeyManager().up){
             ar.x=cb.x+cb.width/2 - attackR/2;
             ar.y= cb.y-attackR;
-        }else if(handler.getKeyManager().down){
+        }else if(handler.getGame().getKeyManager().down){
             ar.x=cb.x+cb.width/2 - attackR/2;
             ar.y= cb.y+cb.height;
-        } else if(handler.getKeyManager().left){
+        } else if(handler.getGame().getKeyManager().left){
             ar.x=cb.x- attackR;
             ar.y= cb.y+ cb.height/2 - attackR/2;
-        } else if(handler.getKeyManager().right){
+        } else if(handler.getGame().getKeyManager().right){
             ar.x=cb.x + cb.width;
             ar.y= cb.y+ cb.height/2 - attackR/2;
         } else{
@@ -121,6 +119,7 @@ public class Player_Joan extends Character {
 //        }
     }
     
+    @Override
     public void die(){
         System.out.println("You lose");
     }
@@ -129,18 +128,18 @@ public class Player_Joan extends Character {
         Xmove = 0;
         Ymove = 0;
 
-        if (handler.getKeyManager().up) {
+        if (handler.getGame().getKeyManager().up) {   
             Ymove = -speed;
         }
 
-        if (handler.getKeyManager().down) {
+        if (handler.getGame().getKeyManager().down) {
             Ymove = speed;
         }
 
-        if (handler.getKeyManager().right) {
+        if (handler.getGame().getKeyManager().right) {
             Xmove = speed;
         }
-        if (handler.getKeyManager().left) {
+        if (handler.getGame().getKeyManager().left) {
             Xmove = -speed;
         }
     }
@@ -161,8 +160,7 @@ public class Player_Joan extends Character {
            if(bullets[i]!= null){ 
             bullets[i].render(g);
            }
-        }
-        
+        }        
     }
     
     
@@ -177,7 +175,7 @@ public class Player_Joan extends Character {
         }else if (Ymove>0){
             return animDown.getCurrentFrame();
         }else{
-            return null; //Assets.playerDown[0];
+            return Assets.playerDown[0];
         }
     }
 }

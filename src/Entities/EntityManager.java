@@ -38,8 +38,8 @@ public class EntityManager {
         
     public EntityManager(Handler handler, Player_Joan player) {
         this.handler = handler;
-        joan = new Player_Joan(handler, this, 100, 100);
-        entities = new ArrayList<Entity>();
+        this.joan = player;
+        entities = new ArrayList<>();
         addEntity(joan);
     }
     
@@ -60,7 +60,6 @@ public class EntityManager {
             }
         }
         entities.sort(renderSorter);
-
     }
 
     public int getScore() {

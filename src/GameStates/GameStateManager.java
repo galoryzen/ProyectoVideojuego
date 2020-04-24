@@ -28,6 +28,7 @@ public class GameStateManager {
     public GameStateManager(ThreadPoolExecutor pool, Handler handler, GameCamara gameCamara) {
         this.pool = pool;
         this.handler = handler;
+        handler.setGSM(this);
         gameStates = new GameState[NUMGAMESTATE];
         currentState = MENUSTATE;
         loadState(currentState);

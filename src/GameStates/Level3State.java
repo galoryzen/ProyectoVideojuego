@@ -76,7 +76,7 @@ public class Level3State extends GameState {
         hud.update();
         world.update();
         levelManager.update(hud.getPoint(), hud.getHealth());
-        if(handler.getGame().getKeyManager().enter){
+        if (handler.getGame().getKeyManager().enter) {
             System.out.println(MouseInfo.getPointerInfo().getLocation());
         }
     }

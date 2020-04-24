@@ -4,13 +4,9 @@ import Audio.AudioLoader;
 import Entities.EntityManager;
 import Entities.Items.Bullet;
 import Tilemaps.Assets;
-import MainG.GamePanel;
 import MainG.Handler;
-import java.awt.Color;
-
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
-import java.util.ArrayList;
 import tinysound.Sound;
 
 /**
@@ -35,10 +31,11 @@ public class Player extends Character {
         
         timerAnimation = System.currentTimeMillis();
         Score = 0;
-        bounds.x = 46;
-        bounds.y = 38;
-        bounds.width = 61;
-        bounds.height = 27;
+        bounds.x = 16;
+        bounds.y = 10;
+        bounds.width = 160;
+        bounds.height = 60;
+        
         this.setHealth(15);
         naveStates[0] = Assets.naveOn;
         naveStates[1] = Assets.naveSemiOff;
@@ -99,6 +96,8 @@ public class Player extends Character {
 
     @Override
     public void render(Graphics g) {
+//        g.setColor(Color.red);
+//        g.fillRect((int) x + bounds.x, (int) y + bounds.y, bounds.width, bounds.height);
         g.drawImage(getCurrentImage(), (int) (x), (int) (y), null);
     }
 

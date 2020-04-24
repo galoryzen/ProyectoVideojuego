@@ -15,6 +15,7 @@ import java.awt.Graphics;
  *
  * @author German David
  */
+
 public abstract class Creature extends Entity{
     
     protected float Xmove=0,Ymove=0;

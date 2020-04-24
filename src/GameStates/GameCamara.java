@@ -13,6 +13,7 @@ import MainG.Handler;
 public class GameCamara {
     
     private Handler handler;
+    
     //El desplazamiento adicional de la cámara
     private float xOffset,yOffset;
     

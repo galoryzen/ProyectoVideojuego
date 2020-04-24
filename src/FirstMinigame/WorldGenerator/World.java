@@ -4,9 +4,7 @@ import Entities.Creatures.Player_Joan;
 import Entities.EntityManager;
 import Entities.Static.BookPile;
 import FirstMinigame.Tiles.Tile;
-import Utils.Util;
 import MainG.Handler;
-import java.awt.Graphics;
 import java.awt.Graphics2D;
 
 /**
@@ -25,7 +23,7 @@ public class World {
 
     public World(Handler handler, EntityManager entityM, String path) {
         this.handler = handler;
-        entityManager= new EntityManager(handler,new Player_Joan(handler, entityM, 100,100));
+        entityManager = new EntityManager(handler,new Player_Joan(handler, entityM, 100,100));
         entityManager.addEntity(new BookPile(handler, entityM, 0,0));
         entityManager.addEntity(new BookPile(handler, entityM, 0,0));
         entityManager.addEntity(new BookPile(handler, entityM, 0,0));
@@ -43,8 +41,8 @@ public class World {
         //Varibales para crear las tiles visibles
         int Xstart=(int)Math.max(0, handler.getGameCamara().getxOffset()/Tile.TILEWIDTH);
         int Xend=(int)Math.min(width, (handler.getGameCamara().getxOffset()+handler.getWidth())/Tile.TILEWIDTH+1);
-        int Ystart=(int)Math.max(0, handler.getGameCamara().getyOffset()/Tile.TILEHEIGHT);;
-        int Yend=(int)Math.min(height, (handler.getGameCamara().getyOffset()+handler.getHeight())/Tile.TILEHEIGHT+1);;
+        int Ystart=(int)Math.max(0, handler.getGameCamara().getyOffset()/Tile.TILEHEIGHT);
+        int Yend=(int)Math.min(height, (handler.getGameCamara().getyOffset()+handler.getHeight())/Tile.TILEHEIGHT+1);
         //g.drawImage(Assets.background, 0, 0, 800, 600, null);
         for (int y = Ystart; y < Yend; y++) {
             for (int x = Xstart; x < Xend; x++) {

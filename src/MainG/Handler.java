@@ -14,9 +14,7 @@ import Handlers.KeyManager;
 
 public class Handler {
     
-    private EntityManager manager;
     private GamePanel game;
-    private GameCamara gameCamera;
     private GameStateManager gsm;
     
     public Handler (GamePanel game){
@@ -47,6 +45,10 @@ public class Handler {
         return this.game.getGameCamara(); 
     }
 
+    public void setGSM(GameStateManager gsm){
+        this.gsm = gsm;
+    }
+    
     public World getWorld(){
        return gsm.getWorld();
     }

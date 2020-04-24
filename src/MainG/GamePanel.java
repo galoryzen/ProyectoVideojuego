@@ -152,4 +152,12 @@ public class GamePanel extends JPanel implements Runnable {
     public GameCamara getGameCamara() {
         return gameCamera;
     }
+    
+    public int getWidth(){
+        return WIDTH_G;
+    }
+    
+    public int getHeight(){
+        return HEIGHT_G;
+    }
 }
