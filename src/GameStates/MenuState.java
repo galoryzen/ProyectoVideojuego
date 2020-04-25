@@ -7,17 +7,15 @@ import java.awt.Font;
 import java.awt.Graphics2D;
 import MainG.Handler;
 import Tilemaps.*;
-import java.util.concurrent.ThreadPoolExecutor;
 import tinysound.Music;
 import tinysound.Sound;
 
-public class MenuState extends GameState {
+public class MenuState extends GameState{
 
     Music bgMusic;
     Sound menuUp;
     Background bg;
     Handler handler;
-    ThreadPoolExecutor pool;
 
     private int currentChoice = 0;
     public long lastPressedTime = 0;
@@ -35,10 +33,9 @@ public class MenuState extends GameState {
     private Font titleFont;
     private Font font;
 
-    public MenuState(GameStateManager gsm, ThreadPoolExecutor pool, Handler handler) {
+    public MenuState(GameStateManager gsm, Handler handler) {
         super(gsm);
         this.handler = handler;
-        this.pool = pool;
         try {
             bg = new Background(Assets.fondoMenu, 1);
             bg.setVector(2, 0);
@@ -113,6 +110,7 @@ public class MenuState extends GameState {
             bgMusic.stop();
             gsm.setState(2);
         }
+
         lastPressedTime = now;
     }
 

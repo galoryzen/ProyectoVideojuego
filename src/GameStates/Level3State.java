@@ -13,7 +13,6 @@ import ThirdMinigame.DialogueLoader;
 import ThirdMinigame.World;
 import Tilemaps.Assets;
 import java.awt.MouseInfo;
-import java.util.concurrent.ThreadPoolExecutor;
 import tinysound.Music;
 
 public class Level3State extends GameState {
@@ -30,32 +29,25 @@ public class Level3State extends GameState {
     private Player nave;
     private EntityManager entityManager;
 
-    ThreadPoolExecutor pool;
-
-    private volatile boolean tutorial = true;
     private boolean ya = true;
     private float volume = 0.3f;
 
-    public Level3State(GameStateManager gsm, ThreadPoolExecutor pool, Handler handler, Level3UpManager manager) {
+    public Level3State(GameStateManager gsm, Handler handler) {
         super(gsm);
-        this.pool = pool;
         this.handler = handler;
-        this.levelManager = manager;
         try {
             bg = new Background(Assets.fondoSpaceInvaders, 1);
-            bg.setVector(-3, 0);
+            bg.setVector(-3f, 0f);
         } catch (Exception e) {
             System.out.print(e);
         }
         entityManager = new EntityManager(handler, nave);
         dialogueLoader = new DialogueLoader(handler);
+        world = new World(entityManager, handler);
         hud = new HUD(entityManager);
-        world = new World(entityManager, handler, levelManager);
+        this.levelManager = new Level3UpManager(this, hud, world, dialogueLoader);
         world.setHUD(hud);
-        levelManager.setLevel(this);
-        levelManager.setWorld(world);
-        levelManager.setDialogueLoader(dialogueLoader);
-        levelManager.setPool(pool);
+        world.setLevelUpManager(levelManager);
         init();
     }
 
@@ -63,14 +55,11 @@ public class Level3State extends GameState {
     public void init() {
         bgTalkMusic = AudioLoader.bgTalkMomentSpaceInvaders;
         bgMusic = AudioLoader.bgMusicSpaceInvaders;
-        bgTalkMusic.play(true);
+        bgTalkMusic.play(true, 0.5f);
     }
 
     @Override
     public void update() {
-        if (handler.getKeyManager().test) {
-            hud.setPoint(10);
-        }
         musicControl();
         bg.update();
         hud.update();
@@ -90,23 +79,19 @@ public class Level3State extends GameState {
         }
         bg.draw(g);
         levelManager.render();
-        if (handler.getKeyManager().test) {
-            tutorial = false;
-        }
         hud.render(g);
     }
 
     @Override
     public void musicControl() {
-        if (tutorial == false) {
+        if (levelManager.getPhase() == -1 && !bgMusic.playing()) {
             bgTalkMusic.stop();
-            if (bgMusic.done()) {
-                bgMusic.play(true, volume);
-            }
+            bgMusic.play(true, volume);
         }
     }
 
     public Background getBg() {
         return bg;
     }
+
 }

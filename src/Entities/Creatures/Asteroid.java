@@ -18,7 +18,7 @@ import tinysound.Music;
 public class Asteroid extends Creature {
 
     private HUD hud;
-    private Music asteroidDamage;
+    private static Music asteroidDamage;
 
     public Asteroid(Handler handler, EntityManager manager, float x, float y, int width, int height, HUD hud) {
         super(handler, manager, x, y, width, height);
@@ -41,7 +41,7 @@ public class Asteroid extends Creature {
     public void die() {
         if (!(this.x <= 0)) {
             hud.setPoint(hud.getPoint() + 1);
-            asteroidDamage.play(true);
+            asteroidDamage.play(false);
         }
     }
 
@@ -76,7 +76,7 @@ public class Asteroid extends Creature {
                         }
                     } else {
                         if (!(e instanceof Enemy)) {
-                            e.hurt(5);
+                             e.hurt(5);
                             hud.setPoint(hud.getPoint() + 1);
                             asteroidDamage.play(false);
                             this.setActive(false);

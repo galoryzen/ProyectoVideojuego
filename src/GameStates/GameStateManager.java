@@ -5,11 +5,11 @@ import FirstMinigame.WorldGenerator.World;
 import MainG.Handler;
 import SecondMinigame.Level2UpManager;
 import ThirdMinigame.Level3UpManager;
-import java.util.concurrent.ThreadPoolExecutor;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
-public class GameStateManager {
+public class GameStateManager{
 
-    public ThreadPoolExecutor pool;
     public Handler handler;
 
     public static final int NUMGAMESTATE = 5;
@@ -25,8 +25,7 @@ public class GameStateManager {
     private final int LEVEL2STATE = 3;
     private final int LEVEL3STATE = 4;
 
-    public GameStateManager(ThreadPoolExecutor pool, Handler handler, GameCamara gameCamara) {
-        this.pool = pool;
+    public GameStateManager(Handler handler, GameCamara gameCamara) {
         this.handler = handler;
         handler.setGSM(this);
         gameStates = new GameState[NUMGAMESTATE];
@@ -38,6 +37,11 @@ public class GameStateManager {
     public void setState(int state) {
         unloadState(currentState);
         currentState = state;
+        try {
+            Thread.sleep(1000);
+        } catch (InterruptedException ex) {
+            Logger.getLogger(GameStateManager.class.getName()).log(Level.SEVERE, null, ex);
+        }
         loadState(currentState);
     }
 
@@ -49,22 +53,20 @@ public class GameStateManager {
     private void loadState(int state) {
         switch (state) {
             case MENUSTATE:
-                gameStates[state] = new MenuState(this, this.pool, this.handler);
+                gameStates[state] = new MenuState(this, this.handler);
                 break;
             case MAINLEVELSTATE:
-                gameStates[state] = new MainLevel(this, this.pool, this.handler);
+                gameStates[state] = new MainLevel(this, this.handler);
                 break;
             case LEVEL1STATE:
-                levelManager = new Level1UpManager();
-                gameStates[state] = new Level1State(this, this.pool, this.handler, (Level1UpManager) levelManager);
+                gameStates[state] = new Level1State(this, this.handler, (Level1UpManager) levelManager);
                 break;
             case LEVEL2STATE:
                 levelManager = new Level2UpManager();
-                gameStates[state] = new Level2State(this, this.pool, this.handler, (Level2UpManager) levelManager);
+                gameStates[state] = new Level2State(this, this.handler, (Level2UpManager) levelManager);
                 break;
             case LEVEL3STATE:
-                levelManager = new Level3UpManager();
-                gameStates[state] = new Level3State(this, this.pool, this.handler, (Level3UpManager) levelManager);
+                gameStates[state] = new Level3State(this,handler);
                 break;
         }
     }
@@ -80,9 +82,9 @@ public class GameStateManager {
     public int inGameState() {
         return currentState;
     }
-    
-    public World getWorld(){
-        Level1State level = (Level1State) gameStates[2]; 
+
+    public World getWorld() {
+        Level1State level = (Level1State) gameStates[2];
         return level.getWorld();
     }
 

@@ -7,11 +7,9 @@ import FirstMinigame.WorldGenerator.World;
 import MainG.Handler;
 import FirstMinigame.Level1UpManager;
 import java.awt.Graphics2D;
-import java.util.concurrent.ThreadPoolExecutor;
 
-public class Level1State extends GameState {
+public class Level1State extends GameState implements Runnable {
 
-    ThreadPoolExecutor pool;
     Handler handler;
     private World world;
     private EntityManager entityManager;
@@ -19,7 +17,7 @@ public class Level1State extends GameState {
     private Player_Joan joan;
     private Level1UpManager levelManager;
 
-    public Level1State(GameStateManager gsm, ThreadPoolExecutor pool, Handler handler, Level1UpManager manager) {
+    public Level1State(GameStateManager gsm, Handler handler, Level1UpManager manager) {
         super(gsm);
         this.handler = handler;
         this.levelManager = manager;
@@ -49,5 +47,10 @@ public class Level1State extends GameState {
 
     public World getWorld() {
         return this.world;
+    }
+
+    @Override
+    public void run() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 }

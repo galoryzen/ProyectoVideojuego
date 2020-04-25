@@ -2,7 +2,7 @@ package Tilemaps;
 
 import java.awt.image.BufferedImage;
 
-public class Assets {
+public class Assets implements Runnable{
 
     public static BufferedImage astronautTalker, pursoid, fondoMenu, fondoSpaceInvaders,
             spriteNina, naveOff, naveOn, naveSemiOff, asteroids, bullet, laser, LaserAlien, enemy,
@@ -27,7 +27,7 @@ public class Assets {
         enemy = ImageLoader.loadImage(("/Tilesets/Pursoid.png"));
         pursoid = ImageLoader.loadImage("/Tilesets/Pursoid.png");
         LaserAlien = ImageLoader.loadImage("/Tilesets/LaserAlien.png");
-        laser = ImageLoader.loadImage("/Tilesets/Laser.png");
+        laser = ImageLoader.loadImage("/Tilesets/laser.png");
         SpriteSheet sheetAsteroids = new SpriteSheet(ImageLoader.loadImage("/Sprites/Tilesets/Sheetasteroids.png"));
         for (int i = 0; i < 2; i++) {
             for (int j = 0; j < 2; j++) {
@@ -67,5 +67,10 @@ public class Assets {
 
             }
         }
+    }
+    
+    @Override
+    public void run(){
+        init();
     }
 }

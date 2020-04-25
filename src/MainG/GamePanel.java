@@ -10,9 +10,6 @@ import javax.swing.*;
 import GameStates.GameStateManager;
 import Tilemaps.Assets;
 import Handlers.KeyManager;
-import java.awt.MouseInfo;
-import java.util.concurrent.Executors;
-import java.util.concurrent.ThreadPoolExecutor;
 import tinysound.TinySound;
 
 public class GamePanel extends JPanel implements Runnable {
@@ -22,9 +19,6 @@ public class GamePanel extends JPanel implements Runnable {
 
     // Hilo del  juego y Game Loop
     private Thread hiloPrinicipal;
-
-    // ThreadPool del juego
-    ThreadPoolExecutor executor = (ThreadPoolExecutor) Executors.newFixedThreadPool(2);
 
     // KeyManager
     public KeyManager keyManager;
@@ -60,12 +54,22 @@ public class GamePanel extends JPanel implements Runnable {
     }
 
     // Funcion que se llama una vez que se cree el panel, para poder iniciar el juego
+    @Override
     public void addNotify() {
         super.addNotify();
         TinySound.init();
-        Assets.init();
-        AudioLoader.init();
-        executor.submit(this);
+        gameStart();
+    }
+
+    private void gameStart() {
+        if (running == false) {
+            running = true;
+            Assets imagenes = new Assets();
+            hiloPrinicipal = new Thread(this, "GameThread");
+            imagenes.run();
+            AudioLoader.init();
+            hiloPrinicipal.start();
+        }
     }
 
     // Volatile pero para funciones 
@@ -106,12 +110,13 @@ public class GamePanel extends JPanel implements Runnable {
                 FPS = 0;
                 referencerTimer = System.nanoTime();
             }
-        }
-        try {
-            // Acaba el hilo progresivamente
-            hiloPrinicipal.join();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
+
+//            try {
+//                // Acaba el hilo progresivamente
+//                hiloPrinicipal.join();
+//            } catch (InterruptedException e) {
+//                e.printStackTrace();
+//            }
         }
     }
 
@@ -137,11 +142,10 @@ public class GamePanel extends JPanel implements Runnable {
 
     @Override
     public void run() {
-        running = true;
         image = new BufferedImage(WIDTH_G, HEIGHT_G, BufferedImage.TYPE_INT_RGB);
         g = (Graphics2D) image.getGraphics();
         gameCamera = new GameCamara(handler, 0, 0);
-        gsm = new GameStateManager(executor, handler, gameCamera);
+        gsm = new GameStateManager(handler, gameCamera);
         init();
     }
 
@@ -152,12 +156,14 @@ public class GamePanel extends JPanel implements Runnable {
     public GameCamara getGameCamara() {
         return gameCamera;
     }
-    
-    public int getWidth(){
+
+    @Override
+    public int getWidth() {
         return WIDTH_G;
     }
-    
-    public int getHeight(){
+
+    @Override
+    public int getHeight() {
         return HEIGHT_G;
     }
 }

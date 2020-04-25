@@ -4,18 +4,21 @@ import GameStates.Level3State;
 import GameStates.LevelUpManager;
 import Tilemaps.Background;
 import java.awt.Graphics2D;
-import java.util.concurrent.ThreadPoolExecutor;
 
 public class Level3UpManager extends LevelUpManager {
 
-    private Level3State state;
     private boolean flag1 = false, flag2 = false, flag3 = false, endMinigame = false, oneTime = false;
     private int phase = 0;
     private Graphics2D g;
-    private ThreadPoolExecutor pool;
+    private Level3State state;
+    private HUD hud;
+    private World world;
 
-    public void levelUpManager() {
-
+    public Level3UpManager(Level3State state, HUD hud, World world, DialogueLoader dialogueLoader) {
+        this.state = state;
+        this.hud = hud;
+        this.world = world;
+        this.dialogueLoader = dialogueLoader;
     }
 
     public void levelUpManager(int points, int health) {
@@ -23,10 +26,13 @@ public class Level3UpManager extends LevelUpManager {
             if (phase == 0) {
                 world.setGenerateEnemys(false);
             }
+            if (points < 10 && !dialogueLoader.getDialogueMark() && phase == 0) {
+                phase = -1;
+                moveFasterBackground(state.getBg());
+            }
             if (points >= 10 && !flag1) {
                 phase = 1;
                 // Con esto da inicio a la generacion de los primeros enemigos
-                System.out.println("LEVEL UP");
                 dialogueLoader.setDialogueMark();
                 moveFasterBackground(state.getBg());
                 flag1 = !flag1;
@@ -35,7 +41,6 @@ public class Level3UpManager extends LevelUpManager {
             } else if (points >= 30 && !flag2) {
                 // Con esto se da inicio a la generacion de los segundos enemigos
                 phase = 2;
-                System.out.println("LEVEL UP 2");
                 dialogueLoader.setDialogueMark();
                 moveFasterBackground(state.getBg());
                 flag2 = !flag2;
@@ -44,7 +49,6 @@ public class Level3UpManager extends LevelUpManager {
             } else if (points >= 50 && !flag3) {
                 //Generacion del boss y solo quedan asteorides
                 phase = 3;
-                System.out.println("Boss");
                 moveFasterBackground(state.getBg());
                 world.clearScreenEntities();
                 dialogueLoader.setDialogueMark();
@@ -97,7 +101,8 @@ public class Level3UpManager extends LevelUpManager {
         this.g = g;
     }
 
-    public void setPool(ThreadPoolExecutor pool) {
-        this.pool = pool;
+    @Override
+    public void levelUpManager() {
+
     }
 }

@@ -3,14 +3,12 @@ package GameStates;
 import SecondMinigame.Level2UpManager;
 import MainG.Handler;
 import java.awt.Graphics2D;
-import java.util.concurrent.ThreadPoolExecutor;
 
 public class Level2State extends GameState{
     
-    ThreadPoolExecutor pool;
     Handler handler;
     
-    public Level2State(GameStateManager gsm, ThreadPoolExecutor pool, Handler handler, Level2UpManager manager){
+    public Level2State(GameStateManager gsm, Handler handler, Level2UpManager manager){
         super(gsm);
     }
    

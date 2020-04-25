@@ -7,6 +7,7 @@ import Entities.Items.Bullet;
 import MainG.Handler;
 import ThirdMinigame.HUD;
 import Tilemaps.Assets;
+import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Rectangle;
 import tinysound.Music;
@@ -16,24 +17,25 @@ public class DownEnemy extends Enemy {
     private HUD hud;
     private long lastAttackTimer, attackCooldown = 2000, attackTimer = 0;
     private boolean updownswitch = false;
-    private Music explosionEnemy = AudioLoader.damageEnemyShip;
-    
+    private static Music explosionEnemy;
+
     public DownEnemy(Handler handler, EntityManager manager, float x, float y, int width, int height, HUD hud) {
         super(handler, manager, x, y, width, height, hud);
         this.hud = hud;
         this.setHealth(20);
         Ymove = (int) (Math.random() * 5 + 2);
-        bounds.x=0;
-        bounds.y=0;
-        bounds.width=65;
-        bounds.height=21;
+        bounds.x = 0;
+        bounds.y = 0;
+        bounds.width = 104;
+        bounds.height = 110;
+        explosionEnemy = AudioLoader.damageEnemyShip;
     }
 
     @Override
-    public void die() { 
+    public void die() {
+        explosionEnemy.play(false);
         hud.setPoint(hud.getPoint() + 2);
         this.setActive(false);
-        explosionEnemy.play(false);
     }
 
     @Override
@@ -50,7 +52,9 @@ public class DownEnemy extends Enemy {
 
     @Override
     public void render(Graphics g) {
-        g.drawImage(Assets.enemy, 1000, (int) this.y, width, height, null);
+//        g.setColor(Color.red);
+//        g.fillRect((int) x + bounds.x, (int) y + bounds.y, bounds.width, bounds.height);
+        g.drawImage(Assets.enemy, (int) this.x, (int) this.y, width, height, null);
     }
 
     public void move() {
@@ -60,7 +64,7 @@ public class DownEnemy extends Enemy {
             }
             this.y -= Ymove;
         } else {
-            if (this.y >= 640) {
+            if (this.y >= 580) {
                 updownswitch = !updownswitch;
             }
             this.y += Ymove;
@@ -76,7 +80,7 @@ public class DownEnemy extends Enemy {
         {
             return;
         }
-        
+
         Rectangle cb = getCollisionBounds();
 
         attackTimer = 0;

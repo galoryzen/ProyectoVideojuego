@@ -2,14 +2,12 @@ package GameStates;
 
 import MainG.Handler;
 import java.awt.Graphics2D;
-import java.util.concurrent.ThreadPoolExecutor;
 
 public class MainLevel extends GameState{
     
-    ThreadPoolExecutor pool;
     Handler handler;
     
-    public MainLevel(GameStateManager gsm, ThreadPoolExecutor pool, Handler handler){
+    public MainLevel(GameStateManager gsm, Handler handler){
         super(gsm);
     }
     

@@ -54,7 +54,6 @@ public class AerialEnemy extends Enemy{
         if(attackTimer>2000 ){
             shootRay();
         }else{
-            
             movex();
             x+=Xmove;
             if(y<0)
@@ -78,7 +77,7 @@ public class AerialEnemy extends Enemy{
     public void render(Graphics g) {
         g.drawImage(Assets.LaserAlien, (int) x,0, null);
         if(shootin){
-            g.drawImage(Assets.laser,(int) (this.getX()+this.getWidth()/4), (int)(this.getY()), null);
+            g.drawImage(Assets.laser,(int) (this.getX()+this.getWidth()/4), (int)(this.getY())+50, null);
         }
     }
     

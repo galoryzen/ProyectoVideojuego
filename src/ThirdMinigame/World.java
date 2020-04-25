@@ -14,6 +14,7 @@ import java.awt.Graphics;
  *
  * @author German David, Isaac Blanco
  */
+
 public class World {
 
     private EntityManager manager;
@@ -26,10 +27,9 @@ public class World {
     private Boss boss;
     private boolean e1 = false, e2 = false, generateEnemys = false, e3 = false;
 
-    public World(EntityManager manager, Handler handler, Level3UpManager managerL) {
+    public World(EntityManager manager, Handler handler) {
         this.manager = manager;
         this.handler = handler;
-        this.managerL = managerL;
     }
 
     public void update() {
@@ -73,7 +73,7 @@ public class World {
 
     public void generateEnemy1() {
         if (!e1) {
-            enemy1 = new DownEnemy(handler, manager, 1040, 40, 65, 21, this.hud);
+            enemy1 = new DownEnemy(handler, manager, 950, 40, 104, 110, this.hud);
             manager.addEntity(enemy1);
             e1 = !e1;
         } else {
@@ -85,7 +85,7 @@ public class World {
 
     public void generateEnemy2() {
         if (!e2) {
-            enemy2 = new AerialEnemy(handler, manager, (int) Math.random() * 500 + 40, 0, 60, 36, this.hud);
+            enemy2 = new AerialEnemy(handler, manager, (int) Math.random() * 500 + 40, 0, 110, 99, this.hud);
             manager.addEntity(enemy2);
             e2 = !e2;
         } else {
@@ -97,7 +97,7 @@ public class World {
 
     public void generateBoss() {
         if (!e3) {
-            boss = new Boss(handler, manager, 450, 40, 65, 21);
+            boss = new Boss(handler, manager, 450, 60, 65, 21);
             manager.addEntity(boss);
             e3 = !e3;
         }
@@ -117,5 +117,9 @@ public class World {
                 e.setActive(false);
             }
         }
+    }
+    
+    public void setLevelUpManager(Level3UpManager managerL){
+           this.managerL = managerL;
     }
 }

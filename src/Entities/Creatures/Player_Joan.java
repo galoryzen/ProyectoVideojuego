@@ -2,7 +2,7 @@ package Entities.Creatures;
 
 import Entities.EntityManager;
 import Entities.Items.Bullet;
-import Graficos.Animation;
+import Tilemaps.Animation;
 import MainG.Handler;
 import Tilemaps.Assets;
 import java.awt.Color;
@@ -13,6 +13,7 @@ import java.awt.image.BufferedImage;
 /**
  *
  * @author German David
+ *
  */
 
 public class Player_Joan extends Character {
@@ -21,13 +22,13 @@ public class Player_Joan extends Character {
     public static int bullcount = 0;
     private long clock;
     private boolean punchie=false;
-    private int ar1,ar2;
+    private int ar1, ar2;
     
     //Attack range
     private int attackR;
     
     //Attack timer, AttackCooldown
-    private long lastAttackTimer,attackCooldown=800, attackTimer=attackCooldown;
+    private long lastAttackTimer,attackCooldown = 800, attackTimer=attackCooldown;
     
     //Animations
     private Animation animDown,animUp,animR,animL;
@@ -35,11 +36,12 @@ public class Player_Joan extends Character {
     public Player_Joan(Handler handler, EntityManager entityM, float x, float y) {
         super(handler, entityM, x, y, Creature.DEFAULT_CREATURE_WIDTH, Creature.DEFAULT_CREATUR_HEIGHT);
         
-        /* Bounds para la chica
-        bounds.x=40;
-        bounds.y=35;
-        bounds.width=35;
-        bounds.height=60;
+        /* 
+            Bounds para la chica
+            bounds.x=40;
+            bounds.y=35;
+            bounds.width=35;
+            bounds.height=60;
         */
         
         bounds.x=40;
