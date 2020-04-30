@@ -4,11 +4,8 @@ import FirstMinigame.Level1UpManager;
 import FirstMinigame.WorldGenerator.World;
 import MainG.Handler;
 import SecondMinigame.Level2UpManager;
-import ThirdMinigame.Level3UpManager;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
-public class GameStateManager{
+public class GameStateManager {
 
     public Handler handler;
 
@@ -18,12 +15,16 @@ public class GameStateManager{
     private LevelUpManager levelManager;
     private static GameCamara gameCamera;
     private World world;
-    
+
     private final int MENUSTATE = 0;
     private final int MAINLEVELSTATE = 1;
     private final int LEVEL1STATE = 2;
     private final int LEVEL2STATE = 3;
     private final int LEVEL3STATE = 4;
+    private screenLoading screenLoading = new screenLoading();
+    private boolean carga = false;
+
+    private Thread hiloCarga;
 
     public GameStateManager(Handler handler, GameCamara gameCamara) {
         this.handler = handler;
@@ -31,17 +32,15 @@ public class GameStateManager{
         gameStates = new GameState[NUMGAMESTATE];
         currentState = MENUSTATE;
         loadState(currentState);
+        hiloCarga = new Thread(screenLoading, "Hilo Carga");
         this.gameCamera = gameCamara;
     }
 
     public void setState(int state) {
         unloadState(currentState);
         currentState = state;
-        try {
-            Thread.sleep(1000);
-        } catch (InterruptedException ex) {
-            Logger.getLogger(GameStateManager.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        hiloCarga.start();
+        carga = true;
         loadState(currentState);
     }
 
@@ -66,17 +65,25 @@ public class GameStateManager{
                 gameStates[state] = new Level2State(this, this.handler, (Level2UpManager) levelManager);
                 break;
             case LEVEL3STATE:
-                gameStates[state] = new Level3State(this,handler);
-                break;
+                gameStates[state] = new Level3State(this, handler);
         }
     }
-
+    
     public void update() {
-        gameStates[currentState].update();
+        if(carga == false) {
+            gameStates[currentState].update();
+        }
     }
 
     public void draw(java.awt.Graphics2D g) {
         gameStates[currentState].draw(g);
+        if (carga == true) {
+            while (screenLoading.isFinished()) {
+                System.out.println("CARGANDO");
+            }
+            gameStates[currentState].init();
+            carga = false;
+        }
     }
 
     public int inGameState() {
@@ -87,5 +94,4 @@ public class GameStateManager{
         Level1State level = (Level1State) gameStates[2];
         return level.getWorld();
     }
-
 }

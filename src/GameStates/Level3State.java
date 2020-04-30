@@ -48,13 +48,12 @@ public class Level3State extends GameState {
         this.levelManager = new Level3UpManager(this, hud, world, dialogueLoader);
         world.setHUD(hud);
         world.setLevelUpManager(levelManager);
-        init();
+        bgTalkMusic = AudioLoader.bgTalkMomentSpaceInvaders;
+        bgMusic = AudioLoader.bgMusicSpaceInvaders;
     }
 
     @Override
     public void init() {
-        bgTalkMusic = AudioLoader.bgTalkMomentSpaceInvaders;
-        bgMusic = AudioLoader.bgMusicSpaceInvaders;
         bgTalkMusic.play(true, 0.5f);
     }
 

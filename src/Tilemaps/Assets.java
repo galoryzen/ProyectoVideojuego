@@ -6,18 +6,27 @@ public class Assets implements Runnable{
 
     public static BufferedImage astronautTalker, pursoid, fondoMenu, fondoSpaceInvaders,
             spriteNina, naveOff, naveOn, naveSemiOff, asteroids, bullet, laser, LaserAlien, enemy,
-            vida, floor, library, BookPile;
+            vida, floor, library, BookPile,AutoMissil,charge,pursoidBullet;
 
     public static BufferedImage playerDown[] = new BufferedImage[9];
     public static BufferedImage playerUp[] = new BufferedImage[9];
     public static BufferedImage playerRight[] = new BufferedImage[9];
     public static BufferedImage playerLeft[] = new BufferedImage[9];
+   
+    public static BufferedImage aerialEnemy[]= new BufferedImage[4];
+    public static BufferedImage downEnemy[]= new BufferedImage[4];
+    
+    public static BufferedImage Boss[]= new BufferedImage[2];
+    
 
     private static final int WIDHT = 131;
     private static final int HEIGHT = 110;
 
     public static void init() {
         SpriteSheet sheet = new SpriteSheet(ImageLoader.loadImage("/Sprites/Tilesets/Sheet.png"));
+        SpriteSheet DownEnemy= new SpriteSheet(ImageLoader.loadImage("/Tilesets/pursoidSprite.png"));
+        SpriteSheet AerialEnemy= new SpriteSheet(ImageLoader.loadImage("/Tilesets/LaserAlienSprite.png"));
+        SpriteSheet boss= new SpriteSheet(ImageLoader.loadImage("/Tilesets/BossSpriteH.png"));
         spriteNina = sheet.crop(0, 0, WIDHT, HEIGHT);
         fondoMenu = ImageLoader.loadImage("/Backgrounds/menu_gif.gif");
         fondoSpaceInvaders = ImageLoader.loadImage("/Backgrounds/spaceInvaders.png");
@@ -35,9 +44,37 @@ public class Assets implements Runnable{
             }
         }
         SpriteSheet sheetBullets = new SpriteSheet(ImageLoader.loadImage("/Sprites/Tilesets/Sheetbullets.png"));
+        
         for (int i = 0; i < 3; i++) {
-            bullet = sheetBullets.crop(0, 30 * i, 46, 30);
+            switch(i){
+                case 0:
+                    AutoMissil=sheetBullets.crop(0, 30*i, 46, 30);
+                    break;
+                case 1:
+                    bullet = sheetBullets.crop(0, 30 * i, 46, 30);
+                    break;
+                case 2:
+                    pursoidBullet=sheetBullets.crop(0, 30*i, 46, 30);
+                    break;
+            }
+            
+            
         }
+        
+        for (int i = 0; i < 4; i++) {
+            aerialEnemy[i]=AerialEnemy.crop(i*110, 0, 110,99);
+        }
+        
+        for (int i = 0; i < 4; i++) {
+            downEnemy[i]=DownEnemy.crop(i*102, 0, 102,110);
+        }
+        
+        for (int i = 0; i < 2; i++) {
+            Boss[i]=boss.crop(i*125, 0, 125,120);
+        }
+        charge=boss.crop(250, 0, 125, 120);
+        
+        
         SpriteSheet sheetVida = new SpriteSheet(ImageLoader.loadImage("/Sprites/Tilesets/heatlhBar.png"));
         SpriteSheet playerM = new SpriteSheet(ImageLoader.loadImage("/Tilesets/DudeSprite.png"));
         cargarJoan(playerM);

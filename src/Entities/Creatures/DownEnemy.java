@@ -6,10 +6,12 @@ import Entities.EntityManager;
 import Entities.Items.Bullet;
 import MainG.Handler;
 import ThirdMinigame.HUD;
+import Tilemaps.Animation;
 import Tilemaps.Assets;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Rectangle;
+import java.awt.image.BufferedImage;
 import tinysound.Music;
 
 public class DownEnemy extends Enemy {
@@ -18,7 +20,8 @@ public class DownEnemy extends Enemy {
     private long lastAttackTimer, attackCooldown = 2000, attackTimer = 0;
     private boolean updownswitch = false;
     private static Music explosionEnemy;
-
+    private Animation anm;
+    
     public DownEnemy(Handler handler, EntityManager manager, float x, float y, int width, int height, HUD hud) {
         super(handler, manager, x, y, width, height, hud);
         this.hud = hud;
@@ -29,6 +32,8 @@ public class DownEnemy extends Enemy {
         bounds.width = 104;
         bounds.height = 110;
         explosionEnemy = AudioLoader.damageEnemyShip;
+        
+        anm=new Animation(400,Assets.downEnemy);
     }
 
     @Override
@@ -41,6 +46,7 @@ public class DownEnemy extends Enemy {
     @Override
     public void update() {
         move();
+        anm.update();
         attackTimer += System.currentTimeMillis() - lastAttackTimer;
         lastAttackTimer = System.currentTimeMillis();
         if (attackTimer >= attackCooldown) {
@@ -54,7 +60,7 @@ public class DownEnemy extends Enemy {
     public void render(Graphics g) {
 //        g.setColor(Color.red);
 //        g.fillRect((int) x + bounds.x, (int) y + bounds.y, bounds.width, bounds.height);
-        g.drawImage(Assets.enemy, (int) this.x, (int) this.y, width, height, null);
+        g.drawImage(getCurrentAnimationFrame(), (int) this.x, (int) this.y, width, height, null);
     }
 
     public void move() {
@@ -95,5 +101,9 @@ public class DownEnemy extends Enemy {
             }
         }
     }
-
+    
+    //Conseguir la animación en cada movimiento
+    private BufferedImage getCurrentAnimationFrame(){
+        return anm.getCurrentFrame();
+    }
 }
