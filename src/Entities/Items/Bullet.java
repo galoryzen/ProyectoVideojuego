@@ -9,13 +9,13 @@ import Entities.EntityManager;
 import Tilemaps.Assets;
 import MainG.Handler;
 import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.Rectangle;
 
 /**
  *
  * @author German David
  */
-
 public class Bullet extends Entity {
 
     private int X;
@@ -51,7 +51,7 @@ public class Bullet extends Entity {
     }
 
     @Override
-    public void render(Graphics g) {
+    public void render(Graphics2D g) {
         g.drawImage(Assets.bullet, (int) x, (int) y, null);
     }
 
@@ -73,12 +73,20 @@ public class Bullet extends Entity {
         for (Entity e : manager.getEntities()) {
             if (!(e instanceof Bullet) && !(e.equals(this.creature))) {
                 if (e.getCollisionBounds().intersects(cb)) {
-                    if (!(e instanceof Asteroid && this.creature instanceof Enemy)) {
-                        e.hurt(5);
-                        this.setActive(false);
+                    if (this.creature instanceof Player) {
+                        if (e instanceof Asteroid || e instanceof Enemy) {
+                            e.hurt(5);
+                            this.setActive(false);
+                        }
+                    } else if (this.creature instanceof Enemy) {
+                        if (!(e instanceof Asteroid)) {
+                            e.hurt(5);
+                            this.setActive(false);
+                        }
                     }
                 }
             }
         }
     }
+    
 }

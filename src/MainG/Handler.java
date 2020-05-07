@@ -2,6 +2,9 @@ package MainG;
 
 
 import Entities.EntityManager;
+import GameStates.World;
+import GameStates.GameCamara;
+import GameStates.GameStateManager;
 import Handlers.KeyManager;
 
 /**
@@ -11,8 +14,8 @@ import Handlers.KeyManager;
 
 public class Handler {
     
-    private EntityManager manager;
     private GamePanel game;
+    private GameStateManager gsm;
     
     public Handler (GamePanel game){
         this.game=game;
@@ -38,6 +41,16 @@ public class Handler {
         this.game = game;
     }
 
+    public GameCamara getGameCamara(){
+        return this.game.getGameCamara(); 
+    }
+
+    public void setGSM(GameStateManager gsm){
+        this.gsm = gsm;
+    }
     
+    public World getWorld(){
+       return gsm.getWorld();
+    }
     
 }

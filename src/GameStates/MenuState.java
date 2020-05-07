@@ -7,15 +7,15 @@ import java.awt.Font;
 import java.awt.Graphics2D;
 import MainG.Handler;
 import Tilemaps.*;
-import java.util.concurrent.ThreadPoolExecutor;
 import tinysound.Music;
+import tinysound.Sound;
 
-public class MenuState extends GameState {
-    
+public class MenuState extends GameState{
+
     Music bgMusic;
+    Sound menuUp;
     Background bg;
     Handler handler;
-    ThreadPoolExecutor pool;
 
     private int currentChoice = 0;
     public long lastPressedTime = 0;
@@ -33,11 +33,10 @@ public class MenuState extends GameState {
     private Font titleFont;
     private Font font;
 
-    public MenuState(GameStateManager gsm, ThreadPoolExecutor pool, Handler handler) {
+    public MenuState(GameStateManager gsm, Handler handler) {
         super(gsm);
         this.handler = handler;
-        this.pool = pool;
-         try {
+        try {
             bg = new Background(Assets.fondoMenu, 1);
             bg.setVector(2, 0);
             titleColor = new Color(128, 0, 0);
@@ -56,6 +55,7 @@ public class MenuState extends GameState {
         musicControl();
     }
 
+    @Override
     public void draw(Graphics2D g) {
 
         // Dibuja el Background 
@@ -83,32 +83,49 @@ public class MenuState extends GameState {
         bgMusic = AudioLoader.bgMusic;
         bgMusic.setVolume(0.3);
         bgMusic.play(true);
+        menuUp = AudioLoader.upMenu;
     }
 
     public void handleInput() {
         long now = System.currentTimeMillis();
-        if(now - lastPressedTime < minPressedDelay){
+        if (now - lastPressedTime < minPressedDelay) {
             return;
         }
-        if(handler.getGame().getKeyManager().up){
+        if (handler.getGame().getKeyManager().up) {
             currentChoice--;
+            menuUp.play();
             if (currentChoice < 0) {
                 currentChoice = 4;
             }
         } else if (handler.getGame().getKeyManager().down) {
             currentChoice++;
+            menuUp.play();
             if (currentChoice > 4) {
                 currentChoice = 0;
             }
         } else if (handler.getGame().getKeyManager().space) {
-            gsm.setState(4);
             bgMusic.stop();
+            gsm.setState(3);
         }
+        if (handler.getGame().getKeyManager().enter) {
+            bgMusic.stop();
+            gsm.setState(2);
+        }
+        if(handler.getGame().getKeyManager().test){
+            bgMusic.stop();
+            gsm.setState(1);
+        }
+
         lastPressedTime = now;
     }
 
     @Override
     public void musicControl() {
 
+    }
+
+    @Override
+    public World getWorld() {
+        return null;
     }
 }

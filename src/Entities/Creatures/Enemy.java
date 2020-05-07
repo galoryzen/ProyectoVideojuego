@@ -3,7 +3,7 @@ package Entities.Creatures;
 import Audio.AudioLoader;
 import Entities.EntityManager;
 import MainG.Handler;
-import ThirdMinigame.HUD;
+import SecondMinigame.HUD;
 import tinysound.Music;
 
 public abstract class Enemy extends Creature {

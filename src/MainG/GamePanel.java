@@ -1,6 +1,7 @@
 package MainG;
 
 import Audio.AudioLoader;
+import GameStates.GameCamara;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
@@ -9,26 +10,28 @@ import javax.swing.*;
 import GameStates.GameStateManager;
 import Tilemaps.Assets;
 import Handlers.KeyManager;
-import java.util.concurrent.Executors;
-import java.util.concurrent.ThreadPoolExecutor;
-import kuusisto.tinysound.TinySound;
+import tinysound.TinySound;
 
+/**
+ * Es la clase esencial del juego, donde se inicializan la mayoría de cosas
+ * @version 1.0
+ */
 public class GamePanel extends JPanel implements Runnable {
-
+    //Dimensiones del game panel
     public static final int WIDTH_G = 1080;
     public static final int HEIGHT_G = 720;
 
-    // Hilo del  juego y Game Loop
+    //Hilo del  juego y Game Loop
     private Thread hiloPrinicipal;
 
-    // ThreadPool del juego
-    ThreadPoolExecutor executor = (ThreadPoolExecutor) Executors.newFixedThreadPool(2);
-
-    // KeyManager
+    //KeyManager
     public KeyManager keyManager;
     public Handler handler;
 
-    // Volatile permite solo ser usadara por un Hilo, no puede ser modificad simultaneamente por dos hilos.
+    //Camara
+    private GameCamara gameCamera;
+
+    //Volatile permite solo ser usadara por un Hilo, no puede ser modificad simultaneamente por dos hilos.
     private volatile boolean running = false;
     private static int UPS = 0;
     private static int FPS = 0;
@@ -36,14 +39,18 @@ public class GamePanel extends JPanel implements Runnable {
     final int PREFERED_UPS = 60; // Actualizacion por segundos deseads
     final double NANO_PER_UPS = NANO_POR_SEG / PREFERED_UPS; // Nanosegundos por actualizacion
 
-    // game state manager
+    //GameStateManager
     GameStateManager gsm;
 
-    // images
+    //Imagenes
     private BufferedImage image;
     private Graphics2D g;
 
-    // KeyListener
+    /**
+     * Se inicializa el GamePanel
+     * @param width Anchura del GamePanel
+     * @param height Altura del GamePanel
+     */
     public GamePanel(int width, int height) {
         super();
         setPreferredSize(new Dimension(width, height));
@@ -53,17 +60,31 @@ public class GamePanel extends JPanel implements Runnable {
         handler = new Handler(this);
         keyManager = new KeyManager();
     }
-
-    // Funcion que se llama una vez que se cree el panel, para poder iniciar el juego
+    
+    /**
+     * Funcion que se llama una vez que se cree el panel, para poder iniciar el juego
+     */
+    @Override
     public void addNotify() {
         super.addNotify();
         TinySound.init();
-        Assets.init();
-        AudioLoader.init();
-        executor.submit(this);
+        gameStart();
     }
 
-    // Volatile pero para funciones 
+    private void gameStart() {
+        if (running == false) {
+            running = true;
+            Assets imagenes = new Assets();
+            hiloPrinicipal = new Thread(this, "GameThread");
+            imagenes.run();
+            AudioLoader.init();
+            hiloPrinicipal.start();
+        }
+    }
+
+    /**
+     * Funcion para acabar el juego cuando el usuario pierde
+     */
     private synchronized void gameOver() {
         running = false;
     }
@@ -101,45 +122,66 @@ public class GamePanel extends JPanel implements Runnable {
                 FPS = 0;
                 referencerTimer = System.nanoTime();
             }
-        }
-        try {
-            // Acaba el hilo progresivamente
-            hiloPrinicipal.join();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
+
+//            try {
+//                // Acaba el hilo progresivamente
+//                hiloPrinicipal.join();
+//            } catch (InterruptedException e) {
+//                e.printStackTrace();
+//            }
         }
     }
 
-    // Actualizar los Frames
+    /**
+     * Metodo que actualiza los Frames
+     */
     public void gameUpdate() {
         UPS++;
         gsm.update();
         keyManager.update();
     }
 
-    // Dibujar en la memoria de video
+    /**
+     * Metodo que dibuja en la memoria de video
+     */
     public void gameDraw() {
         FPS++;
         gsm.draw(g);
     }
 
-    // Dibujar en pantalla
+    /**
+     * Metodo que dibuja en la pantalla
+     */
     public void gameDrawToScreen() {
         Graphics g2 = getGraphics();
-        g2.drawImage(image, 0, 0, WIDTH_G * 2, HEIGHT_G * 2, null);
+        g2.drawImage(image, 0, 0, WIDTH_G, HEIGHT_G, null);
         g2.dispose();
     }
 
     @Override
     public void run() {
-        running = true;
         image = new BufferedImage(WIDTH_G, HEIGHT_G, BufferedImage.TYPE_INT_RGB);
         g = (Graphics2D) image.getGraphics();
-        gsm = new GameStateManager(executor, handler);
+        gameCamera = new GameCamara(handler, 0, 0);
+        gsm = new GameStateManager(handler, gameCamera);
         init();
     }
 
     public KeyManager getKeyManager() {
         return keyManager;
+    }
+
+    public GameCamara getGameCamara() {
+        return gameCamera;
+    }
+
+    @Override
+    public int getWidth() {
+        return WIDTH_G;
+    }
+
+    @Override
+    public int getHeight() {
+        return HEIGHT_G;
     }
 }

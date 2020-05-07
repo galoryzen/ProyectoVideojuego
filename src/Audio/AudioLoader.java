@@ -1,15 +1,20 @@
 package Audio;
 
 import tinysound.Music;
-import kuusisto.tinysound.Sound;
-import kuusisto.tinysound.TinySound;
+import tinysound.Sound;
+import tinysound.TinySound;
+/**
+ * Carga el audio que se va a usar en el videojuego.
+ * @version 1.1
+ */
+public class AudioLoader implements Runnable{
 
-public class AudioLoader{
-    
-    public static Music bgMusic,bgTalkMomentSpaceInvaders,bgMusicSpaceInvaders, damageAsteroid,damageEnemyShip;
-    public static Sound shot,upMenu;
-    
-    public static void init(){
+    public static Music damageAsteroid, damageEnemyShip, bgMusic, bgTalkMomentSpaceInvaders, bgMusicSpaceInvaders;
+    public static Sound shot, upMenu;
+    /**
+     * Metodo que se hace al iniciar la clase.
+     */
+    public static void init() {
         bgMusic = TinySound.loadMusic("/Music/menuMusic.wav");
         bgTalkMomentSpaceInvaders = TinySound.loadMusic("/Music/spaceMusicIntro.wav");
         shot = TinySound.loadSound("/SFX/spaceShot.wav");
@@ -18,4 +23,10 @@ public class AudioLoader{
         damageAsteroid = TinySound.loadMusic("/SFX/explosionAsteroid.wav");
         damageEnemyShip = TinySound.loadMusic("/SFX/explosionEnemy.wav");
     }
+
+    @Override
+    public void run() {
+        init();
+    }
+
 }

@@ -1,20 +1,20 @@
 package GameStates;
 
-import ThirdMinigame.DialogueLoader;
-import ThirdMinigame.World;
+import SecondMinigame.DialogueLoader;
+import SecondMinigame.WorldSpace;
 
 public abstract class LevelUpManager {
    
     protected int point;
     protected int health;
-    protected World world;
+    protected WorldSpace world;
     protected DialogueLoader dialogueLoader;
     
     public abstract void levelUpManager();
     public abstract void changeMusic();
     public abstract void finishLevel();
     
-    public void setWorld(World world){
+    public void setWorld(WorldSpace world){
         this.world = world;
     }
     public void setDialogueLoader(DialogueLoader dialogueLoader){

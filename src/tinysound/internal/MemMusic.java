@@ -24,10 +24,10 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package kuusisto.tinysound.internal;
+package tinysound.internal;
 
 import tinysound.Music;
-import kuusisto.tinysound.TinySound;
+import tinysound.TinySound;
 
 /**
  * The MemMusic class is an implementation of the Music interface that stores

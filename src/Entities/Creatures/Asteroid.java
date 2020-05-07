@@ -5,8 +5,9 @@ import Entities.Entity;
 import Entities.EntityManager;
 import Tilemaps.Assets;
 import MainG.Handler;
-import ThirdMinigame.HUD;
+import SecondMinigame.HUD;
 import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.Rectangle;
 import tinysound.Music;
 
@@ -14,10 +15,11 @@ import tinysound.Music;
  *
  * @author German David
  */
+
 public class Asteroid extends Creature {
 
     private HUD hud;
-    private Music asteroidDamage;
+    private static Music asteroidDamage;
 
     public Asteroid(Handler handler, EntityManager manager, float x, float y, int width, int height, HUD hud) {
         super(handler, manager, x, y, width, height);
@@ -40,7 +42,7 @@ public class Asteroid extends Creature {
     public void die() {
         if (!(this.x <= 0)) {
             hud.setPoint(hud.getPoint() + 1);
-            asteroidDamage.play(true);
+            asteroidDamage.play(false);
         }
     }
 
@@ -56,7 +58,7 @@ public class Asteroid extends Creature {
     }
 
     @Override
-    public void render(Graphics g) {
+    public void render(Graphics2D g) {
         g.drawImage(Assets.asteroids, (int) x, (int) y, width, height, null);
     }
 
@@ -72,12 +74,10 @@ public class Asteroid extends Creature {
                         if (e.getWidth() * e.getHeight() < this.getWidth() * this.getHeight()) {
                             Asteroid asteroid = (Asteroid) e;
                             asteroid.Xmove = Xmove + 0.5f;
-                        } else {
-                            this.Xmove = Xmove - 0.25f;
                         }
                     } else {
                         if (!(e instanceof Enemy)) {
-                            e.hurt(5);
+                             e.hurt(5);
                             hud.setPoint(hud.getPoint() + 1);
                             asteroidDamage.play(false);
                             this.setActive(false);

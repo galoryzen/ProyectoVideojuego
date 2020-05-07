@@ -8,10 +8,13 @@ package Entities.Creatures;
 import Entities.Entity;
 import Entities.EntityManager;
 import MainG.Handler;
-import ThirdMinigame.HUD;
+import SecondMinigame.HUD;
+import Tilemaps.Animation;
 import Tilemaps.Assets;
 import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.Rectangle;
+import java.awt.image.BufferedImage;
 
 /**
  *
@@ -20,24 +23,25 @@ import java.awt.Rectangle;
 
 public class AerialEnemy extends Enemy{
 
-    private long lastAttackTimer,attackCooldown=2000, attackTimer=0;
+    private long lastAttackTimer,attackCooldown=2000, attackTimer=0,laserTimer=0,laserCooldown=600,lastLaser;
     private boolean shootin=false;
     private HUD hud;
-    
+    private Animation anm;
     public AerialEnemy(Handler handler, EntityManager manager, float x, float y, int width, int height, HUD hud) {
         super(handler, manager, x, y, width, height, hud);
         this.hud = hud;
         //Cronometro para saber el tiempo transcurrido antes de su generación
         lastAttackTimer= System.currentTimeMillis();
-        this.width=60;
-        this.height=36;
-        
+        this.width=110;
+        this.height=99;
+        this.setHealth(15);
         speed=1;
         
         bounds.x=0;
         bounds.y=0;
-        bounds.width=60;
-        bounds.height=36;
+        bounds.width=110;
+        bounds.height=99;
+        anm= new Animation(300,Assets.aerialEnemy);
     }
 
     @Override
@@ -50,11 +54,10 @@ public class AerialEnemy extends Enemy{
         
         attackTimer+=System.currentTimeMillis()-lastAttackTimer;
         lastAttackTimer=System.currentTimeMillis();
-        
+        anm.update();
         if(attackTimer>2000 ){
             shootRay();
         }else{
-            
             movex();
             x+=Xmove;
             if(y<0)
@@ -75,28 +78,33 @@ public class AerialEnemy extends Enemy{
     }
     
     @Override
-    public void render(Graphics g) {
-        g.drawImage(Assets.LaserAlien, (int) x,0, null);
+    public void render(Graphics2D g) {
+        g.drawImage(getCurrentAnimationFrame(), (int) x,0, null);
         if(shootin){
-            g.drawImage(Assets.laser,(int) (this.getX()+this.getWidth()/4), (int)(this.getY()), null);
+            g.drawImage(Assets.laser,(int) (this.getX()-10), (int)(this.getY())+94, null);
         }
     }
     
     private void shootRay(){
-         
+        
         shootin=true;
         Rectangle laser= new Rectangle((int)this.x, (int) (y+this.getWidth()),40,720);
         
         for (Entity e : manager.getEntities()) {
-            if(e.getCollisionBounds().intersects(laser)){
-                e.hurt(1);
+                if(e.getCollisionBounds().intersects(laser)){
+                    e.hurt(1);
+                }
             }
-        }
         
         if(attackTimer>4000){
             attackTimer=0;
             shootin=false;
            
         }
+    }
+    
+    //Conseguir la animación en cada movimiento
+    private BufferedImage getCurrentAnimationFrame(){
+        return anm.getCurrentFrame();
     }
 }

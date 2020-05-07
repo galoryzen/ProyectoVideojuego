@@ -1,18 +1,25 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
 package Entities.Items;
 
 import Entities.Creatures.Boss;
+import Entities.Creatures.Player;
 import Entities.Entity;
 import Entities.EntityManager;
 import MainG.Handler;
 import Tilemaps.Assets;
+import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.Rectangle;
 
 /**
  *
  * @author German David
  */
-
 public class AutoMissil extends Entity{
 
     private int bulletSpeed;
@@ -52,10 +59,8 @@ public class AutoMissil extends Entity{
     }
 
     @Override
-    public void render(Graphics g) {
-        
+    public void render(Graphics2D g) {
         g.drawImage(Assets.bullet, (int)x, (int)y, null);
-        
     }
     
     private void move(){
@@ -98,4 +103,7 @@ public class AutoMissil extends Entity{
             }
         }
     }
+    
+    
+    
 }
