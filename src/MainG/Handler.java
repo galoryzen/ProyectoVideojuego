@@ -2,7 +2,7 @@ package MainG;
 
 
 import Entities.EntityManager;
-import FirstMinigame.WorldGenerator.World;
+import GameStates.World;
 import GameStates.GameCamara;
 import GameStates.GameStateManager;
 import Handlers.KeyManager;

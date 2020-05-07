@@ -5,8 +5,9 @@ import Entities.Entity;
 import Entities.EntityManager;
 import Tilemaps.Assets;
 import MainG.Handler;
-import ThirdMinigame.HUD;
+import SecondMinigame.HUD;
 import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.Rectangle;
 import tinysound.Music;
 
@@ -57,7 +58,7 @@ public class Asteroid extends Creature {
     }
 
     @Override
-    public void render(Graphics g) {
+    public void render(Graphics2D g) {
         g.drawImage(Assets.asteroids, (int) x, (int) y, width, height, null);
     }
 

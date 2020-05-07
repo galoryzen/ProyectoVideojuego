@@ -1,5 +1,6 @@
 package MainG;
 
+import GameStates.screenLoading;
 import Handlers.KeyManager;
 import java.awt.Dimension;
 import javax.swing.JFrame;

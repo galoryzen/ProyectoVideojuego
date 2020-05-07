@@ -9,6 +9,7 @@ import Entities.EntityManager;
 import Tilemaps.Assets;
 import MainG.Handler;
 import java.awt.Graphics;
+import java.awt.Graphics2D;
 
 /**
  *
@@ -35,7 +36,7 @@ public class BookPile extends StaticEntity{
     }
     
     @Override
-    public void render(Graphics g){
+    public void render(Graphics2D g){
         g.drawImage(Assets.BookPile, (int) (x-handler.getGameCamara().getxOffset()),(int) (y-handler.getGameCamara().getyOffset()), null);
     }
 }

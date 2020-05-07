@@ -4,16 +4,18 @@ package Entities;
 import MainG.GamePanel;
 import MainG.Handler;
 import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.Rectangle;
 
 /**
  *
  * @author German David
  */
-public abstract class Entity {
+public abstract class Entity{
     
     protected Handler handler;
     public static final int DEFAULTHEALTH=5;
+    private String levelTag;
     
     //posición
     protected float x,y;
@@ -24,7 +26,6 @@ public abstract class Entity {
     protected EntityManager manager;
     
     public Entity(Handler handler,EntityManager manager,float x, float y,int width, int height) {
-        
         this.handler = handler;
         this.manager = manager;
         this.x = x;
@@ -49,7 +50,7 @@ public abstract class Entity {
     
     public abstract void update();
     
-    public abstract void render(Graphics g);
+    public abstract void render(Graphics2D g);
     
     public Rectangle getCollisionBounds(){
         return new Rectangle ((int)(x+bounds.x),(int)(y+bounds.y),bounds.width,bounds.height);
@@ -108,6 +109,9 @@ public abstract class Entity {
         return health;
     }
     
+    public String getTag(){
+        return levelTag;
+    }
     
     
     

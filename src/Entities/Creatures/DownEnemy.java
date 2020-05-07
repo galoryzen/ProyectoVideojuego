@@ -5,11 +5,12 @@ import Entities.Entity;
 import Entities.EntityManager;
 import Entities.Items.Bullet;
 import MainG.Handler;
-import ThirdMinigame.HUD;
+import SecondMinigame.HUD;
 import Tilemaps.Animation;
 import Tilemaps.Assets;
 import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
 import tinysound.Music;
@@ -57,7 +58,7 @@ public class DownEnemy extends Enemy {
     }
 
     @Override
-    public void render(Graphics g) {
+    public void render(Graphics2D g) {
 //        g.setColor(Color.red);
 //        g.fillRect((int) x + bounds.x, (int) y + bounds.y, bounds.width, bounds.height);
         g.drawImage(getCurrentAnimationFrame(), (int) this.x, (int) this.y, width, height, null);

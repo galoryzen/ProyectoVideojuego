@@ -55,6 +55,7 @@ public class MenuState extends GameState{
         musicControl();
     }
 
+    @Override
     public void draw(Graphics2D g) {
 
         // Dibuja el Background 
@@ -104,11 +105,15 @@ public class MenuState extends GameState{
             }
         } else if (handler.getGame().getKeyManager().space) {
             bgMusic.stop();
-            gsm.setState(4);
+            gsm.setState(3);
         }
         if (handler.getGame().getKeyManager().enter) {
             bgMusic.stop();
             gsm.setState(2);
+        }
+        if(handler.getGame().getKeyManager().test){
+            bgMusic.stop();
+            gsm.setState(1);
         }
 
         lastPressedTime = now;
@@ -117,5 +122,10 @@ public class MenuState extends GameState{
     @Override
     public void musicControl() {
 
+    }
+
+    @Override
+    public World getWorld() {
+        return null;
     }
 }

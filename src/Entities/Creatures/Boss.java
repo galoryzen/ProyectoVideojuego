@@ -12,6 +12,7 @@ import MainG.Handler;
 import Tilemaps.Assets;
 import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.Rectangle;
 
 /**
@@ -66,7 +67,7 @@ public class Boss extends Creature{
     
     
     @Override
-    public void render(Graphics g) {
+    public void render(Graphics2D g) {
         g.setColor(Color.red);
         g.drawImage(Assets.naveOn,(int)x, (int)y, bounds.width, bounds.height, null);
         

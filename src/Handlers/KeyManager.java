@@ -7,18 +7,18 @@ import java.awt.event.KeyListener;
  *
  * @author German David
  */
-
-public class KeyManager implements KeyListener{
+public class KeyManager implements KeyListener {
 
     private static boolean[] keys;
-    public boolean up,down,left,right,space,test,enter;
-    
+    public boolean up, down, left, right, space, test, enter;
+    public long pressed, realTime,valorTime = 0;
+
     public KeyManager() {
         keys = new boolean[256];
-        
+
     }
-    
-    public void update(){
+
+    public void update() {
         up = keys[KeyEvent.VK_W];
         down = keys[KeyEvent.VK_S];
         right = keys[KeyEvent.VK_D];
@@ -41,5 +41,8 @@ public class KeyManager implements KeyListener{
     public void keyReleased(KeyEvent ke) {
         keys[ke.getKeyCode()] = false;
     }
-    
+
+    public long getTime() {
+        return valorTime;
+    }
 }

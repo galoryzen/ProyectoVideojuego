@@ -6,6 +6,8 @@ public abstract class GameState{
 
     protected GameStateManager gsm;
     protected Handler handler;
+    protected World world;
+    protected String levelTag;
     
     public GameState(GameStateManager gsm){
         this.gsm = gsm;
@@ -19,4 +21,9 @@ public abstract class GameState{
       
     public abstract void musicControl();
 
+    public abstract World getWorld();
+    
+    public String getTag(){
+        return levelTag;
+    }
 }

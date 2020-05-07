@@ -13,7 +13,7 @@ public class Util {
     
     public static String loadFileAsString(String path){
         
-        StringBuilder builder= new StringBuilder();
+        StringBuilder builder = new StringBuilder();
         
         try {
             BufferedReader br= new BufferedReader(new FileReader(path));

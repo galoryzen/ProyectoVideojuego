@@ -2,6 +2,7 @@ package GameStates;
 
 import Entities.Entity;
 import FirstMinigame.Tiles.Tile;
+import FirstMinigame.WorldGenerator.WorldLibrary;
 
 import MainG.Handler;
 
@@ -25,15 +26,16 @@ public class GameCamara {
     
     //Para que solo se vea la parte del mapa con Tiles
     public void checkBlankSpace(){
+        WorldLibrary world = (WorldLibrary) handler.getWorld();
         if(xOffset<0){
             xOffset=0;
-        }else if(xOffset>handler.getWorld().getWidth()*Tile.TILEWIDTH - handler.getWidth()){
-            xOffset=handler.getWorld().getWidth()*Tile.TILEWIDTH - handler.getWidth();
+         }else if(xOffset>world.getWidth()*Tile.TILEWIDTH - handler.getWidth()){
+            xOffset=world.getWidth()*Tile.TILEWIDTH - handler.getWidth();
         }
         if(yOffset<0){
             yOffset=0;
-        }else if(yOffset>handler.getWorld().getHeight()*Tile.TILEHEIGHT - handler.getHeight()){
-            yOffset=handler.getWorld().getHeight()*Tile.TILEHEIGHT - handler.getHeight();
+        }else if(yOffset>world.getHeight()*Tile.TILEHEIGHT - handler.getHeight()){
+            yOffset=world.getHeight()*Tile.TILEHEIGHT - handler.getHeight();
         }
         
     }

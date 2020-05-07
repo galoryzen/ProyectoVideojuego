@@ -8,6 +8,8 @@ public class Assets implements Runnable{
             spriteNina, naveOff, naveOn, naveSemiOff, asteroids, bullet, laser, LaserAlien, enemy,
             vida, floor, library, BookPile,AutoMissil,charge,pursoidBullet;
 
+    public static SpriteSheet atlasMainLevel;
+    
     public static BufferedImage playerDown[] = new BufferedImage[9];
     public static BufferedImage playerUp[] = new BufferedImage[9];
     public static BufferedImage playerRight[] = new BufferedImage[9];
@@ -57,8 +59,6 @@ public class Assets implements Runnable{
                     pursoidBullet=sheetBullets.crop(0, 30*i, 46, 30);
                     break;
             }
-            
-            
         }
         
         for (int i = 0; i < 4; i++) {
@@ -83,6 +83,7 @@ public class Assets implements Runnable{
         library = ImageLoader.loadImage("/Testers/library.png");
         naveSemiOff = ImageLoader.loadImage("/Player/naveSemi.png");
         BookPile = ImageLoader.loadImage("/Testers/BookPile.png");
+        atlasMainLevel = new SpriteSheet(ImageLoader.loadImage("/Tilesets/WorldPhase1.png"));
     }
 
     public static void cargarJoan(SpriteSheet sheet) {

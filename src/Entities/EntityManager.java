@@ -1,9 +1,11 @@
 package Entities;
 
+import Entities.Creatures.MainPlayer;
 import Entities.Creatures.Player;
 import Entities.Creatures.Player_Joan;
+import GameStates.GameState;
 import MainG.Handler;
-import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.util.ArrayList;
 import java.util.Comparator;
 
@@ -16,6 +18,7 @@ public class EntityManager {
     private Handler handler;
     private Player nave;
     private Player_Joan joan;
+    private MainPlayer mainC;
     private ArrayList<Entity> entities;
     private int Score = 0;
 
@@ -29,22 +32,29 @@ public class EntityManager {
         }
     };
 
-    public EntityManager(Handler handler, Player player) {
+    public EntityManager(Handler handler, GameState state) {
         this.handler = handler;
-        nave = new Player(handler, this, 100, 100);
         entities = new ArrayList<Entity>();
-        addEntity(nave);
+        Entity player;
+        if (state.getTag().equals("Level 3")) {
+            nave = new Player(handler, this, 100, 100);
+            player = nave;
+        } else if (state.getTag().equals("Level 2")) {
+            joan = new Player_Joan(handler, this, 100, 100);
+            player = joan;
+        } else {
+            mainC = new MainPlayer(handler, this, 0, 450);
+            player = mainC;
+        }
+        addEntity(player);
     }
-        
-    public EntityManager(Handler handler, Player_Joan player) {
-        this.handler = handler;
-        this.joan = player;
-        entities = new ArrayList<>();
-        addEntity(joan);
-    }
-    
 
-    public void render(Graphics g) {
+    public EntityManager(Handler handler) {
+        this.handler = handler;
+        entities = new ArrayList<Entity>();
+    }
+
+    public void render(Graphics2D g) {
         for (Entity e : entities) {
             e.render(g);
         }
@@ -90,8 +100,8 @@ public class EntityManager {
     public Player getPlayer() {
         return nave;
     }
-    
-    public Player_Joan getJoan(){
+
+    public Player_Joan getJoan() {
         return joan;
     }
 

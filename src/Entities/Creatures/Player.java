@@ -6,6 +6,7 @@ import Entities.Items.Bullet;
 import Tilemaps.Assets;
 import MainG.Handler;
 import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 import tinysound.Sound;
 
@@ -69,7 +70,8 @@ public class Player extends Character {
         }
     }
 
-    private void getInput() {
+    @Override
+    public void getInput() {
 
         Xmove = 0;
         Ymove = 0;
@@ -77,11 +79,9 @@ public class Player extends Character {
         if (handler.getGame().getKeyManager().up) {
             Ymove = -speed;
         }
-
         if (handler.getGame().getKeyManager().down) {
             Ymove = speed;
         }
-
         if (handler.getGame().getKeyManager().right) {
             Xmove = speed;
         }
@@ -95,7 +95,7 @@ public class Player extends Character {
     }
 
     @Override
-    public void render(Graphics g) {
+    public void render(Graphics2D g) {
 //        g.setColor(Color.red);
 //        g.fillRect((int) x + bounds.x, (int) y + bounds.y, bounds.width, bounds.height);
         g.drawImage(getCurrentImage(), (int) (x), (int) (y), null);

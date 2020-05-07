@@ -16,6 +16,7 @@ public class Tile {
     public static Tile[] tiles = new Tile[256];
     public static Tile library = new LibraryTile(0);
     public static Tile floor = new FloorTile(1);
+    
     //Class
     public static final int TILEWIDTH = 280, TILEHEIGHT = 280;
     protected BufferedImage texture;

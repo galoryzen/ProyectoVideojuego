@@ -8,10 +8,11 @@ package Entities.Creatures;
 import Entities.Entity;
 import Entities.EntityManager;
 import MainG.Handler;
-import ThirdMinigame.HUD;
+import SecondMinigame.HUD;
 import Tilemaps.Animation;
 import Tilemaps.Assets;
 import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
 
@@ -77,7 +78,7 @@ public class AerialEnemy extends Enemy{
     }
     
     @Override
-    public void render(Graphics g) {
+    public void render(Graphics2D g) {
         g.drawImage(getCurrentAnimationFrame(), (int) x,0, null);
         if(shootin){
             g.drawImage(Assets.laser,(int) (this.getX()-10), (int)(this.getY())+94, null);
