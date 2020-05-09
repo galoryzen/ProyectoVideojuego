@@ -7,6 +7,7 @@ import Tilemaps.Background;
 import java.awt.Graphics2D;
 import Handlers.KeyManager;
 import MainG.Handler;
+import MainG.Window;
 import SecondMinigame.HUD;
 import SecondMinigame.Level2UpManager;
 import SecondMinigame.DialogueLoader;
@@ -65,7 +66,7 @@ public class Level2State extends GameState {
         hud.update();
         world.update();
         levelManager.update(hud.getPoint(), hud.getHealth());
-        if (handler.getGame().getKeyManager().enter) {
+        if (Window.keyManager.enter) {
             System.out.println(MouseInfo.getPointerInfo().getLocation());
         }
     }

@@ -1,6 +1,7 @@
 package GameStates;
 
 import Entities.EntityManager;
+import FirstMinigame.Tiles.Tile;
 import MainG.Handler;
 
 /**
@@ -21,6 +22,8 @@ public abstract class World {
     public World(Handler handler){
         this.handler = handler;
     }
+    
+    public abstract Tile getTile(int x, int y);
     
     public abstract void update();
     public abstract void render(java.awt.Graphics2D g);

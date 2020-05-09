@@ -3,16 +3,11 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/Users/Omen/Documents/GitHub/ProyectoVideojuego/src/GameStates/MainLevel.java</file>
-            <file>file:/C:/Users/Omen/Documents/GitHub/ProyectoVideojuego/src/Entities/Creatures/MainPlayer.java</file>
-            <file>file:/C:/Users/Omen/Documents/GitHub/ProyectoVideojuego/src/MainLevel/WorldGenerator/WorldPlat.java</file>
-            <file>file:/C:/Users/Omen/Documents/GitHub/ProyectoVideojuego/src/SecondMinigame/WorldSpace.java</file>
-            <file>file:/C:/Users/Omen/Documents/GitHub/ProyectoVideojuego/src/FirstMinigame/Tiles/Tile.java</file>
-            <file>file:/C:/Users/Omen/Documents/GitHub/ProyectoVideojuego/src/Entities/Creatures/Character.java</file>
-            <file>file:/C:/Users/Omen/Documents/GitHub/ProyectoVideojuego/src/Entities/EntityManager.java</file>
-            <file>file:/C:/Users/Omen/Documents/GitHub/ProyectoVideojuego/src/GameStates/Level2State.java</file>
-            <file>file:/C:/Users/Omen/Documents/GitHub/ProyectoVideojuego/src/GameStates/GameStateManager.java</file>
-            <file>file:/C:/Users/Omen/Documents/GitHub/ProyectoVideojuego/src/FirstMinigame/WorldGenerator/WorldLibrary.java</file>
+            <file>file:/C:/Users/Raul/Desktop/VIDEOJUEGO/VERSION%20ACTUAL/ProyectoVideojuego/src/GameStates/World.java</file>
+            <file>file:/C:/Users/Raul/Desktop/VIDEOJUEGO/VERSION%20ACTUAL/ProyectoVideojuego/src/MainG/Window.java</file>
+            <file>file:/C:/Users/Raul/Desktop/VIDEOJUEGO/VERSION%20ACTUAL/ProyectoVideojuego/src/Entities/Creatures/Player.java</file>
+            <file>file:/C:/Users/Raul/Desktop/VIDEOJUEGO/VERSION%20ACTUAL/ProyectoVideojuego/src/Entities/Creatures/MainPlayer.java</file>
+            <file>file:/C:/Users/Raul/Desktop/VIDEOJUEGO/VERSION%20ACTUAL/ProyectoVideojuego/src/Entities/Creatures/Player_Joan.java</file>
         </group>
     </open-files>
 </project-private>

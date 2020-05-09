@@ -6,7 +6,12 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics2D;
 import MainG.Handler;
+import MainG.Window;
 import Tilemaps.*;
+import UI.ClickListener;
+import UI.UIImageButton;
+import UI.UIManager;
+import java.awt.image.BufferedImage;
 import tinysound.Music;
 import tinysound.Sound;
 
@@ -19,8 +24,12 @@ public class MenuState extends GameState{
 
     private int currentChoice = 0;
     public long lastPressedTime = 0;
-
+    
+    private Animation anm;
+    
     static final long minPressedDelay = 150;
+    
+    private UIManager uimanager;
 
     private String[] options = {
         "Start",
@@ -45,27 +54,36 @@ public class MenuState extends GameState{
         } catch (Exception e) {
             e.printStackTrace();
         }
+        uimanager= new UIManager(handler);
+        uimanager.addUIObject(new UIImageButton(100f,100f,100,100,Assets.Boss,new ClickListener() {
+            @Override
+            public void onClick() {
+                gsm.setState(2);
+            }
+        }));
+        anm=new Animation(100,Assets.backgroundMenu);
         init();
     }
 
     @Override
     public void update() {
         handleInput();
-        bg.update();
+        anm.update();
         musicControl();
+        uimanager.tick();
     }
 
-    @Override
     public void draw(Graphics2D g) {
 
-        // Dibuja el Background 
-        bg.draw(g);
-
+        g.drawImage(getCurrentFrame(), 0, 0,1080, 720,null);
         // Aplica colores al titulo del juego
         g.setColor(titleColor);
         g.setFont(titleFont);
         g.drawString("SIRVE", 270, 70);
-
+        g.drawString("x"+Window.mouse.getMouseX()+" y"+Window.mouse.getMouseY() ,Window.mouse.getMouseX(), Window.mouse.getMouseY());
+        if(Window.mouse.isLeftPressed()){
+            g.setColor(Color.blue);
+        }
         // Añade las opciones del menu
         g.setFont(font);
         for (int i = 0; i < options.length; i++) {
@@ -76,6 +94,8 @@ public class MenuState extends GameState{
             }
             g.drawString(options[i], 270, 160 + i * 15);
         }
+        
+        uimanager.render(g);
     }
 
     @Override
@@ -91,30 +111,33 @@ public class MenuState extends GameState{
         if (now - lastPressedTime < minPressedDelay) {
             return;
         }
-        if (handler.getGame().getKeyManager().up) {
+        if (Window.keyManager.up) {
             currentChoice--;
             menuUp.play();
             if (currentChoice < 0) {
                 currentChoice = 4;
             }
-        } else if (handler.getGame().getKeyManager().down) {
+        }
+        if (Window.keyManager.down) {
             currentChoice++;
             menuUp.play();
             if (currentChoice > 4) {
                 currentChoice = 0;
             }
-        } else if (handler.getGame().getKeyManager().space) {
+        }
+        if (Window.keyManager.space) {
             bgMusic.stop();
             gsm.setState(3);
         }
-        if (handler.getGame().getKeyManager().enter) {
+        if (Window.keyManager.enter) {
             bgMusic.stop();
             gsm.setState(2);
         }
-        if(handler.getGame().getKeyManager().test){
+        if (Window.keyManager.test) {
             bgMusic.stop();
             gsm.setState(1);
         }
+        
 
         lastPressedTime = now;
     }
@@ -122,6 +145,10 @@ public class MenuState extends GameState{
     @Override
     public void musicControl() {
 
+    }
+    
+    BufferedImage getCurrentFrame(){
+       return anm.getCurrentFrame();
     }
 
     @Override
