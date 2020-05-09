@@ -2,6 +2,7 @@ package MainLevel.WorldGenerator;
 
 import Entities.Creatures.MainPlayer;
 import Entities.EntityManager;
+import FirstMinigame.Tiles.Tile;
 import FirstMinigame.WorldGenerator.Util;
 import GameStates.GameState;
 import GameStates.World;
@@ -45,5 +46,10 @@ public class WorldPlat extends World {
 
     public void generateScenario(String path) {
         String file = Util.loadFileAsString(path);
+    }
+
+    @Override
+    public Tile getTile(int x, int y) {
+        return null;
     }
 }

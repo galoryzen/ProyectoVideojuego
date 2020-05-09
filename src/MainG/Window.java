@@ -2,6 +2,7 @@ package MainG;
 
 import GameStates.screenLoading;
 import Handlers.KeyManager;
+import Handlers.MouseManager;
 import java.awt.Dimension;
 import javax.swing.JFrame;
 /**
@@ -10,7 +11,8 @@ import javax.swing.JFrame;
  */
 public class Window extends JFrame {
 
-    public KeyManager keyManager;
+    public static KeyManager keyManager;
+    public static MouseManager mouse;
     
     /**
      * En el constructor de la ventana se le pasan las dimensiones como parametro
@@ -39,5 +41,9 @@ public class Window extends JFrame {
         //Se crea un keyManager para usarlo en el juego
         keyManager = new KeyManager();
         addKeyListener(keyManager);
+        mouse= new MouseManager();
+        addKeyListener(keyManager);
+        addMouseListener(mouse);
+        addMouseMotionListener(mouse);
     }
 }

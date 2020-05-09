@@ -24,6 +24,7 @@ public class EntityManager {
 
     //Comparador
     private Comparator<Entity> renderSorter = new Comparator<Entity>() {
+        @Override
         public int compare(Entity a, Entity b) {
             if (a.getY() + a.getHeight() < b.getY() + b.height) {
                 return -1;
@@ -39,7 +40,7 @@ public class EntityManager {
      */
     public EntityManager(Handler handler, GameState state) {
         this.handler = handler;
-        entities = new ArrayList<Entity>();
+        entities = new ArrayList();
         Entity player;
         if (state.getTag().equals("Level 3")) {
             nave = new Player(handler, this, 100, 100);
@@ -80,7 +81,7 @@ public class EntityManager {
         for (int i = 0; i < entities.size(); i++) {
             Entity e = entities.get(i);
             e.update();
-            if (!e.isActive() || e.getX() < -e.getWidth() - 20 || e.getX() > 1080 || e.getY() > 730 || e.getY() < -e.getHeight()) {
+            if ((!e.isActive() || e.getX() < -e.getWidth()|| e.getX() > 1080 || e.getY() > 730 || e.getY() < -e.getHeight()) && nave!=null) {
                 System.out.println("" + e);
                 entities.remove(e);
             }

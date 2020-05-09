@@ -1,6 +1,7 @@
 package SecondMinigame;
 
 import MainG.Handler;
+import MainG.Window;
 import Tilemaps.Assets;
 import java.awt.Color;
 import java.awt.Font;
@@ -82,15 +83,15 @@ public class DialogueLoader{
             case 4:
                 g.drawString("Con las Teclas AWSD te encargas de dirigir la nave, intenta moverte", 280, 575);
                 g.drawString("Yo te espero...", 280, 605);
-                if (handler.getKeyManager().down == true || handler.getKeyManager().up == true
-                        || handler.getKeyManager().right == true || handler.getKeyManager().left == true) {
+                if (Window.keyManager.down == true || Window.keyManager.up == true
+                        || Window.keyManager.right == true || Window.keyManager.left == true) {
                     tutorialState = 5;
                 }
                 break;
             case 5:
                 g.drawString("Excelente Katherine, ahora te enseñaremos a usar el Rayo Laser", 280, 575);
                 g.drawString("Simplemente presiona la Q, y ya dispara, y preparate para tu viaje", 280, 605);
-                if (handler.getKeyManager().space == true) {
+                if (Window.keyManager.space == true) {
                     tutorialState = 6;
                 }
                 break;

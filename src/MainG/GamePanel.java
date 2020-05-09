@@ -25,7 +25,6 @@ public class GamePanel extends JPanel implements Runnable {
     private Thread hiloPrinicipal;
 
     //KeyManager
-    public KeyManager keyManager;
     public Handler handler;
 
     //Camara
@@ -58,7 +57,6 @@ public class GamePanel extends JPanel implements Runnable {
         setFocusable(true);
         requestFocus();
         handler = new Handler(this);
-        keyManager = new KeyManager();
     }
     
     /**
@@ -138,7 +136,7 @@ public class GamePanel extends JPanel implements Runnable {
     public void gameUpdate() {
         UPS++;
         gsm.update();
-        keyManager.update();
+        Window.keyManager.update();
     }
 
     /**
@@ -165,10 +163,6 @@ public class GamePanel extends JPanel implements Runnable {
         gameCamera = new GameCamara(handler, 0, 0);
         gsm = new GameStateManager(handler, gameCamera);
         init();
-    }
-
-    public KeyManager getKeyManager() {
-        return keyManager;
     }
 
     public GameCamara getGameCamara() {
