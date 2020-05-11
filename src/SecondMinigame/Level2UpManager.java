@@ -49,10 +49,11 @@ public class Level2UpManager extends LevelUpManager {
             } else if (points >= 50 && !flag3) {
                 //Generacion del boss y solo quedan asteorides
                 phase = 3;
-                moveFasterBackground(state.getBg());
-                world.clearScreenEntities();
                 dialogueLoader.setDialogueMark();
+                moveFasterBackground(state.getBg());
                 flag3 = !flag3;
+                world.clearScreenEntities();
+                world.generateEnemys();
             }
         } else {
             finishLevel();

@@ -29,3 +29,30 @@ VERSION 1.4
 - Se añade la clase TutorialLoader que se encarga de cargar el Tutorial del nivel de SpaceInvaders.
 - Se dispondrá en un futuro a remplazar el ThreadPool implementado por nosotros, por el que trae Java con el Executor con fines de la sencillez del codigo.
 - Los archivos de Sonido se pasaran de manera WAV y no MP3, ademas de manejar Music como la Musica y Sound los sonidos.
+- Los archivos de Sonido se pasaran de manera WAV y no MP3, ademas de manejar Music como la Musica y Sound los sonidos.
+
+VERSION 1.5
+-Se realizó el HUD Funcional
+-Se agregaron 3 vidas al personaje
+-Se agrego una función que nos permite saltarnos el dialogo inicial presionando la tecla E
+
+VERSION 1.6
+-Se añaden los enemigos y el final boss
+-Se creó el atributo de Score, el cual va variando dependiendo del número de entidades que destruya
+-Se crearon 4 clases extra:
+ +La clase Boss, que es la entidad que representa al jefe final. Tiene el método Tackle, que practicamente es un ataque especial que hace que se desplace por la pantalla.
+ +La clase Pursoid, que es una entidad sencilla que se encarga de hostigar al jugador, siguiendolo.
+ +La clase LaserAlien, una entidad que se posa encima del jugador y comienza a disparar laser con daño muy elevado (No se ha puesto un cooldown para el daño, es decir, pegará demasiadas veces).
+-Se creó el atributo static GameTime, el cual, tomará como valor la duración de tiempo que el usuario empleó para llegar al GameState.
+-Falta implementacion para el nivel
+-Se necesita mejorar la detección de balas en función de los enemigos y sus choques con los asteroide
+
+VERSION 1.7
+-Se añaden otros enemigos y el boss final
+-Falta mejorara la detección de balas y corregir detalles
+
+VERSION 1.7b
+-Se añaden los sprites que no se añadieron en la version 1.7
+
+VERSION 1.7c
+-Se actualizó el changelog

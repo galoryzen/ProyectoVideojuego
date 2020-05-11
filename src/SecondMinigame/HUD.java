@@ -1,5 +1,4 @@
 package SecondMinigame;
-
 import Tilemaps.Assets;
 import java.awt.Graphics2D;
 import Entities.EntityManager;
@@ -17,27 +16,22 @@ public class HUD {
 
     public void render(Graphics2D g) {
         g.drawImage(Assets.asteroids, 10, 10, 46, 35, null);
-        switch (health) {
-            case 15:
-                g.drawImage(Assets.vida, 450, 10, 38, 45, null);
-                g.drawImage(Assets.vida, 420, 10, 38, 45, null);
-                g.drawImage(Assets.vida, 390, 10, 38, 45, null);
-                break;
-            case 10:
-                g.drawImage(Assets.vida, 420, 10, 38, 45, null);
-                g.drawImage(Assets.vida, 390, 10, 38, 45, null);
-                break;
-            case 5:
-                g.drawImage(Assets.vida, 390, 10, 38, 45, null);
-                break;
-            default:
-                break;
+        int par=0;
+        int impar=0;
+        for(int i=1;i<=manager.getPlayer().getHealth();i++){
+            if(i%2==0){
+                g.drawImage(Assets.vida,450+par*30,10,35,48, null);
+                par+=1;
+            }else{
+                g.drawImage(Assets.halfLife,460+impar*30,10,35,48, null);
+                impar+=1;
+            }
         }
         g.setColor(Color.yellow);
         g.drawString(Integer.toString(points), 65, 30);
-
     }
 
+    
     public static int getHealth() {
         return health;
     }

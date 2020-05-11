@@ -3,12 +3,17 @@ package Audio;
 import tinysound.Music;
 import tinysound.Sound;
 import tinysound.TinySound;
-
+/**
+ * Carga el audio que se va a usar en el videojuego.
+ * @version 1.1
+ */
 public class AudioLoader implements Runnable{
 
     public static Music damageAsteroid, damageEnemyShip, bgMusic, bgTalkMomentSpaceInvaders, bgMusicSpaceInvaders;
     public static Sound shot, upMenu;
-
+    /**
+     * Metodo que se hace al iniciar la clase.
+     */
     public static void init() {
         bgMusic = TinySound.loadMusic("/Music/menuMusic.wav");
         bgTalkMomentSpaceInvaders = TinySound.loadMusic("/Music/spaceMusicIntro.wav");

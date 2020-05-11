@@ -6,24 +6,28 @@ public class Assets implements Runnable{
 
     public static BufferedImage astronautTalker, pursoid, fondoMenu, fondoSpaceInvaders,
             spriteNina, naveOff, naveOn, naveSemiOff, asteroids, bullet, laser, LaserAlien, enemy,
-            vida, floor, library, BookPile,AutoMissil,charge,pursoidBullet;
+            vida, floor, library, BookPile,AutoMissil,charge,pursoidBullet,halfLife,playerStand;
 
-    public static SpriteSheet atlasMainLevel;
+    public static BufferedImage playerDown[] = new BufferedImage[2];
+    public static BufferedImage playerUp[] = new BufferedImage[3];
+    public static BufferedImage playerRight[] = new BufferedImage[2];
+    public static BufferedImage playerLeft[] = new BufferedImage[2];
     
-    public static BufferedImage playerDown[] = new BufferedImage[9];
-    public static BufferedImage playerUp[] = new BufferedImage[9];
-    public static BufferedImage playerRight[] = new BufferedImage[9];
-    public static BufferedImage playerLeft[] = new BufferedImage[9];
-   
     public static BufferedImage aerialEnemy[]= new BufferedImage[4];
     public static BufferedImage downEnemy[]= new BufferedImage[4];
     
     public static BufferedImage Boss[]= new BufferedImage[2];
     
+    public static BufferedImage backgroundMenu[]= new BufferedImage[60];
+    
 
     private static final int WIDHT = 131;
     private static final int HEIGHT = 110;
-
+	
+	/**
+     * El metodo init() de la clase assets carga todas las imagenes que necesitaremos para
+     * los minijuegos
+     */
     public static void init() {
         SpriteSheet sheet = new SpriteSheet(ImageLoader.loadImage("/Sprites/Tilesets/Sheet.png"));
         SpriteSheet DownEnemy= new SpriteSheet(ImageLoader.loadImage("/Tilesets/pursoidSprite.png"));
@@ -61,6 +65,10 @@ public class Assets implements Runnable{
             }
         }
         
+        for (int i = 1; i <= 54; i++) {
+            backgroundMenu [i]= ImageLoader.loadImage("/Backgrounds/frame-"+(i+1)+".gif");
+        }
+        
         for (int i = 0; i < 4; i++) {
             aerialEnemy[i]=AerialEnemy.crop(i*110, 0, 110,99);
         }
@@ -76,33 +84,42 @@ public class Assets implements Runnable{
         
         
         SpriteSheet sheetVida = new SpriteSheet(ImageLoader.loadImage("/Sprites/Tilesets/heatlhBar.png"));
-        SpriteSheet playerM = new SpriteSheet(ImageLoader.loadImage("/Tilesets/DudeSprite.png"));
+        SpriteSheet playerM = new SpriteSheet(ImageLoader.loadImage("/Sprites/Player/JoanSprite.png"));
         cargarJoan(playerM);
         vida = sheetVida.crop(0, 0, 125, 201);
+        halfLife=sheetVida.crop(266, 0, 125, 201);
         floor = ImageLoader.loadImage("/Testers/Floor.png");
         library = ImageLoader.loadImage("/Testers/library.png");
         naveSemiOff = ImageLoader.loadImage("/Player/naveSemi.png");
         BookPile = ImageLoader.loadImage("/Testers/BookPile.png");
-        atlasMainLevel = new SpriteSheet(ImageLoader.loadImage("/Tilesets/WorldPhase1.png"));
     }
-
+    
+    
+    /**
+     * Metodo para cargar el gif de Joan Clarke.
+     * @param sheet Sprite Sheet de Joan Clarke.
+     */
     public static void cargarJoan(SpriteSheet sheet) {
-        for (int i = 0; i < 4; i++) {
-            for (int k = 0; k < 9; k++) {
-                switch (i) {
-                    case 0:
-                        playerUp[k] = sheet.crop(64 * k, 64 * i, 64, 64);
-                        break;
-                    case 1:
-                        playerLeft[k] = sheet.crop(64 * k, 64 * i, 64, 64);
-                        break;
-                    case 2:
-                        playerDown[k] = sheet.crop(64 * k, 64 * i, 64, 64);
-                    case 3:
-                        playerRight[k] = sheet.crop(64 * k, 64 * i, 46, 64);
-                        break;
+        int j=0;
+        for (int i = 0; i < 12; i++) {
+            if(i<3){
+                playerUp[i]=sheet.crop(i*36, 0, 36, 36);
+            }else if(i<5){
+                playerDown[j]=sheet.crop(i*36, 0, 36, 36);
+                j++;
+            }else if(i<10 && i>7){
+                
+                playerLeft[j-2]=sheet.crop(i*36, 0, 36, 36);
+                j++;
+            }else if(i>9){
+                 
+                playerRight[j-4]=sheet.crop(i*36, 0, 36, 36);
+                j++;
+            }else{
+                switch(i){
+                    case 5:
+                        playerStand=sheet.crop(i*36, 0, 36, 36);
                 }
-
             }
         }
     }

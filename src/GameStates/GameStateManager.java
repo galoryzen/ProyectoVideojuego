@@ -2,7 +2,10 @@ package GameStates;
 
 import FirstMinigame.Level1UpManager;
 import MainG.Handler;
-
+/**
+ * La clase GameStateManager se encarga de la administracion de los niveles
+ * Es el que dice en que nivel se encuentra actualmente, en cual estado.
+ */
 public class GameStateManager {
 
     public Handler handler;

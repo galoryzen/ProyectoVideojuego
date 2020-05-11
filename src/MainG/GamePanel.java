@@ -12,22 +12,25 @@ import Tilemaps.Assets;
 import Handlers.KeyManager;
 import tinysound.TinySound;
 
+/**
+ * Es la clase esencial del juego, donde se inicializan la mayoría de cosas
+ * @version 1.0
+ */
 public class GamePanel extends JPanel implements Runnable {
-
+    //Dimensiones del game panel
     public static final int WIDTH_G = 1080;
     public static final int HEIGHT_G = 720;
 
-    // Hilo del  juego y Game Loop
+    //Hilo del  juego y Game Loop
     private Thread hiloPrinicipal;
 
-    // KeyManager
-    public KeyManager keyManager;
+    //KeyManager
     public Handler handler;
 
-    // Camara
+    //Camara
     private GameCamara gameCamera;
 
-    // Volatile permite solo ser usadara por un Hilo, no puede ser modificad simultaneamente por dos hilos.
+    //Volatile permite solo ser usadara por un Hilo, no puede ser modificad simultaneamente por dos hilos.
     private volatile boolean running = false;
     private static int UPS = 0;
     private static int FPS = 0;
@@ -35,14 +38,18 @@ public class GamePanel extends JPanel implements Runnable {
     final int PREFERED_UPS = 60; // Actualizacion por segundos deseads
     final double NANO_PER_UPS = NANO_POR_SEG / PREFERED_UPS; // Nanosegundos por actualizacion
 
-    // game state manager
+    //GameStateManager
     GameStateManager gsm;
 
-    // images
+    //Imagenes
     private BufferedImage image;
     private Graphics2D g;
 
-    // KeyListener
+    /**
+     * Se inicializa el GamePanel
+     * @param width Anchura del GamePanel
+     * @param height Altura del GamePanel
+     */
     public GamePanel(int width, int height) {
         super();
         setPreferredSize(new Dimension(width, height));
@@ -50,10 +57,11 @@ public class GamePanel extends JPanel implements Runnable {
         setFocusable(true);
         requestFocus();
         handler = new Handler(this);
-        keyManager = new KeyManager();
     }
-
-    // Funcion que se llama una vez que se cree el panel, para poder iniciar el juego
+    
+    /**
+     * Funcion que se llama una vez que se cree el panel, para poder iniciar el juego
+     */
     @Override
     public void addNotify() {
         super.addNotify();
@@ -72,7 +80,9 @@ public class GamePanel extends JPanel implements Runnable {
         }
     }
 
-    // Volatile pero para funciones 
+    /**
+     * Funcion para acabar el juego cuando el usuario pierde
+     */
     private synchronized void gameOver() {
         running = false;
     }
@@ -120,20 +130,26 @@ public class GamePanel extends JPanel implements Runnable {
         }
     }
 
-    // Actualizar los Frames
+    /**
+     * Metodo que actualiza los Frames
+     */
     public void gameUpdate() {
         UPS++;
         gsm.update();
-        keyManager.update();
+        Window.keyManager.update();
     }
 
-    // Dibujar en la memoria de video
+    /**
+     * Metodo que dibuja en la memoria de video
+     */
     public void gameDraw() {
         FPS++;
         gsm.draw(g);
     }
 
-    // Dibujar en pantalla
+    /**
+     * Metodo que dibuja en la pantalla
+     */
     public void gameDrawToScreen() {
         Graphics g2 = getGraphics();
         g2.drawImage(image, 0, 0, WIDTH_G, HEIGHT_G, null);
@@ -147,10 +163,6 @@ public class GamePanel extends JPanel implements Runnable {
         gameCamera = new GameCamara(handler, 0, 0);
         gsm = new GameStateManager(handler, gameCamera);
         init();
-    }
-
-    public KeyManager getKeyManager() {
-        return keyManager;
     }
 
     public GameCamara getGameCamara() {

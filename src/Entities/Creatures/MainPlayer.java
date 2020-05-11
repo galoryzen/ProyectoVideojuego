@@ -2,10 +2,12 @@ package Entities.Creatures;
 
 import Entities.EntityManager;
 import MainG.Handler;
+import MainG.Window;
 import Tilemaps.Assets;
 import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.Rectangle;
+import java.util.LinkedList;
 
 public class MainPlayer extends Character {
 
@@ -30,7 +32,7 @@ public class MainPlayer extends Character {
 
     public MainPlayer(Handler handler, EntityManager entityM, float x, float y) {
         super(handler, entityM, x, y, Creature.DEFAULT_CREATURE_WIDTH, Creature.DEFAULT_CREATUR_HEIGHT);
-        points = new LinkedList();
+        //points = new LinkedList();
         timePassed = System.currentTimeMillis();
 
         bounds.x = 40;
@@ -44,24 +46,24 @@ public class MainPlayer extends Character {
 
     @Override
     public void getInput() {
-        if (handler.getKeyManager().up) {
+        if (Window.keyManager.up) {
             if (!jumping && !falling) {
                 dy = 18;
                 jumping = true;
                 falling = false;
             }
         }
-        if (handler.getGame().getKeyManager().down) {
+        if (Window.keyManager.down) {
 
         }
-        if (handler.getGame().getKeyManager().left) {
+        if (Window.keyManager.left) {
             x -= dx;
         }
-        if (handler.getGame().getKeyManager().right) {
+        if (Window.keyManager.right) {
             x += dx;
         }
         // Running
-        if (handler.getGame().getKeyManager().test) {
+        if (Window.keyManager.test) {
             if (dx < 5) {
                 dx += 0.1;
             }
@@ -71,7 +73,7 @@ public class MainPlayer extends Character {
             }
         }
         // Time Travel
-        if (handler.getGame().getKeyManager().space) {
+        if (Window.keyManager.space) {
             Punto puntoO = punto;
             if(punto == null){
                 System.out.println("HABILIDAD NO LISTA");

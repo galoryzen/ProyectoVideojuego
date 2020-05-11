@@ -15,7 +15,6 @@ import tinysound.Music;
  *
  * @author German David
  */
-
 public class Asteroid extends Creature {
 
     private HUD hud;
@@ -77,7 +76,7 @@ public class Asteroid extends Creature {
                         }
                     } else {
                         if (!(e instanceof Enemy)) {
-                             e.hurt(5);
+                            e.hurt(1);
                             hud.setPoint(hud.getPoint() + 1);
                             asteroidDamage.play(false);
                             this.setActive(false);

@@ -24,6 +24,7 @@ public class EntityManager {
 
     //Comparador
     private Comparator<Entity> renderSorter = new Comparator<Entity>() {
+        @Override
         public int compare(Entity a, Entity b) {
             if (a.getY() + a.getHeight() < b.getY() + b.height) {
                 return -1;
@@ -31,10 +32,15 @@ public class EntityManager {
             return 1;
         }
     };
-
+    
+    /**
+     * Constructor de la clase Entity Manager.
+     * @param handler Handler del EntityManager.
+     * @param state El State del Entity Manager
+     */
     public EntityManager(Handler handler, GameState state) {
         this.handler = handler;
-        entities = new ArrayList<Entity>();
+        entities = new ArrayList();
         Entity player;
         if (state.getTag().equals("Level 3")) {
             nave = new Player(handler, this, 100, 100);
@@ -48,23 +54,34 @@ public class EntityManager {
         }
         addEntity(player);
     }
-
+    
+    /**
+     * Constructor que solo recibe Handler.
+     * @param handler Handler del entity manager.
+     */
     public EntityManager(Handler handler) {
         this.handler = handler;
         entities = new ArrayList<Entity>();
     }
-
+    
+    /**
+     * Metodo que renderiza la entidad.
+     * @param g graficos
+     */
     public void render(Graphics2D g) {
         for (Entity e : entities) {
             e.render(g);
         }
     }
-
+    
+    /**
+     * Metodo que actualiza todas las entidades del videojuego.
+     */
     public void update() {
         for (int i = 0; i < entities.size(); i++) {
             Entity e = entities.get(i);
             e.update();
-            if (!e.isActive() || e.getX() < -e.getWidth() - 20 || e.getX() > 1080 || e.getY() > 730 || e.getY() < -e.getHeight()) {
+            if ((!e.isActive() || e.getX() < -e.getWidth()|| e.getX() > 1080 || e.getY() > 730 || e.getY() < -e.getHeight()) && nave!=null) {
                 System.out.println("" + e);
                 entities.remove(e);
             }
@@ -72,6 +89,7 @@ public class EntityManager {
         entities.sort(renderSorter);
     }
 
+    //GETTERS AND SETTERS
     public int getScore() {
         return Score;
     }
@@ -88,7 +106,6 @@ public class EntityManager {
         entities.remove(e);
     }
 
-    //GETTERS AND SETTERS
     public Handler getHandler() {
         return handler;
     }

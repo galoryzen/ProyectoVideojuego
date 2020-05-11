@@ -28,10 +28,6 @@ public class Handler {
     public int getHeight(){
         return game.getHeight();
     }
-    
-    public KeyManager getKeyManager(){
-        return game.getKeyManager();
-    }
 
     public GamePanel getGame() {
         return game;

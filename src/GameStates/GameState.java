@@ -1,7 +1,10 @@
 package GameStates;
 
 import MainG.Handler;
-
+/**
+ * La clase GameState es la clase estado, es el concepto y de esta
+ * heredan los states. Heredan las funciones, el handler y el manager.
+ */
 public abstract class GameState{
 
     protected GameStateManager gsm;
@@ -9,6 +12,10 @@ public abstract class GameState{
     protected World world;
     protected String levelTag;
     
+    /**
+     * Constructor del GameState.
+     * @param gsm Cada GameState debe tener un GameStateManager.
+     */
     public GameState(GameStateManager gsm){
         this.gsm = gsm;
     }

@@ -5,6 +5,7 @@ import Entities.EntityManager;
 import Entities.Items.Bullet;
 import Tilemaps.Assets;
 import MainG.Handler;
+import MainG.Window;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
@@ -26,7 +27,14 @@ public class Player extends Character {
 
     public int i = 0;
     private long timerAnimation = 0;
-
+    
+    /**
+     * Constructor de player.
+     * @param handler Handler del player.
+     * @param manager EntityManager del player.
+     * @param x Coordenada en X del player.
+     * @param y Coordenada en Y del player.
+     */
     public Player(Handler handler, EntityManager manager, float x, float y) {
         super(handler, manager, x, y, Creature.DEFAULT_CREATURE_WIDTH, Creature.DEFAULT_CREATUR_HEIGHT);
         
@@ -36,8 +44,9 @@ public class Player extends Character {
         bounds.y = 10;
         bounds.width = 160;
         bounds.height = 60;
-        
-        this.setHealth(15);
+        this.setSpeed(5);
+        //Solo vidas pares si no quieren que aparezca una vida a la mitad
+        this.setHealth(6);
         naveStates[0] = Assets.naveOn;
         naveStates[1] = Assets.naveSemiOff;
         naveStates[2] = Assets.naveOff;
@@ -50,45 +59,54 @@ public class Player extends Character {
         move();
 
     }
-
+    
+    /**
+     * Metodo encargado del movimiento del personaje.
+     */
     @Override
     public void move() {
 
         x += Xmove;
-        if (x + bounds.width < 0) {
-            x = -bounds.width;
+        //Limite Lateral Izquierdo
+        if (x < -bounds.width/2  ) {
+            x = -bounds.width/2;
         }
+        //Limite Lateral Derecho
         if (x + bounds.width > handler.getGame().getWidth()) {
             x = handler.getGame().getWidth() - bounds.width;
         }
         y += Ymove;
+        //Limite Superior
         if (y < -bounds.height) {
             y = -bounds.height + 1;
         }
+        //Limite Inferior
         if (y + bounds.height > handler.getGame().getHeight()) {
             y = handler.getGame().getHeight() - bounds.height;
         }
     }
-
+    //Metodo que transforma los input del teclado en movimiento del jugador
     @Override
     public void getInput() {
 
         Xmove = 0;
         Ymove = 0;
 
-        if (handler.getGame().getKeyManager().up) {
+        if (Window.keyManager.up) {
             Ymove = -speed;
         }
-        if (handler.getGame().getKeyManager().down) {
+
+        if (Window.keyManager.down) {
             Ymove = speed;
         }
-        if (handler.getGame().getKeyManager().right) {
+
+        if (Window.keyManager.right) {
             Xmove = speed;
         }
-        if (handler.getGame().getKeyManager().left) {
+        if (Window.keyManager.left) {
             Xmove = -speed;
         }
-        if (handler.getGame().getKeyManager().space && canShoot(clock - now)) {
+        if (Window.keyManager.space && canShoot(clock - now)) {
             shot.play();
             manager.addEntity(new Bullet(handler, manager, this.getX() + this.getWidth() / 1.3f, this.getY() + this.getHeight() / 3.3f, 100, 100, this));
         }

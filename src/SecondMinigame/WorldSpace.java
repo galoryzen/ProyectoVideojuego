@@ -7,6 +7,7 @@ import Entities.Creatures.DownEnemy;
 import Entities.Creatures.Player;
 import Entities.Entity;
 import Entities.EntityManager;
+import FirstMinigame.Tiles.Tile;
 import GameStates.World;
 import MainG.Handler;
 import java.awt.Graphics2D;
@@ -46,7 +47,7 @@ public class WorldSpace extends World {
                 }
             }
         } else {
-            if (managerL.getPhase() == 3) {
+            if (managerL.getPhase() == 3 && generateEnemys) {
                 generateBoss();
             }
         }
@@ -101,7 +102,7 @@ public class WorldSpace extends World {
 
     public void generateBoss() {
         if (!e3) {
-            boss = new Boss(handler, manager, 450, 60, 65, 21);
+            boss = new Boss(handler, manager, 450, 60, 65, 21, this.hud);
             manager.addEntity(boss);
             e3 = !e3;
         }
@@ -125,6 +126,11 @@ public class WorldSpace extends World {
 
     public void setLevelUpManager(Level2UpManager managerL) {
         this.managerL = managerL;
+    }
+
+    @Override
+    public Tile getTile(int x, int y) {
+        return null;
     }
 
 }
