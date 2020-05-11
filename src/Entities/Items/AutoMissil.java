@@ -20,36 +20,39 @@ import java.awt.Rectangle;
  *
  * @author German David
  */
-public class AutoMissil extends Entity{
+public class AutoMissil extends Entity {
 
     private int bulletSpeed;
     //Puntos de la nave y el jugador
-    private int xo,yo,yp,xp, m;
-    
+    private int xo, yo, yp, xp, m;
+
     private int Xmove, Ymove;
-    
+
     public AutoMissil(Handler handler, EntityManager manager, float x, float y) {
         super(handler, manager, x, y, 30, 15);
-        
-        bulletSpeed=1;
-        
-        xo=(int) this.getX();
-        yo=(int) this.getY();
-        yp=(int) manager.getPlayer().getY();
-        xp=(int) manager.getPlayer().getX();
-        m=(int) ((yo-yp)/(xo-xp));
-        
+
+        bulletSpeed = 1;
+
+        xo = (int) this.getX();
+        yo = (int) this.getY();
+        yp = (int) manager.getPlayer().getY();
+        xp = (int) manager.getPlayer().getX();
+        if ((xo - xp) != 0) {
+            m = (int) ((yo - yp) / (xo - xp));
+        }
+        //Division 0
+
         this.setHealth(1);
-        
-        bounds.x=0;
-        bounds.y=0;
-        bounds.width=30;
-        bounds.height=15;
+
+        bounds.x = 0;
+        bounds.y = 0;
+        bounds.width = 30;
+        bounds.height = 15;
     }
 
     @Override
     public void die() {
-        
+
     }
 
     @Override
@@ -60,37 +63,37 @@ public class AutoMissil extends Entity{
 
     @Override
     public void render(Graphics2D g) {
-        g.drawImage(Assets.bullet, (int)x, (int)y, null);
+        g.drawImage(Assets.bullet, (int) x, (int) y, null);
     }
-    
-    private void move(){
+
+    private void move() {
         movex();
         movey();
-        x+=Xmove;
-        y+=Ymove;
-        
+        x += Xmove;
+        y += Ymove;
+
     }
-    
-    public void movey(){
-        if(y>manager.getPlayer().getY()+ manager.getPlayer().getHeight()/2){
-            Ymove=-bulletSpeed;
-        }else if(y<manager.getPlayer().getY()+ manager.getPlayer().getHeight()/2){
-            Ymove=bulletSpeed;
-        }else{
-            Ymove=0;
+
+    public void movey() {
+        if (y > manager.getPlayer().getY() + manager.getPlayer().getHeight() / 2) {
+            Ymove = -bulletSpeed;
+        } else if (y < manager.getPlayer().getY() + manager.getPlayer().getHeight() / 2) {
+            Ymove = bulletSpeed;
+        } else {
+            Ymove = 0;
         }
     }
-    
-    public void movex(){
-        if(x>manager.getPlayer().getX()+ manager.getPlayer().getWidth()/2){
-            Xmove=-bulletSpeed;
-        }else if(x<manager.getPlayer().getX()+ manager.getPlayer().getWidth()/2){
-            Xmove=bulletSpeed;
-        }else{
-            Xmove=0;
+
+    public void movex() {
+        if (x > manager.getPlayer().getX() + manager.getPlayer().getWidth() / 2) {
+            Xmove = -bulletSpeed;
+        } else if (x < manager.getPlayer().getX() + manager.getPlayer().getWidth() / 2) {
+            Xmove = bulletSpeed;
+        } else {
+            Xmove = 0;
         }
     }
-    
+
     public void checkAttacks() {
         Rectangle cb = getCollisionBounds();
         for (Entity e : manager.getEntities()) {
@@ -103,7 +106,5 @@ public class AutoMissil extends Entity{
             }
         }
     }
-    
-    
-    
+
 }
