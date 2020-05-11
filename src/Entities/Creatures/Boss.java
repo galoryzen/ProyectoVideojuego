@@ -9,6 +9,7 @@ import Entities.Entity;
 import Entities.EntityManager;
 import Entities.Items.AutoMissil;
 import MainG.Handler;
+import SecondMinigame.HUD;
 import Tilemaps.Animation;
 import Tilemaps.Assets;
 import java.awt.Color;
@@ -21,7 +22,7 @@ import java.awt.image.BufferedImage;
  *
  * @author German David
  */
-public class Boss extends Creature {
+public class Boss extends Enemy {
 
     private long now = 0, last = 0, GameTime;
     private int TackleSpeed = 20, TackleCooldown = 10000;
@@ -29,9 +30,10 @@ public class Boss extends Creature {
     private boolean tackling = false;
     private int summonNumber = 2;
     private Animation anm;
+    private HUD hud;
 
-    public Boss(Handler handler, EntityManager manager, float x, float y, int width, int height) {
-        super(handler, manager, x, y, width, height);
+    public Boss(Handler handler, EntityManager manager, float x, float y, int width, int height, HUD hud) {
+        super(handler, manager, x, y, width, height, hud);
 
         last = System.currentTimeMillis();
         this.setHealth(300);
@@ -75,7 +77,7 @@ public class Boss extends Creature {
             g.drawImage(Assets.charge,(int)x, (int)y, bounds.width, bounds.height, null);
         //Health bar
         g.setColor(Color.red);
-        g.fillRect(20, 20, this.getHealth()*5, 20);
+        g.fillRect(20, 50, (int) (this.getHealth()*3.5), 20);
         
     }
 

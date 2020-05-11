@@ -47,7 +47,7 @@ public class WorldSpace extends World {
                 }
             }
         } else {
-            if (managerL.getPhase() == 3) {
+            if (managerL.getPhase() == 3 && generateEnemys) {
                 generateBoss();
             }
         }
@@ -102,7 +102,7 @@ public class WorldSpace extends World {
 
     public void generateBoss() {
         if (!e3) {
-            boss = new Boss(handler, manager, 450, 60, 65, 21);
+            boss = new Boss(handler, manager, 450, 60, 65, 21, this.hud);
             manager.addEntity(boss);
             e3 = !e3;
         }
