@@ -6,6 +6,7 @@ import Entities.Creatures.Player_Joan;
 import GameStates.GameState;
 import MainG.Handler;
 import java.awt.Graphics2D;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Comparator;
 
@@ -13,7 +14,7 @@ import java.util.Comparator;
  *
  * @author German David
  */
-public class EntityManager {
+public class EntityManager implements Serializable{
 
     private Handler handler;
     private Player nave;
@@ -82,7 +83,6 @@ public class EntityManager {
             Entity e = entities.get(i);
             e.update();
             if ((!e.isActive() || e.getX() < -e.getWidth()|| e.getX() > 1080 || e.getY() > 730 || e.getY() < -e.getHeight()) && nave!=null) {
-                System.out.println("" + e);
                 entities.remove(e);
             }
         }

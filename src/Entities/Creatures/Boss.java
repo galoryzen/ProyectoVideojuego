@@ -70,28 +70,30 @@ public class Boss extends Enemy {
 
     public void render(Graphics2D g) {
         g.setColor(Color.red);
-        if(tackling==false)
-        g.drawImage(getCurrentFrameAnimation(),(int)x, (int)y, bounds.width, bounds.height, null);
-          else
-            g.drawImage(Assets.charge,(int)x, (int)y, bounds.width, bounds.height, null);
+        if (tackling == false) {
+            g.drawImage(getCurrentFrameAnimation(), (int) x, (int) y, bounds.width, bounds.height, null);
+        } else {
+            g.drawImage(Assets.charge, (int) x, (int) y, bounds.width, bounds.height, null);
+        }
         //Health bar
         g.setColor(Color.red);
-        g.fillRect(20, 50, (int) (this.getHealth()*3.5), 20);
-        
+        g.fillRect(20, 50, (int) (this.getHealth() * 3.5), 20);
+
     }
 
     @Override
-    public void move(){
-        now+=System.currentTimeMillis()-last;
-        last=System.currentTimeMillis();
-        
-        if(now>TackleCooldown){
+    public void move() {
+        now += System.currentTimeMillis() - last;
+        last = System.currentTimeMillis();
+
+        if (now > TackleCooldown) {
             tackle();
-        }else{
+        } else {
             moveY();
-            y+=Ymove;
-            if(x>980)
-                x-=speed;
+            y += Ymove;
+            if (x > 980) {
+                x -= speed;
+            }
         }
     }
 
@@ -105,59 +107,62 @@ public class Boss extends Enemy {
         }
     }
 
-    private void checkAttacks(){
-        
-        attackTimer+= System.currentTimeMillis()-lastAttackTimer;
-        lastAttackTimer= System.currentTimeMillis();
-        if(attackTimer <attackCooldown)
-            //No hace lo de abajo
+    private void checkAttacks() {
+
+        attackTimer += System.currentTimeMillis() - lastAttackTimer;
+        lastAttackTimer = System.currentTimeMillis();
+        if (attackTimer < attackCooldown) //No hace lo de abajo
+        {
             return;
-        
-        
-            shoot();
-        
+        }
+
+        shoot();
+
         Rectangle cb = getCollisionBounds();
-        
-        attackTimer=0;
-        
-        for (Entity e :manager.getEntities()) { 
-            if(!e.equals(this)){
-                 if(e.getCollisionBounds().intersects(cb) && !(e instanceof AutoMissil)){
-                     if(tackling)
+
+        attackTimer = 0;
+
+        for (Entity e : manager.getEntities()) {
+            if (!e.equals(this)) {
+                if (e.getCollisionBounds().intersects(cb) && !(e instanceof AutoMissil)) {
+                    if (tackling) {
                         e.hurt(3);
-                        else
-                         e.hurt(1);
+                    } else {
+                        e.hurt(1);
+                    }
                 }
-           }
+            }
         }
     }
-    public void tackle(){
-        
-        tackling=true;
-        
-        if(x>-50){
-            x-=TackleSpeed;
-        }else{
+
+    public void tackle() {
+
+        tackling = true;
+
+        if (x > -50) {
+            x -= TackleSpeed;
+        } else {
             System.out.println("llegó");
             setX(1050);
-            tackling=false;
-            now=0;
+            tackling = false;
+            now = 0;
         }
     }
 
-    private void shoot(){     
-        for (int i = 1; i <= this.getSummonNumber(); i++) {    
-            if(i%2==0)
-                manager.addEntity(new AutoMissil(handler,manager,this.getX(),this.getY()+20*i));
-            else if(i%2!=0)
-                manager.addEntity(new AutoMissil(handler,manager,this.getX(),this.getY()-20*i));
+    private void shoot() {
+        for (int i = 1; i <= this.getSummonNumber(); i++) {
+            if (i % 2 == 0) {
+                manager.addEntity(new AutoMissil(handler, manager, this.getX(), this.getY() + 20 * i));
+            } else if (i % 2 != 0) {
+                manager.addEntity(new AutoMissil(handler, manager, this.getX(), this.getY() - 20 * i));
+            }
         }
     }
 
-    private BufferedImage getCurrentFrameAnimation(){
+    private BufferedImage getCurrentFrameAnimation() {
         return anm.getCurrentFrame();
     }
-    
+
     public void setX(float x) {
         this.x = x;
     }
