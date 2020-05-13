@@ -40,7 +40,6 @@ public class LaserAlien extends Creature {
 
     @Override
     public void die() {
-
     }
 
     @Override

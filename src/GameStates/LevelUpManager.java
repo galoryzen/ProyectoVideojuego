@@ -17,6 +17,7 @@ public abstract class LevelUpManager {
     public void setWorld(WorldSpace world){
         this.world = world;
     }
+    
     public void setDialogueLoader(DialogueLoader dialogueLoader){
         this.dialogueLoader = dialogueLoader;
     }

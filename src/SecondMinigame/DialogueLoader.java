@@ -28,7 +28,6 @@ public class DialogueLoader {
         if (dialogueMark) {
             timeAnimation++;
             g.setFont(textFont);
-
             g.drawImage(Assets.astronautTalker, 25, 470, 995, 189, null);
             g.setColor(Color.black);
             if (info == 0) {
@@ -61,7 +60,6 @@ public class DialogueLoader {
                 if (Window.keyManager.enter && timeAnimation >= timeAnimationMark) {
                     tutorialState = 2;
                     timeAnimation = 0;
-
                 }
                 break;
             case 2:
@@ -168,5 +166,9 @@ public class DialogueLoader {
 
     public int getInfo() {
         return info;
+    }
+    
+    public void setInfo(int info){
+        this.info = info;
     }
 }

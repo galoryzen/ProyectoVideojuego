@@ -40,12 +40,22 @@ public class MainLevel extends GameState{
 
     @Override
     public void musicControl() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+
     }
 
     @Override
     public World getWorld() {
         return world;
+    }
+
+    @Override
+    public void getInsertData() {
+
+    }
+
+    @Override
+    public void getLoadData() {
+
     }
     
 }

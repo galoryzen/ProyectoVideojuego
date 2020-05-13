@@ -52,7 +52,6 @@ public class AutoMissil extends Entity {
 
     @Override
     public void die() {
-
     }
 
     @Override
@@ -106,5 +105,4 @@ public class AutoMissil extends Entity {
             }
         }
     }
-
 }
