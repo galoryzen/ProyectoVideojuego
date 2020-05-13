@@ -96,7 +96,7 @@ public class DownEnemy extends Enemy {
             if (!e.equals(this) && !(e instanceof Asteroid)) {
                 if (e.getCollisionBounds().intersects(cb)) {
                     System.out.println("Me pego");
-                    e.hurt(5);
+                    e.hurt(3);
                     return;
                 }
             }

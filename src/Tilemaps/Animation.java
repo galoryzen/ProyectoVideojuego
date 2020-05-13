@@ -6,6 +6,7 @@ import java.awt.image.BufferedImage;
  *
  * @author German David
  */
+
 public class Animation {
     private int speed,index;
     long lastTime,timer;

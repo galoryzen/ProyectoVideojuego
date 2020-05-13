@@ -16,7 +16,6 @@ import java.awt.Graphics2D;
  *
  * @author German David, Isaac Blanco
  */
-
 public class WorldSpace extends World {
 
     private EntityManager manager;
@@ -30,7 +29,7 @@ public class WorldSpace extends World {
     private boolean e1 = false, e2 = false, generateEnemys = false, e3 = false;
 
     public WorldSpace(EntityManager manager, Handler handler) {
-        super(handler,manager);
+        super(handler, manager);
         this.handler = handler;
         this.manager = manager;
     }
@@ -38,16 +37,16 @@ public class WorldSpace extends World {
     @Override
     public void update() {
         int j = 0;
-        if (generateEnemys && managerL.getPhase() != 3) {
-            generateAsteroids(j);
-            if (managerL.getPhase() == 1 || managerL.getPhase() == 2) {
-                generateEnemy1();
-                if (managerL.getPhase() == 2) {
-                    generateEnemy2();
+        if (generateEnemys) {
+            if (managerL.getPhase() != 3) {
+                generateAsteroids(j);
+                if (managerL.getPhase() == 1 || managerL.getPhase() == 2) {
+                    generateEnemy1();
+                    if (managerL.getPhase() == 2) {
+                        generateEnemy2();
+                    }
                 }
-            }
-        } else {
-            if (managerL.getPhase() == 3 && generateEnemys) {
+            } else {
                 generateBoss();
             }
         }
@@ -124,6 +123,14 @@ public class WorldSpace extends World {
         }
     }
 
+    public boolean isBossAlive() {
+        return boss.isActive();
+    }
+
+    public Boss getBoss(){
+        return boss;
+    }
+    
     public void setLevelUpManager(Level2UpManager managerL) {
         this.managerL = managerL;
     }

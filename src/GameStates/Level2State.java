@@ -13,7 +13,6 @@ import SecondMinigame.Level2UpManager;
 import SecondMinigame.DialogueLoader;
 import SecondMinigame.WorldSpace;
 import Tilemaps.Assets;
-import java.awt.MouseInfo;
 import tinysound.Music;
 
 public class Level2State extends GameState {
@@ -27,11 +26,12 @@ public class Level2State extends GameState {
 
     private Level2UpManager levelManager;
     public KeyManager teclas;
-    private Player nave;
     private EntityManager entityManager;
 
     private boolean ya = true;
     private float volume = 0.3f;
+    private long timePassed;
+    private long timeDeltaTime;
 
     public Level2State(GameStateManager gsm, Handler handler, String tag) {
         super(gsm);
@@ -43,15 +43,16 @@ public class Level2State extends GameState {
         } catch (Exception e) {
             System.out.print(e);
         }
-        entityManager = new EntityManager(handler,this);
+        entityManager = new EntityManager(handler, this);
         dialogueLoader = new DialogueLoader(handler);
         world = new WorldSpace(entityManager, handler);
         hud = new HUD(entityManager);
-        levelManager = new Level2UpManager(this, hud, world, dialogueLoader);
+        levelManager = new Level2UpManager(this, hud, world, dialogueLoader, entityManager);
         world.setHUD(hud);
         world.setLevelUpManager(levelManager);
         bgTalkMusic = AudioLoader.bgTalkMomentSpaceInvaders;
         bgMusic = AudioLoader.bgMusicSpaceInvaders;
+        timePassed = System.currentTimeMillis();
     }
 
     @Override
@@ -61,14 +62,16 @@ public class Level2State extends GameState {
 
     @Override
     public void update() {
+        // Iniciar el menu de pausa
+        if (Window.keyManager.pause) {
+            pauseState();
+        }
         musicControl();
         bg.update();
         hud.update();
         world.update();
         levelManager.update(hud.getPoint(), hud.getHealth());
-        if (Window.keyManager.enter) {
-            System.out.println(MouseInfo.getPointerInfo().getLocation());
-        }
+
     }
 
     @Override
@@ -94,10 +97,36 @@ public class Level2State extends GameState {
     public Background getBg() {
         return bg;
     }
-    
+
     @Override
-    public World getWorld(){
+    public World getWorld() {
         return world;
     }
 
+    public void setGameFinished() {
+        // Finaliza el juego y devuelve al nivel prinicipal, se espera cambiar el setState, por el reloadState, puesto que por medio de ese se accede a este
+        gsm.setState(1);
+    }
+
+    // Se verifica si el usuario presiono la letra P, para iniciar un menu de Pausa.
+    private void pauseState() {
+        timeDeltaTime = System.currentTimeMillis() - timePassed;
+        if (timeDeltaTime > 2000) { // Deley Tecla
+            timePassed = System.currentTimeMillis();
+            gsm.reloadState(4); // Se recarga el state, porque ya esta creado
+            gsm.getGameStates()[4].init(); // Se inicia su contador para el delay de la tecla P
+        }
+    }
+
+    // Indica al levelManager, en este caso, el encargado de Loader y Rellenar el TXT, de rellenar sus datos.
+    @Override
+    public void getInsertData() {
+        levelManager.insertData();
+    }
+
+    // Indica al levelManager, en este caso, el encargado de Loader y Rellenar el TXT, de cargarlo.
+    @Override
+    public void getLoadData() {
+        levelManager.loadData();
+    }
 }

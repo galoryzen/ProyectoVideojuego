@@ -6,7 +6,6 @@ import Entities.Items.Bullet;
 import Tilemaps.Assets;
 import MainG.Handler;
 import MainG.Window;
-import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 import tinysound.Sound;

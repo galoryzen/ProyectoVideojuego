@@ -55,4 +55,14 @@ public class Level1State extends GameState implements Runnable {
     public World getWorld(){
         return world;
     }
+
+    @Override
+    public void getInsertData() {
+
+    }
+
+    @Override
+    public void getLoadData() {
+
+    }
 }

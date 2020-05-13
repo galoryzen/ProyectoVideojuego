@@ -1,10 +1,10 @@
-BETA
+Beta:
 -Readme.md para el inicio del proyecto
 
-VERSION 1.0
+Version 1.0
 -Se realizó el modelo del videojuego y se añadieron las primeras clases el GameLoop y la ventana del juego.
 
-VERSION 1.1
+Version 1.1
 - Se realizó la implementación de los threads al programa
 - Completada la organizacion del juego
 - Añadido folder de Recursos ( Imagenes, sonidos...)
@@ -15,12 +15,12 @@ VERSION 1.1
 - Trabajar sobre Level1State
 - En la siguiente version se comenta todo
 
-VERSION 1.2
+Version 1.2
 - Se realizó una nueva configuración para los KeyListeners y el audio
 - Se realizó la estructura base de los minijuegos posteriores
 - Se añadió un menu con musica
 
-VERSION 1.3
+Version 1.3
 - Fusionado las implementacion para terminar de una manera general el croquis del primer nivel
 - Se añade Handlers, Entity y su Manager, balas y personajes, además de modificar el KeyListener
  
@@ -28,6 +28,7 @@ VERSION 1.4
 - Se remplaza la parte de Audio por motivos de usar mucha memoria, creando 3 Hilos "Audio Clip" que retrasan por el programa, se usa ahora una libreria llamada TinySounde de finnkuusisto : https://github.com/finnkuusisto/TinySound
 - Se añade la clase TutorialLoader que se encarga de cargar el Tutorial del nivel de SpaceInvaders.
 - Se dispondrá en un futuro a remplazar el ThreadPool implementado por nosotros, por el que trae Java con el Executor con fines de la sencillez del codigo.
+- Los archivos de Sonido se pasaran de manera WAV y no MP3, ademas de manejar Music como la Musica y Sound los sonidos.
 - Los archivos de Sonido se pasaran de manera WAV y no MP3, ademas de manejar Music como la Musica y Sound los sonidos.
 
 VERSION 1.5

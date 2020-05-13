@@ -2,9 +2,9 @@ package GameStates;
 
 import FirstMinigame.Level1UpManager;
 import MainG.Handler;
+
 /**
- * La clase GameStateManager se encarga de la administracion de los niveles
- * Es el que dice en que nivel se encuentra actualmente, en cual estado.
+ * La clase GameStateManager se encarga de la administracion de los niveles Es el que dice en que nivel se encuentra actualmente, en cual estado.
  */
 public class GameStateManager {
 
@@ -13,14 +13,15 @@ public class GameStateManager {
     public static final int NUMGAMESTATE = 5;
     private static GameState[] gameStates;
     private int currentState;
-    private LevelUpManager levelManager;
     private static GameCamara gameCamera;
-    private World world;
 
     private final int MENUSTATE = 0;
     private final int MAINLEVELSTATE = 1;
     private final int LEVEL1STATE = 2;
     private final int LEVEL2STATE = 3;
+    private final int PAUSESTATE = 4;
+
+    private int previousState;
 
     public GameStateManager(Handler handler, GameCamara gameCamara) {
         this.handler = handler;
@@ -37,6 +38,12 @@ public class GameStateManager {
         loadState(currentState);
     }
 
+    // A diferencia del setState, este carga un State ya creado, no lo vuelve este nulo ni lo crea, de manera que puede acceder desde el menu de Pausa o el menu.
+    public void reloadState(int state) {
+        previousState = currentState;
+        currentState = state;
+    }
+
     public void unloadState(int state) {
         gameStates[state] = null;
     }
@@ -46,12 +53,13 @@ public class GameStateManager {
         switch (state) {
             case MENUSTATE:
                 gameStates[state] = new MenuState(this, this.handler);
+                gameStates[PAUSESTATE] = new PauseState(this, this.handler);
                 break;
             case MAINLEVELSTATE:
-                gameStates[state] = new MainLevel(this, this.handler,"Level 1");
+                gameStates[state] = new MainLevel(this, this.handler, "Level 1");
                 break;
             case LEVEL1STATE:
-                gameStates[state] = new Level1State(this, this.handler,"Level 2");
+                gameStates[state] = new Level1State(this, this.handler, "Level 2");
                 break;
             case LEVEL2STATE:
                 gameStates[state] = new Level2State(this, handler, "Level 3");
@@ -70,6 +78,15 @@ public class GameStateManager {
         return currentState;
     }
 
+    public GameState[] getGameStates() {
+        return gameStates;
+    }
+
+    // Guarda el estado del nivel anterior, para guardar en caso de salirse del juego o del menu de pausa
+    public int getPreviousState() {
+        return previousState;
+    }
+
     public World getWorld() {
         switch (currentState) {
             case 1: {
@@ -84,6 +101,15 @@ public class GameStateManager {
                 Level2State state = (Level2State) gameStates[currentState];
                 return state.getWorld();
             }
+        }
+    }
+
+    // Se encarga de verificar, si en el TXT de guardado, en la primera linea esta vacia, lo que indica que el juego es la primera vez que se inicia
+    boolean VerificarReinicioJuego(int state) {
+        if(gameStates[state] == null){
+            return true;
+        }else{
+            return false;
         }
     }
 }

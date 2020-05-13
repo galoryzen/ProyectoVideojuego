@@ -6,13 +6,14 @@ import GameStates.World;
 import GameStates.GameCamara;
 import GameStates.GameStateManager;
 import Handlers.KeyManager;
+import java.io.Serializable;
 
 /**
  *
  * @author German David
  */
 
-public class Handler {
+public class Handler{
     
     private GamePanel game;
     private GameStateManager gsm;
