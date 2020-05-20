@@ -1,7 +1,6 @@
 package GameStates;
 
 import Audio.AudioLoader;
-import Entities.Creatures.Player;
 import Entities.EntityManager;
 import Tilemaps.Background;
 import java.awt.Graphics2D;
@@ -105,6 +104,7 @@ public class Level2State extends GameState {
 
     public void setGameFinished() {
         // Finaliza el juego y devuelve al nivel prinicipal, se espera cambiar el setState, por el reloadState, puesto que por medio de ese se accede a este
+        // EFECTO DE TRANSICION
         gsm.setState(1);
     }
 

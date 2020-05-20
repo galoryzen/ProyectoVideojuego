@@ -6,7 +6,6 @@ import GameStates.World;
 import GameStates.GameCamara;
 import GameStates.GameStateManager;
 import Handlers.KeyManager;
-import java.io.Serializable;
 
 /**
  *
@@ -50,4 +49,7 @@ public class Handler{
        return gsm.getWorld();
     }
     
+    public double getDeltaTime(){
+        return gsm.getDeltaTime() * 0.000000001;
+    }
 }

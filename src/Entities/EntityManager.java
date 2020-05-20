@@ -50,7 +50,7 @@ public class EntityManager implements Serializable{
             joan = new Player_Joan(handler, this, 100, 100);
             player = joan;
         } else {
-            mainC = new MainPlayer(handler, this, 0, 450);
+            mainC = new MainPlayer(handler, this, 0, 0);
             player = mainC;
         }
         addEntity(player);

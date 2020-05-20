@@ -13,13 +13,14 @@ public class MainLevel extends GameState{
     private MainPlayer mainPlayer;    
     private EntityManager entityManager;
     private World WorldPlat;
+    private String path = "Resources/Worlds/WorldThematic1.txt";
     
     
     public MainLevel(GameStateManager gsm, Handler handler, String tag){
         super(gsm);
         this.levelTag = tag;
         entityManager = new EntityManager(handler);
-        world = new WorldPlat(handler,entityManager,"null",this);
+        world = new WorldPlat(handler,entityManager,path,this);
     }
     
     @Override

@@ -3,7 +3,8 @@ package FirstMinigame.WorldGenerator;
 import Entities.Creatures.Player_Joan;
 import Entities.EntityManager;
 import Entities.Static.BookPile;
-import FirstMinigame.Tiles.Tile;
+import FirstMinigame.Tiles.TileLibrary;
+import Tilemaps.Tile;
 import GameStates.GameState;
 import GameStates.World;
 import MainG.Handler;
@@ -25,7 +26,7 @@ public class WorldLibrary extends World {
     
 
     public WorldLibrary(Handler handler, EntityManager entityM, String path, GameState state) {
-        super(handler);
+        super(handler,9,13);
         this.handler = handler;
         entityManager = new EntityManager(handler, state);
         entityManager.addEntity(new BookPile(handler, entityM, 0, 0));
@@ -61,9 +62,9 @@ public class WorldLibrary extends World {
         if (x < 0 || y < 0 || x >= width || y >= height) {
             return null;
         }
-        Tile t = Tile.tiles[tiles[x][y]];
+        Tile t = TileLibrary.tiles[tiles[x][y]];
         if (t == null) {
-            return Tile.floor;
+            return TileLibrary.floor;
         }
         return t;
     }

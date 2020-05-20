@@ -36,12 +36,12 @@ public class Level2UpManager extends LevelUpManager implements SaveGame {
             if (phase == 0) {
                 world.setGenerateEnemys(false);
             }
-            if (points < 3 && !dialogueLoader.getDialogueMark() && phase == 0) {
+            if (points < 10 && !dialogueLoader.getDialogueMark() && phase == 0) {
                 insertData();
                 phase = -1;
                 moveFasterBackground(state.getBg());
             }
-            if (points >= 5 && !flag1) {
+            if (points >= 25 && !flag1) {
                 // Con esto da inicio a la generacion de los primeros enemigos
                 phase = 1;
                 // Se guarda un Checkpoint 1, rellenando los datos del txt
@@ -51,7 +51,7 @@ public class Level2UpManager extends LevelUpManager implements SaveGame {
                 flag1 = !flag1;
                 world.clearScreenEntities();
                 world.setGenerateEnemys(false);
-            } else if (points >= 7 && !flag2) {
+            } else if (points >= 35 && !flag2) {
                 // Con esto se da inicio a la generacion de los segundos enemigos
                 phase = 2;
                 // Se guarda un Checkpoint 2, rellenando los datos del txt
@@ -61,7 +61,7 @@ public class Level2UpManager extends LevelUpManager implements SaveGame {
                 flag2 = !flag2;
                 world.clearScreenEntities();
                 world.generateEnemys();
-            } else if (points >= 10 && !flag3) {
+            } else if (points >= 50 && !flag3) {
                 //Generacion del boss y solo quedan asteorides
                 phase = 3;
                 // Se guarda un Checkpoint 3, rellenando los datos del txt

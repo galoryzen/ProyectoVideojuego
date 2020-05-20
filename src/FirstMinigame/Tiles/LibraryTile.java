@@ -6,7 +6,7 @@ import Tilemaps.Assets;
  *
  * @author German David
  */
-public class LibraryTile extends Tile{
+public class LibraryTile extends TileLibrary{
 
     public LibraryTile( int id) {
         super(Assets.library, id);

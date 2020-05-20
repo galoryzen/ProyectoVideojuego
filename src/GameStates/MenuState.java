@@ -12,6 +12,7 @@ import UI.ClickListener;
 import UI.UIImageButton;
 import UI.UIManager;
 import UtilLoader.SaveGame;
+import java.awt.AlphaComposite;
 import java.awt.image.BufferedImage;
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
@@ -21,6 +22,8 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import tinysound.Music;
 import tinysound.Sound;
+
+// fade in https://stackoverflow.com/questions/20346661/java-fade-in-and-out-of-images
 
 public class MenuState extends GameState implements SaveGame {
 
@@ -82,7 +85,6 @@ public class MenuState extends GameState implements SaveGame {
     }
 
     public void draw(Graphics2D g) {
-
         g.drawImage(getCurrentFrame(), 0, 0, 1080, 720, null);
         // Aplica colores al titulo del juego
         g.setColor(titleColor);
@@ -102,7 +104,6 @@ public class MenuState extends GameState implements SaveGame {
             }
             g.drawString(options[i], 270, 160 + i * 15);
         }
-
         uimanager.render(g);
     }
 
@@ -202,7 +203,6 @@ public class MenuState extends GameState implements SaveGame {
         }
     }
 
-    
     @Override
     public void getLoadData() {
     }
@@ -210,4 +210,5 @@ public class MenuState extends GameState implements SaveGame {
     @Override
     public void insertData() {
     }
+    
 }

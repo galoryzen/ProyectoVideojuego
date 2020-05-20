@@ -21,6 +21,7 @@ public class GameStateManager {
     private final int LEVEL2STATE = 3;
     private final int PAUSESTATE = 4;
 
+    private double deltaTime;
     private int previousState;
 
     public GameStateManager(Handler handler, GameCamara gameCamara) {
@@ -66,8 +67,9 @@ public class GameStateManager {
         }
     }
 
-    public void update() {
+    public void update(double deltaTime) {
         gameStates[currentState].update();
+        this.deltaTime = deltaTime;
     }
 
     public void draw(java.awt.Graphics2D g) {
@@ -87,6 +89,10 @@ public class GameStateManager {
         return previousState;
     }
 
+    public double getDeltaTime() {
+        return deltaTime;
+    }
+    
     public World getWorld() {
         switch (currentState) {
             case 1: {
@@ -102,7 +108,7 @@ public class GameStateManager {
                 return state.getWorld();
             }
         }
-    }
+    } 
 
     // Se encarga de verificar, si en el TXT de guardado, en la primera linea esta vacia, lo que indica que el juego es la primera vez que se inicia
     boolean VerificarReinicioJuego(int state) {

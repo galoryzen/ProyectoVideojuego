@@ -99,7 +99,7 @@ public class GamePanel extends JPanel implements Runnable {
         while (running) {
             final long beginLoop = System.nanoTime(); // Cronometro que inicia el juego
 
-            // tiempo desde el ultimo cuadro cargado
+            // tiempo desde el ultimo cuadro cargado, Delta Time para el movement
             timePassed = beginLoop - referenceUpdate;
             referenceUpdate = beginLoop;
 
@@ -107,8 +107,8 @@ public class GamePanel extends JPanel implements Runnable {
             delta += timePassed / NANO_PER_UPS;
 
             // Cuando se completa un segundo se actualiza el juego y se resta delta a 0
-            if (delta >= 1) {
-                gameUpdate(); // Se llama cada cuadro
+            if (delta > 1) {
+                gameUpdate(timePassed); // Se llama cada cuadro
                 delta--;
             }
             gameDraw();
@@ -133,9 +133,10 @@ public class GamePanel extends JPanel implements Runnable {
     /**
      * Metodo que actualiza los Frames
      */
-    public void gameUpdate() {
+    
+    public void gameUpdate(double deltaTime) {
         UPS++;
-        gsm.update();
+        gsm.update(deltaTime);
         Window.keyManager.update();
     }
 

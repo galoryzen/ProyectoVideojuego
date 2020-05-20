@@ -7,7 +7,7 @@ import Entities.Creatures.DownEnemy;
 import Entities.Creatures.Player;
 import Entities.Entity;
 import Entities.EntityManager;
-import FirstMinigame.Tiles.Tile;
+import Tilemaps.Tile;
 import GameStates.World;
 import MainG.Handler;
 import java.awt.Graphics2D;

@@ -10,7 +10,7 @@ import java.awt.event.KeyListener;
 public class KeyManager implements KeyListener {
 
     private static boolean[] keys;
-    public boolean up, down, left, right, space, test, enter,pause;
+    public boolean up, down, left, right, space, test, enter,pause,shift;
     public long pressed, realTime,valorTime = 0;
 
     /**
@@ -33,6 +33,7 @@ public class KeyManager implements KeyListener {
         test = keys[KeyEvent.VK_E];
         enter = keys[KeyEvent.VK_ENTER];
         pause = keys[KeyEvent.VK_P];
+        shift =keys[KeyEvent.VK_SHIFT];
     }
 
     @Override
