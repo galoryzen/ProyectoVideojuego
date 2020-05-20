@@ -61,7 +61,7 @@ public class Level2UpManager extends LevelUpManager implements SaveGame {
                 flag2 = !flag2;
                 world.clearScreenEntities();
                 world.generateEnemys();
-            } else if (points >= 50 && !flag3) {
+            } else if (points >= 10 && !flag3) {
                 //Generacion del boss y solo quedan asteorides
                 phase = 3;
                 // Se guarda un Checkpoint 3, rellenando los datos del txt

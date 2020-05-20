@@ -1,5 +1,6 @@
 package Entities.Creatures;
 
+import Entities.Entity;
 import Entities.EntityManager;
 import Entities.Items.Bullet;
 import Tilemaps.Tile;
@@ -17,10 +18,8 @@ import java.awt.image.BufferedImage;
  */
 public class Player_Joan extends Character {
 
-    public Bullet[] bullets = new Bullet[100];
-    public static int bullcount = 0;
-    private long clock;
-    private boolean punchie = false;
+
+    private boolean punchie=false;
     private int ar1, ar2;
 
     //Attack range
@@ -72,16 +71,9 @@ public class Player_Joan extends Character {
         handler.getGameCamara().centerOnEntity(this);
     }
 
-    private void checkAttacks() {
-
-        attackTimer += System.currentTimeMillis() - lastAttackTimer;
-        lastAttackTimer = System.currentTimeMillis();
-        if (attackTimer < attackCooldown) //No hace lo de abajo
-        {
-            return;
-        }
-
-        Rectangle cb = getCollisionBounds(0f, 0f);
+    private void checkAttacks(){
+        
+        Rectangle cb = getCollisionBounds(0,0);
         Rectangle ar = new Rectangle();
 
         ar.width = attackR;
@@ -101,22 +93,22 @@ public class Player_Joan extends Character {
         } else {
             return;
         }
-
-        ar1 = ar.x;
-        ar2 = ar.y;
-        punchie = true;
-        attackTimer = 0;
-
-//        for (Entity e : ) { 
-//            
-//            System.out.println(""+e.getCollisionBounds(0,0));
-//            if(!e.equals(this)){
-//                 if(e.getCollisionBounds(0,0).intersects(ar)){
-//                    e.hurt(10);
-//                    return;
-//                }
-//           }
-//        }
+        
+        ar1=ar.x;
+        ar2=ar.y;
+        punchie=true;
+        attackTimer=0;
+        
+for (Entity en : manager.getEntities()) {
+    
+            System.out.println(""+en.getCollisionBounds(0,0));
+            if(!en.equals(this)){
+                 if(en.getCollisionBounds(0,0).intersects(ar)){
+                    en.hurt(10);
+                    return;
+                }
+           }
+        }
     }
 
     @Override
@@ -145,8 +137,10 @@ public class Player_Joan extends Character {
     }
 
     @Override
-    public void move() {
+    public void move(){
+        if(!checkEntityCollisions(Xmove,0f))
         moveX();
+        if(!checkEntityCollisions(0f,Ymove))
         moveY();
     }
 
@@ -185,19 +179,15 @@ public class Player_Joan extends Character {
     public void render(Graphics2D g) {
 
         g.drawImage(getCurrentAnimationFrame(), (int) (x - handler.getGameCamara().getxOffset()), (int) (y - handler.getGameCamara().getyOffset()), width, height, null);
-        if (punchie) {
-            g.fillRect(ar1, ar2, attackR, attackR);
-            punchie = false;
+        if(punchie){
+             g.setColor(Color.blue);
+            g.fillRect((int) (ar1-handler.getGameCamara().getxOffset()),(int)  (ar2-handler.getGameCamara().getyOffset()), attackR, attackR);
+            punchie=false;
         }
-        // g.setColor(Color.yellow);
-        //g.fillRect((int) (x + bounds.x - handler.getGameCamara().getxOffset()), 
-        //      (int) (y+bounds.y-handler.getGameCamara().getyOffset()), bounds.width,bounds.height);
-
-        for (int i = 0; i < 100; i++) {
-            if (bullets[i] != null) {
-                bullets[i].render(g);
-            }
-        }
+        g.drawString((int) ((x + handler.getGameCamara().getxOffset()))+" , "+(int) (y + handler.getGameCamara().getyOffset()),(int) (x - handler.getGameCamara().getxOffset()),(int) (y - handler.getGameCamara().getyOffset()));
+        g.setColor(Color.yellow);
+        g.fillRect((int) (x + bounds.x - handler.getGameCamara().getxOffset()), 
+               (int) (y+bounds.y-handler.getGameCamara().getyOffset()), bounds.width,bounds.height);        
     }
 
     @Override
@@ -205,6 +195,10 @@ public class Player_Joan extends Character {
         return handler.getWorld().getTile(x, y).isSolid();
     }
 
+    public Rectangle getBounds() {
+        return bounds;
+    }
+    
     //Conseguir la animación en cada movimiento
     private BufferedImage getCurrentAnimationFrame() {
         if (Xmove < 0) {
@@ -218,5 +212,18 @@ public class Player_Joan extends Character {
         } else {
             return Assets.playerDown[0];
         }
+    }
+
+    public boolean checkEntityCollisions(float xOffset,float yOffset){
+        for (Entity e : manager.getEntities()) {
+            if(e.equals(this))
+                //Continua al siguiente objeto
+                continue;
+            //Si las dos hitbox se intersectan entonces si hubo colision
+            if(e.getCollisionBounds(0f, 0f).intersects(getCollisionBounds(xOffset,yOffset))){
+                return true;
+            }
+        }
+        return false;
     }
 }

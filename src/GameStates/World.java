@@ -9,18 +9,17 @@ import java.io.Serializable;
  *
  * @author Omen
  */
-public abstract class World {
+public abstract class World{
 
     private Handler handler;
-    private EntityManager entityM;
-    private int height, width;
+    public EntityManager entityM;
 
     public World(Handler handler, EntityManager entityM) {
         this.handler = handler;
         this.entityM = entityM;
     }
 
-    public World(Handler handler, int height, int width) {
+    public World(Handler handler) {
         this.handler = handler;
         this.height = height;
         this.width = width;

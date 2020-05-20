@@ -6,6 +6,7 @@
 package Entities.Static;
 
 import Entities.EntityManager;
+import FirstMinigame.WorldGenerator.WorldLibrary;
 import Tilemaps.Assets;
 import MainG.Handler;
 import java.awt.Graphics;
@@ -17,22 +18,34 @@ import java.awt.Graphics2D;
  */
 public class BookPile extends StaticEntity{
     
-    public BookPile(Handler handler, EntityManager entityM, float x, float y) {
+    private BookInfo bookinfo;
+    private EntityManager entityM;
+            long lastAttackTimer = 0;
+        long attackTimer=0;
+    
+    public BookPile(Handler handler, EntityManager entityM, float x, float y,BookInfo bookinfo) {
         super(handler, entityM, x, y, 55,55);
+        
+        this.bookinfo=bookinfo;
+        this.entityM=entityM;
+        
         bounds.x=5;
         bounds.y=1;
         bounds.width=50;
         bounds.height=45;
+
     }
     
     @Override
     public void update(){
         
+        
     }
     
     @Override
     public void die(){
-        
+        WorldLibrary.bookcount+=1;
+        entityM.addEntity(bookinfo);
     }
     
     @Override

@@ -6,6 +6,7 @@ import GameStates.World;
 import GameStates.GameCamara;
 import GameStates.GameStateManager;
 import Handlers.KeyManager;
+import java.io.Serializable;
 
 /**
  *

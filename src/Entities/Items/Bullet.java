@@ -2,6 +2,7 @@ package Entities.Items;
 
 import Entities.Creatures.Asteroid;
 import Entities.Creatures.Creature;
+import Entities.Creatures.DownEnemy;
 import Entities.Creatures.Enemy;
 import Entities.Creatures.Player;
 import Entities.Entity;
@@ -52,7 +53,10 @@ public class Bullet extends Entity {
 
     @Override
     public void render(Graphics2D g) {
-        g.drawImage(Assets.bullet, (int) x, (int) y, null);
+        if(creature instanceof Player)
+         g.drawImage(Assets.bullet, (int) x, (int) y, null);
+        else if(creature instanceof DownEnemy)
+            g.drawImage(Assets.pursoidBullet, (int) x, (int) y, null);
     }
 
     public int getBulletSpeed() {

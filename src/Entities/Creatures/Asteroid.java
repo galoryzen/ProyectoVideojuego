@@ -12,14 +12,26 @@ import java.awt.Rectangle;
 import tinysound.Music;
 
 /**
- *
- * @author German David
+ * Los asteroides del minijuego del space invaders.
+ * @version 1.3
  */
 public class Asteroid extends Creature {
 
     private HUD hud;
+    
+    //Musica cuando se le hace daño a un asteroide
     private static Music asteroidDamage;
-
+    
+    /**
+     * Constructor de la clase asteroide.
+     * @param handler Handler
+     * @param manager EntityManager
+     * @param x Coordenada en X
+     * @param y Coordenada en Y
+     * @param width Anchura
+     * @param height Altura
+     * @param hud El HUD
+     */
     public Asteroid(Handler handler, EntityManager manager, float x, float y, int width, int height, HUD hud) {
         super(handler, manager, x, y, width, height);
 
@@ -36,7 +48,10 @@ public class Asteroid extends Creature {
         bounds.height = this.height;
         asteroidDamage = AudioLoader.damageAsteroid;
     }
-
+    /**
+     * Metodo de lo que sucede luego que un asteroide muere.
+     * En este metodo, se le suma a la puntuacion en el HUD, aparte de sonar la música.
+     */
     @Override
     public void die() {
         if (!(this.x <= 0)) {
@@ -44,23 +59,34 @@ public class Asteroid extends Creature {
             asteroidDamage.play(false);
         }
     }
-
+    /**
+     * Metodo update para que el asteroide se mueva y revise si es golpeado mientras esté activo.
+     */
     @Override
     public void update() {
         move();
         checkAttacks();
     }
-
+    /**
+     * Metodo para el movimiento del asteroide.
+     */
     @Override
     public void move() {
         this.x -= Xmove;
     }
-
+    
+    /**
+     * Metodo para reenderizar el asteroide.
+     * @param g Graficos para reenderizar.
+     */
     @Override
     public void render(Graphics2D g) {
         g.drawImage(Assets.asteroids, (int) x, (int) y, width, height, null);
     }
-
+    /**
+     * Método que revisa si algun asteroide ha sufrido algun ataque.
+     * Los ataques pueden ser de un asteroide que se choca con otro, o de una bala del jugador.
+     */
     public void checkAttacks() {
 
         Rectangle cb = getCollisionBounds();
@@ -78,7 +104,7 @@ public class Asteroid extends Creature {
                         if (!(e instanceof Enemy)) {
                             e.hurt(1);
                             HUD.setPoint(hud.getPoint() + 1);
-                            asteroidDamage.play(false);
+                            asteroidDamage.play(true);
                             this.setActive(false);
                         }
                         //Si no es un asteroide, le hace 5 de daño                            

@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package Entities.Creatures;
 
 import Entities.Entity;
@@ -11,11 +6,6 @@ import MainG.GamePanel;
 import MainG.Handler;
 import java.awt.Graphics;
 
-/**
- *
- * @author German David
- */
-
 public abstract class Creature extends Entity{
     
     protected float Xmove=0,Ymove=0;
@@ -23,7 +13,7 @@ public abstract class Creature extends Entity{
     protected float speed;
     
     public static final int DEFAULT_HEALTH=10;
-    public static final float DEFAULT_SPEED=3.0f;
+    public static final float DEFAULT_SPEED=5.0f;
     public static final int DEFAULT_CREATURE_WIDTH=131;
     public static final int DEFAULT_CREATUR_HEIGHT=110;
     

@@ -118,4 +118,13 @@ public class GameStateManager {
             return false;
         }
     }
+
+    // Se encarga de verificar, si en el TXT de guardado, en la primera linea esta vacia, lo que indica que el juego es la primera vez que se inicia
+    boolean VerificarReinicioJuego(int state) {
+        if(gameStates[state] == null){
+            return true;
+        }else{
+            return false;
+        }
+    }
 }

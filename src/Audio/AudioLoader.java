@@ -12,7 +12,7 @@ public class AudioLoader implements Runnable{
     public static Music damageAsteroid, damageEnemyShip, bgMusic, bgTalkMomentSpaceInvaders, bgMusicSpaceInvaders;
     public static Sound shot, upMenu;
     /**
-     * Metodo que se hace al iniciar la clase.
+     * Metodo que se hace al inicializar la clase.
      */
     public static void init() {
         bgMusic = TinySound.loadMusic("/Music/menuMusic.wav");

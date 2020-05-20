@@ -12,7 +12,6 @@ public class Level1State extends GameState implements Runnable {
 
     Handler handler;
     private World world;
-    private EntityManager entityManager;
     private String path = "Resources/Worlds/World1.txt";
     private Player_Joan joan;
     private Level1UpManager levelManager;
@@ -23,8 +22,7 @@ public class Level1State extends GameState implements Runnable {
         this.levelTag = tag;
         this.handler = handler;
         this.levelManager = new Level1UpManager();
-        entityManager = new EntityManager(handler);
-        world = new WorldLibrary(this.handler, entityManager, path,this);
+        world = new WorldLibrary(this.handler, path,this);
         init();
     }
 
