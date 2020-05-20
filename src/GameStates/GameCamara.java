@@ -28,20 +28,20 @@ public class GameCamara {
 
     //Para que solo se vea la parte del mapa con Tiles
     public void checkBlankSpace(Entity e) {
-        World world;
+        WorldLibrary world;
         int tileH, tileW;
         world = (WorldLibrary) handler.getWorld();
         tileW = Tile.TILEWIDTH;
         tileH = Tile.TILEHEIGHT;
         if (xOffset < 0) {
             xOffset = 0;
-        } else if (xOffset > handler.getWorld().getWidth() * tileW - handler.getWidth()) {
-            xOffset = handler.getWorld().getWidth() * tileW - handler.getWidth();
+        } else if (xOffset > world.getWidth() * tileW - handler.getWidth()) {
+            xOffset = world.getWidth() * tileW - handler.getWidth();
         }
         if (yOffset < 0) {
             yOffset = 0;
-        } else if (yOffset > handler.getWorld().getHeight() * tileH - handler.getHeight()) {
-            yOffset = handler.getWorld().getHeight() * tileH - handler.getHeight();
+        } else if (yOffset > world.getHeight() * tileH - handler.getHeight()) {
+            yOffset = world.getHeight() * tileH - handler.getHeight();
         }
     }
 

@@ -24,7 +24,6 @@ import tinysound.Music;
 import tinysound.Sound;
 
 // fade in https://stackoverflow.com/questions/20346661/java-fade-in-and-out-of-images
-
 public class MenuState extends GameState implements SaveGame {
 
     Music bgMusic;
@@ -109,7 +108,10 @@ public class MenuState extends GameState implements SaveGame {
 
     @Override
     public void init() {
-        //Window.mouse.setUIManager(uimanager);
+        while (Window.mouse == null){
+            System.out.println("Cargando");
+        }
+        Window.mouse.setUIManager(uimanager);
         bgMusic = AudioLoader.bgMusic;
         bgMusic.setVolume(0.3);
         bgMusic.play(true);
@@ -191,7 +193,7 @@ public class MenuState extends GameState implements SaveGame {
 
         }
         // Se verifica que el archivo de TXT de guardado, tenga un state como primera linea, sino, esta es la primera vez que se inicia el juego
-        if (stateVerification.isEmpty() || stateVerification.isEmpty()){
+        if (stateVerification.isEmpty() || stateVerification.isEmpty()) {
             System.out.println("PARTIDA NUEVA");
         }
         state = Integer.parseInt(stateVerification);

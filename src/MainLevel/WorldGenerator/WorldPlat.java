@@ -26,7 +26,7 @@ public class WorldPlat extends World {
     private MainPlayer player;
 
     public WorldPlat(Handler handler, EntityManager entityM, String path, GameState state) {
-        super(handler, 9, 60);
+        super(handler);
         this.entityM = new EntityManager(handler, state);
         this.handler = handler;
         loadWorld(path);

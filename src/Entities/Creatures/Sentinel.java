@@ -6,9 +6,8 @@
 package Entities.Creatures;
 
 import Entities.EntityManager;
-import FirstMinigame.Tiles.Tile;
+import Tilemaps.Tile;
 import MainG.Handler;
-import SecondMinigame.HUD;
 import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.Rectangle;

@@ -21,8 +21,6 @@ public abstract class World{
 
     public World(Handler handler) {
         this.handler = handler;
-        this.height = height;
-        this.width = width;
     }
 
     public abstract Tile getTile(int x, int y);
@@ -31,11 +29,4 @@ public abstract class World{
 
     public abstract void render(java.awt.Graphics2D g);
 
-    public int getHeight() {
-        return height;
-    }
-
-    public int getWidth() {
-        return width;
-    }
 }

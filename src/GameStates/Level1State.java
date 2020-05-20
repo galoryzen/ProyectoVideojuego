@@ -28,6 +28,7 @@ public class Level1State extends GameState implements Runnable {
 
     @Override
     public void init() {
+        System.out.println("QUE");
     }
 
     @Override
