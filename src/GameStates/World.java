@@ -12,7 +12,7 @@ import java.io.Serializable;
 public abstract class World{
 
     private Handler handler;
-    private EntityManager entityM;
+    public EntityManager entityM;
 
     public World(Handler handler, EntityManager entityM) {
         this.handler = handler;

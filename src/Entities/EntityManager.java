@@ -10,12 +10,8 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Comparator;
 
-/**
- *
- * @author German David
- */
 public class EntityManager implements Serializable{
-
+    
     private Handler handler;
     private Player nave;
     private Player_Joan joan;
@@ -23,7 +19,9 @@ public class EntityManager implements Serializable{
     private ArrayList<Entity> entities;
     private int Score = 0;
 
-    //Comparador
+    /**
+     * Comparador de entidades.
+     */
     private Comparator<Entity> renderSorter = new Comparator<Entity>() {
         @Override
         public int compare(Entity a, Entity b) {
@@ -37,12 +35,15 @@ public class EntityManager implements Serializable{
     /**
      * Constructor de la clase Entity Manager.
      * @param handler Handler del EntityManager.
-     * @param state El State del Entity Manager
+     * @param state El State del Entity Manager.
      */
     public EntityManager(Handler handler, GameState state) {
         this.handler = handler;
         entities = new ArrayList();
         Entity player;
+        /**
+         * Dependiendo del tag del GameState creará un personaje diferente.
+         */
         if (state.getTag().equals("Level 3")) {
             nave = new Player(handler, this, 100, 100);
             player = nave;
@@ -82,7 +83,8 @@ public class EntityManager implements Serializable{
         for (int i = 0; i < entities.size(); i++) {
             Entity e = entities.get(i);
             e.update();
-            if ((!e.isActive() || e.getX() < -e.getWidth()|| e.getX() > 1080 || e.getY() > 730 || e.getY() < -e.getHeight()) && nave!=null) {
+            //Cambio, revisar despues
+            if (!e.isActive()) {
                 entities.remove(e);
             }
         }

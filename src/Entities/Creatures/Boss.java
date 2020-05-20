@@ -19,8 +19,8 @@ import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
 
 /**
- *
- * @author German David
+ * Clase del Jefe del minijuego.
+ * @version 1.6
  */
 public class Boss extends Enemy {
 
@@ -31,7 +31,7 @@ public class Boss extends Enemy {
     private int summonNumber = 2;
     private Animation anm;
     private HUD hud;
-
+    
     public Boss(Handler handler, EntityManager manager, float x, float y, int width, int height, HUD hud) {
         super(handler, manager, x, y, width, height, hud);
 

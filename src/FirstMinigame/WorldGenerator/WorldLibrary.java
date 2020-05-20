@@ -1,13 +1,18 @@
 package FirstMinigame.WorldGenerator;
 
+import Entities.Static.BookInfo;
 import Entities.Creatures.Player_Joan;
+import Entities.Creatures.Sentinel;
+import Entities.Entity;
 import Entities.EntityManager;
 import Entities.Static.BookPile;
 import FirstMinigame.Tiles.Tile;
 import GameStates.GameState;
 import GameStates.World;
 import MainG.Handler;
+import Tilemaps.Assets;
 import java.awt.Graphics2D;
+import java.util.ArrayList;
 
 /**
  *
@@ -20,25 +25,29 @@ public class WorldLibrary extends World {
     private int spawnX, spawnY;
     private int[][] tiles = new int[100][100];
     //Entities
-    private EntityManager entityManager;
-    private Player_Joan player;
+    private ArrayList<BookPile> bookpiles;
+    private EntityManager entityM;
+    public static int bookcount=0;
     
 
-    public WorldLibrary(Handler handler, EntityManager entityM, String path, GameState state) {
+    public WorldLibrary(Handler handler, String path, GameState state) {
         super(handler);
         this.handler = handler;
-        entityManager = new EntityManager(handler, state);
-        entityManager.addEntity(new BookPile(handler, entityM, 0, 0));
-        entityManager.addEntity(new BookPile(handler, entityM, 0, 0));
-        entityManager.addEntity(new BookPile(handler, entityM, 0, 0));
-        entityManager.addEntity(new BookPile(handler, entityM, 0, 0));
+        entityM = new EntityManager(handler, state);
+        entityM.addEntity(new BookPile(handler, entityM, 100, 60, new BookInfo(entityM,Assets.vida,handler,500,100,100,100)));
+        entityM.addEntity(new BookPile(handler, entityM, 500, 150,new BookInfo(entityM,Assets.vida,handler,500,100,100,100)));
+        entityM.addEntity(new BookPile(handler, entityM, 50, 20,new BookInfo(entityM,Assets.vida,handler,500,100,100,100)));
+        entityM.addEntity(new BookPile(handler, entityM, 0, 0,new BookInfo(entityM,Assets.vida,handler,500,100,100,100)));
+        entityM.addEntity(new Sentinel(handler, entityM,150,100,40,40));
+        
+        
         loadWorld(path);
-        entityManager.getJoan().setX(spawnX);
-        entityManager.getJoan().setY(spawnY);
+        entityM.getJoan().setX(spawnX);
+        entityM.getJoan().setY(spawnY);
     }
 
     public void update() {
-        entityManager.update();
+        entityM.update();
     }
 
     public void render(Graphics2D g) {
@@ -54,7 +63,7 @@ public class WorldLibrary extends World {
                         (int) (y * Tile.TILEHEIGHT - handler.getGameCamara().getyOffset()));
             }
         }
-        entityManager.render(g);
+        entityM.render(g);
     }
 
     public Tile getTile(int x, int y) {
@@ -95,11 +104,11 @@ public class WorldLibrary extends World {
     }
 
     public EntityManager getEntityManager() {
-        return entityManager;
+        return entityM;
     }
 
     public void setEntityManager(EntityManager entityManager) {
-        this.entityManager = entityManager;
+        this.entityM = entityManager;
     }
 
 }

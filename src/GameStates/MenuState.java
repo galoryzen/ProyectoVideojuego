@@ -66,7 +66,7 @@ public class MenuState extends GameState implements SaveGame {
         uimanager.addUIObject(new UIImageButton(100f, 100f, 100, 100, Assets.Boss, new ClickListener() {
             @Override
             public void onClick() {
-                gsm.setState(2);
+                gsm.reloadState(2);
             }
         }));
         anm = new Animation(100, Assets.backgroundMenu);
@@ -108,6 +108,7 @@ public class MenuState extends GameState implements SaveGame {
 
     @Override
     public void init() {
+        //Window.mouse.setUIManager(uimanager);
         bgMusic = AudioLoader.bgMusic;
         bgMusic.setVolume(0.3);
         bgMusic.play(true);
@@ -189,7 +190,7 @@ public class MenuState extends GameState implements SaveGame {
 
         }
         // Se verifica que el archivo de TXT de guardado, tenga un state como primera linea, sino, esta es la primera vez que se inicia el juego
-        if (stateVerification.isEmpty() || stateVerification.isBlank()) {
+        if (stateVerification.isEmpty() || stateVerification.isEmpty()) {
             System.out.println("PARTIDA NUEVA");
         }
         state = Integer.parseInt(stateVerification);
