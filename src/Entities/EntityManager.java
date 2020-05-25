@@ -13,9 +13,9 @@ import java.util.Comparator;
 public class EntityManager{
     
     private Handler handler;
-    private Player nave;
-    private Player_Joan joan;
-    private MainPlayer mainC;
+    private static Player nave;
+    private static Player_Joan joan;
+    private static MainPlayer mainC;
     private ArrayList<Entity> entities;
     private int Score = 0;
 
@@ -134,6 +134,10 @@ public class EntityManager{
 
     public void setEntities(ArrayList<Entity> entities) {
         this.entities = entities;
+    }
+
+    public MainPlayer getMainPlayer() {
+        return mainC;
     }
 
 }

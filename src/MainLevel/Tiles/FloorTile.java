@@ -14,6 +14,6 @@ public class FloorTile extends TileMainLevel {
     
     @Override
     public boolean isSolid() {
-        return true;
+        return !isSolid;
     }
 }

@@ -9,14 +9,15 @@ import java.awt.image.BufferedImage;
 import javax.swing.*;
 import GameStates.GameStateManager;
 import Tilemaps.Assets;
-import Handlers.KeyManager;
 import tinysound.TinySound;
 
 /**
  * Es la clase esencial del juego, donde se inicializan la mayoría de cosas
+ *
  * @version 1.0
  */
 public class GamePanel extends JPanel implements Runnable {
+
     //Dimensiones del game panel
     public static final int WIDTH_G = 1080;
     public static final int HEIGHT_G = 720;
@@ -47,6 +48,7 @@ public class GamePanel extends JPanel implements Runnable {
 
     /**
      * Se inicializa el GamePanel
+     *
      * @param width Anchura del GamePanel
      * @param height Altura del GamePanel
      */
@@ -58,7 +60,7 @@ public class GamePanel extends JPanel implements Runnable {
         requestFocus();
         handler = new Handler(this);
     }
-    
+
     /**
      * Funcion que se llama una vez que se cree el panel, para poder iniciar el juego
      */
@@ -95,31 +97,30 @@ public class GamePanel extends JPanel implements Runnable {
 
         double timePassed; // Tiempo trasncurrido por cuadro
         double delta = 0; // Cantidad de tiempo hasta actualizacion
-
         while (running) {
-            final long beginLoop = System.nanoTime(); // Cronometro que inicia el juego
+                final long beginLoop = System.nanoTime(); // Cronometro que inicia el juego
 
-            // tiempo desde el ultimo cuadro cargado, Delta Time para el movement
-            timePassed = beginLoop - referenceUpdate;
-            referenceUpdate = beginLoop;
+                // tiempo desde el ultimo cuadro cargado, Delta Time para el movement
+                timePassed = beginLoop - referenceUpdate;
+                referenceUpdate = beginLoop;
 
-            // Segundos que se le añaden al delta para sumar 1 seg 
-            delta += timePassed / NANO_PER_UPS;
+                // Segundos que se le añaden al delta para sumar 1 seg 
+                delta += timePassed / NANO_PER_UPS;
 
-            // Cuando se completa un segundo se actualiza el juego y se resta delta a 0
-            if (delta > 1) {
-                gameUpdate(timePassed); // Se llama cada cuadro
-                delta--;
-            }
-            gameDraw();
-            gameDrawToScreen();
+                // Cuando se completa un segundo se actualiza el juego y se resta delta a 0
+                if (delta > 1) {
+                    gameUpdate(timePassed); // Se llama cada cuadro
+                    delta--;
+                }
+                gameDraw();
+                gameDrawToScreen();
 
-            //Contador de FPS y UPS ( FPS: FRAMES PER SECONDS - UPS: UPDATES PER SECOND)
-            if (System.nanoTime() - referencerTimer > NANO_POR_SEG) {
-                UPS = 0;
-                FPS = 0;
-                referencerTimer = System.nanoTime();
-            }
+                //Contador de FPS y UPS ( FPS: FRAMES PER SECONDS - UPS: UPDATES PER SECOND)
+                if (System.nanoTime() - referencerTimer > NANO_POR_SEG) {
+                    UPS = 0;
+                    FPS = 0;
+                    referencerTimer = System.nanoTime();
+                }
 
 //            try {
 //                // Acaba el hilo progresivamente
@@ -127,13 +128,13 @@ public class GamePanel extends JPanel implements Runnable {
 //            } catch (InterruptedException e) {
 //                e.printStackTrace();
 //            }
+            
         }
     }
 
     /**
      * Metodo que actualiza los Frames
      */
-    
     public void gameUpdate(double deltaTime) {
         UPS++;
         gsm.update(deltaTime);

@@ -17,7 +17,6 @@ import java.awt.image.BufferedImage;
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
-import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import tinysound.Music;
@@ -139,7 +138,7 @@ public class MenuState extends GameState implements SaveGame {
         }
         if (Window.keyManager.space) {
             bgMusic.stop();
-            gsm.setState(3);
+            gsm.reloadState(3);
         }
         // Opcion de continuar donde se habia dejado la partida
         if (Window.keyManager.enter) {
@@ -147,12 +146,12 @@ public class MenuState extends GameState implements SaveGame {
                 loadData();
             } else {
                 bgMusic.stop();
-                gsm.setState(2);
+                gsm.reloadState(2);
             }
         }
         if (Window.keyManager.test) {
             bgMusic.stop();
-            gsm.setState(1);
+            gsm.reloadState(1);
         }
 
         lastPressedTime = now;

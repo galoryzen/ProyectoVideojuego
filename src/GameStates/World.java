@@ -3,13 +3,15 @@ package GameStates;
 import Entities.EntityManager;
 import Tilemaps.Tile;
 import MainG.Handler;
-import java.io.Serializable;
+import MainLevel.WorldGenerator.WorldPlat;
+import SecondMinigame.Level2UpManager;
+import SecondMinigame.WorldSpace;
 
 /**
  *
  * @author Omen
  */
-public abstract class World{
+public abstract class World {
 
     private Handler handler;
     public EntityManager entityM;
@@ -29,4 +31,13 @@ public abstract class World{
 
     public abstract void render(java.awt.Graphics2D g);
 
+    public World cast(LevelUpManager levelManager) {
+        if (levelManager instanceof Level2UpManager) {
+            WorldSpace world = (WorldSpace) this;
+            return world;
+        } else {
+            WorldPlat world = (WorldPlat) this;
+            return world;
+        }
+    }
 }

@@ -7,13 +7,21 @@ public class Assets implements Runnable {
     public static BufferedImage astronautTalker, pursoid, fondoMenu, fondoSpaceInvaders,
             spriteNina, naveOff, naveOn, naveSemiOff, asteroids, bullet, laser, LaserAlien, enemy,
             vida, floor, library, BookPile, AutoMissil, charge, pursoidBullet, halfLife, playerStand,
-            retroFloor, rowTile, platTile, empty,chest;
+            retroFloor, rowTile, platTile, empty,chest, elevatorTile,spikes;
 
     public static BufferedImage playerDown[] = new BufferedImage[2];
     public static BufferedImage playerUp[] = new BufferedImage[3];
     public static BufferedImage playerRight[] = new BufferedImage[2];
     public static BufferedImage playerLeft[] = new BufferedImage[2];
 
+    public static BufferedImage mainPlayerUp[] = new BufferedImage[1];
+    public static BufferedImage mainPlayerRunning[] = new BufferedImage[4];
+    public static BufferedImage mainPlayerLeft[] = new BufferedImage[4];
+    public static BufferedImage mainPlayerRight[] = new BufferedImage[4];
+    public static BufferedImage mainPlayerFalling[] = new BufferedImage[1];
+    public static BufferedImage mainPlayerStandStill[] = new BufferedImage[4];
+    
+    
     public static BufferedImage aerialEnemy[] = new BufferedImage[4];
     public static BufferedImage downEnemy[] = new BufferedImage[4];
 
@@ -84,6 +92,8 @@ public class Assets implements Runnable {
         SpriteSheet sheetVida = new SpriteSheet(ImageLoader.loadImage("/Sprites/Tilesets/heatlhBar.png"));
         SpriteSheet playerM = new SpriteSheet(ImageLoader.loadImage("/Sprites/Player/JoanSprite.png"));
         cargarJoan(playerM);
+        SpriteSheet mainPlayer = new SpriteSheet(ImageLoader.loadImage("/Sprites/Tilesets/Sheet.png"));
+        cargarMainPlayer(mainPlayer);
         vida = sheetVida.crop(0, 0, 125, 201);
         halfLife = sheetVida.crop(266, 0, 125, 201);
         floor = ImageLoader.loadImage("/Testers/Floor.png");
@@ -95,6 +105,8 @@ public class Assets implements Runnable {
         platTile = ImageLoader.loadImage("/SpritesMainLevel/GameboyAssets/tile_15.png");
         empty = ImageLoader.loadImage("/Tilesets/empty.png");
         chest = ImageLoader.loadImage("/SpritesMainLevel/GameboyAssets/Chest_1.png");
+        elevatorTile = ImageLoader.loadImage("/SpritesMainLevel/GameboyAssets/Tile_9.png");
+        spikes = ImageLoader.loadImage("/SpritesMainLevel/GameboyAssets/Tile_3.png");
     }
 
     /**
@@ -114,7 +126,6 @@ public class Assets implements Runnable {
                 playerLeft[j - 2] = sheet.crop(i * 36, 0, 36, 36);
                 j++;
             } else if (i > 9) {
-
                 playerRight[j - 4] = sheet.crop(i * 36, 0, 36, 36);
                 j++;
             } else {
@@ -127,14 +138,38 @@ public class Assets implements Runnable {
     }
 
     public static void cargarMainPlayer(SpriteSheet sheet) {
+        BufferedImage[] temporaryContainer = new BufferedImage[36];
         int a = 0;
         for (int i = 0; i < 4; i++) {
             for (int j = 0; j < 6; j++) {
-                // CODIGO
+                temporaryContainer[a] = sheet.crop(j * 128, i * 128,128,128);
+                a++;
             }
         }
+        filterContainer(temporaryContainer);
     }
 
+    public static void filterContainer(BufferedImage[] image){
+        mainPlayerStandStill[0] = image[0];
+        mainPlayerStandStill[1] = image[6];
+        mainPlayerStandStill[2] = image[12];
+        mainPlayerStandStill[3] = image[18];
+        mainPlayerLeft[0] = image[1];
+        mainPlayerLeft[1] = image[7];
+        mainPlayerLeft[2] = image[13];
+        mainPlayerLeft[3] = image [19];
+//        mainPlayerRight[0] = image[];
+//        mainPlayerRight[1];
+//        mainPlayerRight[2];
+//        mainPlayerRight[3];
+        mainPlayerUp[0] = image[2];
+        mainPlayerFalling[0] = image[5];
+        mainPlayerRunning[0] = image[4];
+        mainPlayerRunning[1] = image[10];
+        mainPlayerRunning[2] = image[16];
+        mainPlayerRunning[3] = image[22];
+    }
+    
     @Override
     public void run() {
         init();

@@ -1,8 +1,6 @@
 package GameStates;
 
 import Entities.Creatures.Player_Joan;
-import Entities.EntityManager;
-import FirstMinigame.Level1UpManager;
 import FirstMinigame.WorldGenerator.WorldLibrary;
 import MainG.Handler;
 import FirstMinigame.Level1UpManager;
@@ -21,8 +19,8 @@ public class Level1State extends GameState implements Runnable {
         super(gsm);
         this.levelTag = tag;
         this.handler = handler;
-        this.levelManager = new Level1UpManager();
-        world = new WorldLibrary(this.handler, path,this);
+        world = new WorldLibrary(this.handler, path, this);
+        this.levelManager = new Level1UpManager(world,world.entityM);
         init();
     }
 
@@ -50,8 +48,8 @@ public class Level1State extends GameState implements Runnable {
     public void run() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
-    
-    public World getWorld(){
+
+    public World getWorld() {
         return world;
     }
 

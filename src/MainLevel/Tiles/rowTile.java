@@ -2,14 +2,14 @@ package MainLevel.Tiles;
 
 import Tilemaps.Assets;
 
-public class rowTile extends TileMainLevel {
-
-    public rowTile(int id) {
+public class RowTile extends TileMainLevel {
+    
+    public RowTile(int id) {
         super(Assets.rowTile, id);
     }
 
     @Override
     public boolean isSolid() {
-        return true;
+        return !isSolid;
     }
 }

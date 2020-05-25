@@ -47,7 +47,6 @@ public class DialogueLoader {
     }
 
     public void showTutorial(Graphics2D g) {
-
         switch (tutorialState) {
             case 1: // Explicas el contexto
                 g.setColor(Color.WHITE);

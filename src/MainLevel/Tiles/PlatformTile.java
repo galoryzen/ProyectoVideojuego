@@ -10,6 +10,7 @@ public class PlatformTile extends TileMainLevel {
 
     @Override
     public boolean isSolid() {
-        return true;
+        return !isSolid;
     }
+    
 }

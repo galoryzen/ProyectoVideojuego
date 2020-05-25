@@ -19,10 +19,11 @@ public class Chest extends TileMainLevel {
 
     @Override
     public boolean isSolid() {
-        return true;
+        return !isSolid;
     }
 
+    @Override
     public boolean isInteractive() {
-        return true;
+        return !isInteractive;
     }
 }

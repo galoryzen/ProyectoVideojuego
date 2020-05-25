@@ -33,11 +33,6 @@ public abstract class Tile {
         return false;
     }
 
-    // Interaccionas?
-    public boolean isInteractive() {
-        return false;
-    }
-
     public int getId() {
         return id;
     }

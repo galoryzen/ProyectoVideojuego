@@ -1,6 +1,5 @@
 package GameStates;
 
-import Audio.AudioLoader;
 import Entities.EntityManager;
 import Tilemaps.Background;
 import java.awt.Graphics2D;
@@ -12,11 +11,9 @@ import SecondMinigame.Level2UpManager;
 import SecondMinigame.DialogueLoader;
 import SecondMinigame.WorldSpace;
 import Tilemaps.Assets;
-import tinysound.Music;
 
 public class Level2State extends GameState {
 
-    private Music bgTalkMusic, bgMusic;
     private Background bg;
     private Handler handler;
     private WorldSpace world;
@@ -28,7 +25,6 @@ public class Level2State extends GameState {
     private EntityManager entityManager;
 
     private boolean ya = true;
-    private float volume = 0.3f;
     private long timePassed;
     private long timeDeltaTime;
 
@@ -47,16 +43,14 @@ public class Level2State extends GameState {
         world = new WorldSpace(entityManager, handler);
         hud = new HUD(entityManager);
         levelManager = new Level2UpManager(this, hud, world, dialogueLoader, entityManager);
-        world.setHUD(hud);
-        world.setLevelUpManager(levelManager);
-        bgTalkMusic = AudioLoader.bgTalkMomentSpaceInvaders;
-        bgMusic = AudioLoader.bgMusicSpaceInvaders;
-        timePassed = System.currentTimeMillis();
+        init();
     }
 
     @Override
     public void init() {
-        bgTalkMusic.play(true, 0.5f);
+        world.setHUD(hud);
+        world.setLevelUpManager(levelManager);
+        timePassed = System.currentTimeMillis();
     }
 
     @Override
@@ -87,10 +81,6 @@ public class Level2State extends GameState {
 
     @Override
     public void musicControl() {
-        if (levelManager.getPhase() == -1 && !bgMusic.playing()) {
-            bgTalkMusic.stop();
-            bgMusic.play(true, volume);
-        }
     }
 
     public Background getBg() {

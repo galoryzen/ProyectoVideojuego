@@ -1,7 +1,7 @@
 package GameStates;
 
-import FirstMinigame.Level1UpManager;
 import MainG.Handler;
+import java.awt.Graphics2D;
 
 /**
  * La clase GameStateManager se encarga de la administracion de los niveles Es el que dice en que nivel se encuentra actualmente, en cual estado.
@@ -30,6 +30,7 @@ public class GameStateManager {
         gameStates = new GameState[NUMGAMESTATE];
         currentState = MENUSTATE;
         loadState(currentState);
+        preLoadState();
         this.gameCamera = gameCamara;
     }
 
@@ -72,12 +73,18 @@ public class GameStateManager {
         this.deltaTime = deltaTime;
     }
 
-    public void draw(java.awt.Graphics2D g) {
+    public void draw(Graphics2D g) {
         gameStates[currentState].draw(g);
     }
 
     public int inGameState() {
         return currentState;
+    }
+
+    public void preLoadState() {
+        gameStates[MAINLEVELSTATE] = new MainLevel(this, this.handler, "Level 1");
+        gameStates[LEVEL1STATE] = new Level1State(this, this.handler, "Level 2");
+        gameStates[LEVEL2STATE] = new Level2State(this, handler, "Level 3");
     }
 
     public GameState[] getGameStates() {
@@ -92,7 +99,7 @@ public class GameStateManager {
     public double getDeltaTime() {
         return deltaTime;
     }
-    
+
     public World getWorld() {
         switch (currentState) {
             case 1: {
@@ -108,14 +115,15 @@ public class GameStateManager {
                 return state.getWorld();
             }
         }
-    } 
+    }
 
     // Se encarga de verificar, si en el TXT de guardado, en la primera linea esta vacia, lo que indica que el juego es la primera vez que se inicia
     boolean VerificarReinicioJuego(int state) {
-        if(gameStates[state] == null){
+        if (gameStates[state] == null) {
             return true;
-        }else{
+        } else {
             return false;
         }
     }
+
 }

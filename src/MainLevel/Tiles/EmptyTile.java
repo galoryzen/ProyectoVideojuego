@@ -7,4 +7,9 @@ public class EmptyTile extends TileMainLevel{
     public EmptyTile(int id){
         super(Assets.empty,id);
     }
+    
+    @Override    
+    public boolean isVisible(){
+        return !isVisible;
+    }
 }

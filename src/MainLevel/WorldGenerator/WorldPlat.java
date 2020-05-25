@@ -1,14 +1,14 @@
 package MainLevel.WorldGenerator;
 
-import Entities.Creatures.MainPlayer;
 import Entities.EntityManager;
 import Tilemaps.Tile;
 import FirstMinigame.WorldGenerator.Util;
 import GameStates.GameState;
 import GameStates.World;
 import MainG.Handler;
-import MainLevel.Tiles.EmptyTile;
+import MainLevel.Tiles.Chest;
 import MainLevel.Tiles.TileMainLevel;
+import MainLevel.Tiles.ElevatorTile;
 import java.awt.Graphics2D;
 
 /**
@@ -17,19 +17,17 @@ import java.awt.Graphics2D;
  */
 public class WorldPlat extends World {
 
-    private Handler handler;
     private int width, height;
     private int[][] tiles;
     private int spawnX, spawnY;
     private EntityManager entityM;
-    private final int floorHeight = 550;
-    private MainPlayer player;
+    private String path;
 
     public WorldPlat(Handler handler, EntityManager entityM, String path, GameState state) {
         super(handler);
         this.entityM = new EntityManager(handler, state);
-        this.handler = handler;
         loadWorld(path);
+        this.path = path;
     }
 
     @Override
@@ -38,7 +36,7 @@ public class WorldPlat extends World {
     }
 
     @Override
-    public void render(Graphics2D g) {     
+    public void render(Graphics2D g) {
         g.clearRect(0, 0, 1080, 720);
         generateScenario(g);
         entityM.render(g);
@@ -47,7 +45,8 @@ public class WorldPlat extends World {
     public void generateScenario(Graphics2D g) {
         for (int y = 0; y < height; y++) {
             for (int x = 0; x < width; x++) {
-                if (!(getTile(x, y) instanceof EmptyTile)) {
+                TileMainLevel auxT = (TileMainLevel) getTile(x, y);
+                if (auxT.isVisible()) {
                     getTile(x, y).render(g, (int) (x * TileMainLevel.TILEWIDTH), (int) (y * TileMainLevel.TILEHEIGHT));
                 }
             }
@@ -56,7 +55,7 @@ public class WorldPlat extends World {
 
     @Override
     public Tile getTile(int x, int y) {
-        if(x < 0 || y < 0 || x >= width || y >= height){
+        if (x < 0 || y < 0 || x >= width || y >= height) {
             return null;
         }
         Tile t = TileMainLevel.tiles[tiles[x][y]];
@@ -78,6 +77,47 @@ public class WorldPlat extends World {
         for (int y = 0; y < height; y++) {
             for (int x = 0; x < width; x++) {
                 tiles[x][y] = Util.parseInt(tokens[(x + y * width) + 4]);
+            }
+        }
+    }
+
+    public void switchElevators() {
+        for (int y = 0; y < height; y++) {
+            for (int x = 0; x < width; x++) {
+                TileMainLevel auxT = (TileMainLevel) getTile(x, y);
+                if (auxT instanceof ElevatorTile) {
+                    auxT.buttonPressed();
+                }
+            }
+        }
+    }
+
+    public void changeMap(String pathString) {
+        this.path = pathString;
+        loadWorld(pathString);
+    }
+
+    public int[] getPositionMap() {
+        String file = Util.loadFileAsString(this.path);
+        //\\s+ es cada espacio en blanco
+        String[] tokens = file.split("\\s+");
+        spawnX = Util.parseInt(tokens[2]);
+        spawnY = Util.parseInt(tokens[3]);
+        int[] position = new int[2];
+        position[0] = spawnX;
+        position[1] = spawnY;
+        return position;
+    }
+
+    public void restoreElevators() {
+        for (int y = 0; y < height; y++) {
+            for (int x = 0; x < width; x++) {
+                TileMainLevel auxT = (TileMainLevel) getTile(x, y);
+                if (auxT instanceof ElevatorTile) {
+                    auxT.resetElevator();
+                }else if(auxT instanceof Chest){
+                    auxT.resetInteraction();
+                }
             }
         }
     }
