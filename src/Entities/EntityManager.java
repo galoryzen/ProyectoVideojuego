@@ -82,7 +82,8 @@ public class EntityManager implements Serializable{
         for (int i = 0; i < entities.size(); i++) {
             Entity e = entities.get(i);
             e.update();
-            if ((!e.isActive() || e.getX() < -e.getWidth()|| e.getX() > 1080 || e.getY() > 730 || e.getY() < -e.getHeight()) && nave!=null) {
+            //Cambio, revisar despues
+            if (!e.isActive()) {
                 entities.remove(e);
             }
         }

@@ -6,7 +6,8 @@ public class Assets implements Runnable{
 
     public static BufferedImage astronautTalker, pursoid, fondoMenu, fondoSpaceInvaders,
             spriteNina, naveOff, naveOn, naveSemiOff, asteroids, bullet, laser, LaserAlien, enemy,
-            vida, floor, library, BookPile,AutoMissil,charge,pursoidBullet,halfLife,playerStand;
+            vida, floor, library, BookPile,AutoMissil,charge,pursoidBullet,halfLife,playerStand,
+            CursorSpace,lastBackground;
 
     public static BufferedImage playerDown[] = new BufferedImage[2];
     public static BufferedImage playerUp[] = new BufferedImage[3];
@@ -18,9 +19,16 @@ public class Assets implements Runnable{
     
     public static BufferedImage Boss[]= new BufferedImage[2];
     
-    public static BufferedImage backgroundMenu[]= new BufferedImage[60];
+    public static BufferedImage backgroundMenu[]= new BufferedImage[23];
+    public static BufferedImage backgroundLevel2[]= new BufferedImage[18];
     
+    public static BufferedImage minimize[] = new BufferedImage[2];
+    public static BufferedImage UILvl1[] = new BufferedImage[9];
+    public static BufferedImage UILvl2[] = new BufferedImage[9];
+    public static BufferedImage UIMenu[] = new BufferedImage[9];
+    public static BufferedImage UIMainLvl[] = new BufferedImage[9];
 
+    
     private static final int WIDHT = 131;
     private static final int HEIGHT = 110;
 	
@@ -33,6 +41,7 @@ public class Assets implements Runnable{
         SpriteSheet DownEnemy= new SpriteSheet(ImageLoader.loadImage("/Tilesets/pursoidSprite.png"));
         SpriteSheet AerialEnemy= new SpriteSheet(ImageLoader.loadImage("/Tilesets/LaserAlienSprite.png"));
         SpriteSheet boss= new SpriteSheet(ImageLoader.loadImage("/Tilesets/BossSpriteH.png"));
+        SpriteSheet UIbuttons= new SpriteSheet(ImageLoader.loadImage("/UI/UIsprite.png"));
         spriteNina = sheet.crop(0, 0, WIDHT, HEIGHT);
         fondoMenu = ImageLoader.loadImage("/Backgrounds/menu_gif.gif");
         fondoSpaceInvaders = ImageLoader.loadImage("/Backgrounds/spaceInvaders.png");
@@ -65,8 +74,15 @@ public class Assets implements Runnable{
             }
         }
         
-        for (int i = 1; i <= 54; i++) {
-            backgroundMenu [i]= ImageLoader.loadImage("/Backgrounds/frame-"+(i+1)+".gif");
+        for (int i = 0; i < 23; i++) {
+            backgroundMenu [i]= ImageLoader.loadImage("/Backgrounds/MainBackground/frame-"+(i+1)+".gif");
+            if(i==22){
+                lastBackground=ImageLoader.loadImage("/Backgrounds/MainBackground/frame-"+(i+1)+".gif");
+            }
+        }
+        
+        for (int i = 0; i < 18; i++) {
+            backgroundLevel2 [i]= ImageLoader.loadImage("/Background1/frame-"+(i+1)+".gif");
         }
         
         for (int i = 0; i < 4; i++) {
@@ -74,11 +90,32 @@ public class Assets implements Runnable{
         }
         
         for (int i = 0; i < 4; i++) {
-            downEnemy[i]=DownEnemy.crop(i*102, 0, 102,110);
+            downEnemy[i]=DownEnemy.crop(i*104, 0, 104,110);
         }
         
         for (int i = 0; i < 2; i++) {
             Boss[i]=boss.crop(i*125, 0, 125,120);
+        }
+        
+        for (int i = 0; i < 4; i++) {
+            for (int j = 0; j < 9; j++) {
+                switch (i){
+                    case 0:
+                        UIMenu[j]=UIbuttons.crop(256*j, 57*i,256 , 57);
+                        break;
+                    case 1:
+                        UILvl2[j]=UIbuttons.crop(256*j, 57*i,256 , 57);
+                        break;
+                    case 2:
+                        UILvl1[j]=UIbuttons.crop(256*j, 57*i,256 , 57);
+                        break;
+                    case 3:
+                        UIMainLvl[j]=UIbuttons.crop(256*j, 57*i,256 , 57);
+                        break;
+                    
+                     
+                }
+            }
         }
         charge=boss.crop(250, 0, 125, 120);
         
@@ -90,8 +127,11 @@ public class Assets implements Runnable{
         halfLife=sheetVida.crop(266, 0, 125, 201);
         floor = ImageLoader.loadImage("/Testers/Floor.png");
         library = ImageLoader.loadImage("/Testers/library.png");
+        CursorSpace = ImageLoader.loadImage("/Testers/spaceship.png");
         naveSemiOff = ImageLoader.loadImage("/Player/naveSemi.png");
         BookPile = ImageLoader.loadImage("/Testers/BookPile.png");
+        minimize[0] = ImageLoader.loadImage("/UI/minimize.png");
+        minimize[1] = ImageLoader.loadImage("/UI/minimizeHover.png");
     }
     
     

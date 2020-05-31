@@ -10,7 +10,12 @@ import Entities.EntityManager;
 import FirstMinigame.Tiles.Tile;
 import GameStates.World;
 import MainG.Handler;
+import MainG.Window;
+import static MainG.Window.mouse;
+import Tilemaps.Assets;
 import java.awt.Graphics2D;
+import java.awt.Point;
+import java.awt.Toolkit;
 
 /**
  *
@@ -32,6 +37,8 @@ public class WorldSpace extends World {
         super(handler, manager);
         this.handler = handler;
         this.manager = manager;
+        
+        
     }
 
     @Override
@@ -50,6 +57,7 @@ public class WorldSpace extends World {
                 generateBoss();
             }
         }
+        
         manager.update();
     }
 

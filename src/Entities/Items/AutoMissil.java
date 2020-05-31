@@ -62,7 +62,7 @@ public class AutoMissil extends Entity {
 
     @Override
     public void render(Graphics2D g) {
-        g.drawImage(Assets.bullet, (int) x, (int) y, null);
+        g.drawImage(Assets.AutoMissil, (int) x, (int) y, null);
     }
 
     private void move() {

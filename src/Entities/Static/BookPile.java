@@ -6,6 +6,7 @@
 package Entities.Static;
 
 import Entities.EntityManager;
+import FirstMinigame.WorldGenerator.WorldLibrary;
 import Tilemaps.Assets;
 import MainG.Handler;
 import java.awt.Graphics;
@@ -17,12 +18,23 @@ import java.awt.Graphics2D;
  */
 public class BookPile extends StaticEntity{
     
-    public BookPile(Handler handler, EntityManager entityM, float x, float y) {
+    private BookInfo bookinfo;
+    private EntityManager entityM;
+    long lastAttackTimer = 0;
+    long attackTimer = 0;
+    private int id;
+    
+    public BookPile(Handler handler, EntityManager entityM, float x, float y,BookInfo bookinfo) {
         super(handler, entityM, x, y, 55,55);
+        
+        this.bookinfo=bookinfo;
+        this.entityM=entityM;
+        this.id = this.bookinfo.getId();
         bounds.x=5;
         bounds.y=1;
         bounds.width=50;
         bounds.height=45;
+
     }
     
     @Override
@@ -32,11 +44,27 @@ public class BookPile extends StaticEntity{
     
     @Override
     public void die(){
-        
+        WorldLibrary.bookcount+=1;
+        entityM.addEntity(bookinfo);
     }
     
     @Override
     public void render(Graphics2D g){
         g.drawImage(Assets.BookPile, (int) (x-handler.getGameCamara().getxOffset()),(int) (y-handler.getGameCamara().getyOffset()), null);
+    }
+    
+    public void foundBook(){
+        WorldLibrary.bookcount += 1;
+        entityM.addEntity(bookinfo);
+        this.move(6150 + this.id*85 , 1230);
+    }
+    
+    public int getId() {
+        return id;
+    }
+    
+    public void move(int x, int y) {
+        this.x = x;
+        this.y = y;
     }
 }

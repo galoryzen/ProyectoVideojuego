@@ -40,7 +40,7 @@ public class GamePanel extends JPanel implements Runnable {
 
     //GameStateManager
     GameStateManager gsm;
-
+    
     //Imagenes
     private BufferedImage image;
     private Graphics2D g;

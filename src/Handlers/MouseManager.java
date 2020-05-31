@@ -5,7 +5,10 @@
  */
 package Handlers;
 
+import MainG.GameLauncher;
+import MainG.Window;
 import UI.UIManager;
+import java.awt.Point;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
@@ -15,7 +18,7 @@ import java.awt.event.MouseMotionListener;
  * @author German David
  */
 public class MouseManager implements MouseListener, MouseMotionListener{
-
+    private static Point point = new Point();
     private boolean leftPressed,rightPressed;
     private int mouseX,mouseY;
     private UIManager uiManager;
@@ -54,6 +57,8 @@ public class MouseManager implements MouseListener, MouseMotionListener{
 
     @Override
     public void mousePressed(MouseEvent me) {
+        point.x = me.getX();
+        point.y = me.getY();
         if(me.getButton()== MouseEvent.BUTTON1)
             leftPressed= true;
         else if(me.getButton()==MouseEvent.BUTTON3)
@@ -83,6 +88,10 @@ public class MouseManager implements MouseListener, MouseMotionListener{
 
     @Override
     public void mouseDragged(MouseEvent me) {
+        
+                Point p = GameLauncher.window.getLocation();
+                GameLauncher.window.setLocation(p.x + me.getX() - Window.mouse.mouseX, p.y + me.getY() - Window.mouse.mouseY);
+            
     }
 
     @Override

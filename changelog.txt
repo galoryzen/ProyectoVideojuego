@@ -1,10 +1,10 @@
 Beta:
 -Readme.md para el inicio del proyecto
 
-Version 1.0
+VERSION 1.0
 -Se realizó el modelo del videojuego y se añadieron las primeras clases el GameLoop y la ventana del juego.
 
-Version 1.1
+VERSION 1.1
 - Se realizó la implementación de los threads al programa
 - Completada la organizacion del juego
 - Añadido folder de Recursos ( Imagenes, sonidos...)
@@ -15,12 +15,12 @@ Version 1.1
 - Trabajar sobre Level1State
 - En la siguiente version se comenta todo
 
-Version 1.2
+VERSION 1.2
 - Se realizó una nueva configuración para los KeyListeners y el audio
 - Se realizó la estructura base de los minijuegos posteriores
 - Se añadió un menu con musica
 
-Version 1.3
+VERSION 1.3
 - Fusionado las implementacion para terminar de una manera general el croquis del primer nivel
 - Se añade Handlers, Entity y su Manager, balas y personajes, además de modificar el KeyListener
  
@@ -56,3 +56,36 @@ VERSION 1.7b
 
 VERSION 1.7c
 -Se actualizó el changelog
+
+VERSION 2.2
+-Se hace el videojuego mucho más general con indicaciones del gerente de Diseño
+-Se hacen avances en la implementación del segundo minijuego a la rama principal
+-Se actualizan las dimensiones de la mayoría de sprites que antes estaban erroneas
+-Se agrega una pantalla de carga que aun no es totalmente funcional
+
+VERSION 2.3
+-Se terminó el merge de otras 2 versiones
+-Se mejoró la estructura basica del videojuego para su eficiente funcionamiento
+-Se añadieron nuevas clases que no se añadieron en el commit anterior, para ver los cambios remitirse a la version 2.2
+
+VERSION 2.4
+Se crea la clase abstracta de World
+Se crear mejor constructor de EntityManager
+Se abtstrae Character
+Se añade la interfaz SaveGame
+Se crea la opcion de guardado
+Se añade el menu de Pausa
+Se añade final al Space Invaders
+Se crea el respawn del SpaceInvaders
+Se corrigen bugs menores
+
+VERSION 2.5
+-Se hace la implementación de los sentinelas, pero por ahora no se agregan al juego.
+-Se implementan diversas funciones para el funcionamiento del juego.
+-Los libros al recogerse ahora muestran la información en un dialogo
+-Se resuelven diversos bugs del primer minijuego
+
+VERSION 2.6
+-Se agregan los dialogos y se perfecciona el funcionamiento de los libros
+-Se trabaja en la historia de la biblioteca
+-Se añade la funcionalidad que impide que el jugador se mueva mientras están los dialogos de los libros
