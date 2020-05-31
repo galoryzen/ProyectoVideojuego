@@ -2,6 +2,7 @@ package GameStates;
 
 import Entities.EntityManager;
 import SecondMinigame.DialogueLoader;
+import FirstMinigame.WorldGenerator.WorldLibrary;
 import SecondMinigame.WorldSpace;
 
 public abstract class LevelUpManager {

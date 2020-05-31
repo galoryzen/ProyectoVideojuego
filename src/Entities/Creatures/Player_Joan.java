@@ -4,6 +4,8 @@ import Entities.Entity;
 import Entities.EntityManager;
 import Entities.Items.Bullet;
 import Tilemaps.Tile;
+import Entities.Static.BookPile;
+import FirstMinigame.Tiles.Tile;
 import Tilemaps.Animation;
 import MainG.Handler;
 import MainG.Window;
@@ -18,8 +20,9 @@ import java.awt.image.BufferedImage;
  */
 public class Player_Joan extends Character {
 
-
-    private boolean punchie=false;
+    private boolean punchie = false;
+    private boolean canMove = true;
+    private boolean endState = false;
     private int ar1, ar2;
 
     //Attack range
@@ -53,6 +56,7 @@ public class Player_Joan extends Character {
         animUp = new Animation(300, Assets.playerUp);
         animR = new Animation(300, Assets.playerRight);
         animL = new Animation(300, Assets.playerLeft);
+        this.speed += 10;
     }
 
     @Override
@@ -71,9 +75,9 @@ public class Player_Joan extends Character {
         handler.getGameCamara().centerOnEntity(this);
     }
 
-    private void checkAttacks(){
-        
-        Rectangle cb = getCollisionBounds(0,0);
+    private void checkAttacks() {
+
+        Rectangle cb = getCollisionBounds(0, 0);
         Rectangle ar = new Rectangle();
 
         ar.width = attackR;
@@ -93,21 +97,22 @@ public class Player_Joan extends Character {
         } else {
             return;
         }
-        
-        ar1=ar.x;
-        ar2=ar.y;
-        punchie=true;
-        attackTimer=0;
-        
-for (Entity en : manager.getEntities()) {
-    
-            System.out.println(""+en.getCollisionBounds(0,0));
-            if(!en.equals(this)){
-                 if(en.getCollisionBounds(0,0).intersects(ar)){
-                    en.hurt(10);
+
+        ar1 = ar.x;
+        ar2 = ar.y;
+        punchie = true;
+        attackTimer = 0;
+
+        for (Entity en : manager.getEntities()) {
+
+            //System.out.println("" + en.getCollisionBounds(0, 0));
+            if (!en.equals(this)) {
+                if (en.getCollisionBounds(0, 0).intersects(ar)) {
+                    BookPile book = (BookPile)en;
+                    book.foundBook();
                     return;
                 }
-           }
+            }
         }
     }
 
@@ -119,29 +124,32 @@ for (Entity en : manager.getEntities()) {
     public void getInput() {
         Xmove = 0;
         Ymove = 0;
+        if (canMove) {
+            if (Window.keyManager.up) {
+                Ymove = -speed;
+            }
 
-        if (Window.keyManager.up) {
-            Ymove = -speed;
-        }
+            if (Window.keyManager.down) {
+                Ymove = speed;
+            }
 
-        if (Window.keyManager.down) {
-            Ymove = speed;
-        }
-
-        if (Window.keyManager.right) {
-            Xmove = speed;
-        }
-        if (Window.keyManager.left) {
-            Xmove = -speed;
+            if (Window.keyManager.right) {
+                Xmove = speed;
+            }
+            if (Window.keyManager.left) {
+                Xmove = -speed;
+            }
         }
     }
 
     @Override
-    public void move(){
-        if(!checkEntityCollisions(Xmove,0f))
-        moveX();
-        if(!checkEntityCollisions(0f,Ymove))
-        moveY();
+    public void move() {
+        if (!checkEntityCollisions(Xmove, 0f)) {
+            moveX();
+        }
+        if (!checkEntityCollisions(0f, Ymove)) {
+            moveY();
+        }
     }
 
     public void moveX() {
@@ -179,26 +187,37 @@ for (Entity en : manager.getEntities()) {
     public void render(Graphics2D g) {
 
         g.drawImage(getCurrentAnimationFrame(), (int) (x - handler.getGameCamara().getxOffset()), (int) (y - handler.getGameCamara().getyOffset()), width, height, null);
-        if(punchie){
-             g.setColor(Color.blue);
-            g.fillRect((int) (ar1-handler.getGameCamara().getxOffset()),(int)  (ar2-handler.getGameCamara().getyOffset()), attackR, attackR);
-            punchie=false;
+        if (punchie) {
+            g.setColor(Color.blue);
+            g.fillRect((int) (ar1 - handler.getGameCamara().getxOffset()), (int) (ar2 - handler.getGameCamara().getyOffset()), attackR, attackR);
+            punchie = false;
         }
-        g.drawString((int) ((x + handler.getGameCamara().getxOffset()))+" , "+(int) (y + handler.getGameCamara().getyOffset()),(int) (x - handler.getGameCamara().getxOffset()),(int) (y - handler.getGameCamara().getyOffset()));
+        g.drawString(this.x + " , " + this.y, (int) (x - handler.getGameCamara().getxOffset()), (int) (y - handler.getGameCamara().getyOffset()));
         g.setColor(Color.yellow);
-        g.fillRect((int) (x + bounds.x - handler.getGameCamara().getxOffset()), 
-               (int) (y+bounds.y-handler.getGameCamara().getyOffset()), bounds.width,bounds.height);        
+        g.fillRect((int) (x + bounds.x - handler.getGameCamara().getxOffset()),
+                (int) (y + bounds.y - handler.getGameCamara().getyOffset()), bounds.width, bounds.height);
     }
 
-    @Override
+    /**
+     * Metodo para ver si el personaje tiene una colision con un tile que es de
+     * tipo solido.
+     *
+     * Cambiar este metodo a que retorne falso para atravesar paredes.
+     *
+     * @param x Coordenada en X
+     * @param y Coordenada en Y
+     * @return Retorna un booleano que indica si se está chocando con un tile
+     * que es SOLIDO.
+     */
     protected boolean collisionWithTile(int x, int y) {
-        return handler.getWorld().getTile(x, y).isSolid();
+        //return handler.getWorld().getTile(x, y).isSolid();
+        return false;
     }
 
     public Rectangle getBounds() {
         return bounds;
     }
-    
+
     //Conseguir la animación en cada movimiento
     private BufferedImage getCurrentAnimationFrame() {
         if (Xmove < 0) {
@@ -214,16 +233,29 @@ for (Entity en : manager.getEntities()) {
         }
     }
 
-    public boolean checkEntityCollisions(float xOffset,float yOffset){
+    public boolean checkEntityCollisions(float xOffset, float yOffset) {
         for (Entity e : manager.getEntities()) {
-            if(e.equals(this))
-                //Continua al siguiente objeto
+            if (e.equals(this)) //Continua al siguiente objeto
+            {
                 continue;
+            }
             //Si las dos hitbox se intersectan entonces si hubo colision
-            if(e.getCollisionBounds(0f, 0f).intersects(getCollisionBounds(xOffset,yOffset))){
+            if (e.getCollisionBounds(0f, 0f).intersects(getCollisionBounds(xOffset, yOffset))) {
                 return true;
             }
         }
         return false;
+    }
+
+    public void setCanMove(boolean b) {
+        this.canMove = b;
+    }
+
+    public boolean checkEnd() {
+        if (this.x > 5700 && this.y > 1600 && this.y < 1800) {
+            System.out.println("habla cachon");
+            return false;
+        }
+        return true;
     }
 }

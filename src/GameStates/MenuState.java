@@ -1,6 +1,7 @@
 package GameStates;
 
 import Audio.AudioLoader;
+import MainG.GameLauncher;
 import Tilemaps.Background;
 import java.awt.Color;
 import java.awt.Font;
@@ -33,7 +34,7 @@ public class MenuState extends GameState implements SaveGame {
     public long lastPressedTime = 0;
 
     private Animation anm;
-
+    private boolean sw;
     static final long minPressedDelay = 150;
 
     private UIManager uimanager;
@@ -45,7 +46,8 @@ public class MenuState extends GameState implements SaveGame {
         "Creators",
         "Story",
         "Quit",};
-
+    
+    private BufferedImage lastImage;
     private Color titleColor;
     private Font titleFont;
     private Font font;
@@ -53,6 +55,7 @@ public class MenuState extends GameState implements SaveGame {
     public MenuState(GameStateManager gsm, Handler handler) {
         super(gsm);
         this.handler = handler;
+        sw=false;
         try {
             bg = new Background(Assets.fondoMenu, 1);
             bg.setVector(2, 0);
@@ -63,13 +66,19 @@ public class MenuState extends GameState implements SaveGame {
             e.printStackTrace();
         }
         uimanager = new UIManager(handler);
-        uimanager.addUIObject(new UIImageButton(100f, 100f, 100, 100, Assets.Boss, new ClickListener() {
+        uimanager.addUIObject(new UIImageButton(1047f, 0f, 32, 32, Assets.minimize, new ClickListener() {
             @Override
             public void onClick() {
-                gsm.reloadState(2);
+                GameLauncher.window.setState(GameLauncher.window.ICONIFIED);
             }
         }));
-        anm = new Animation(100, Assets.backgroundMenu);
+        uimanager.addUIObject(new UIImageButton(500f, 500f, 256, 57, Assets.UIMenu[5], new ClickListener() {
+            @Override
+            public void onClick() {
+                System.exit(0);
+            }
+        }));
+        anm = new Animation(150, Assets.backgroundMenu);
         init();
     }
 
@@ -82,7 +91,14 @@ public class MenuState extends GameState implements SaveGame {
     }
 
     public void draw(Graphics2D g) {
-        g.drawImage(getCurrentFrame(), 0, 0, 1080, 720, null);
+        if( sw ){
+            g.drawImage(Assets.backgroundMenu[22], 0, 0, 1080, 720, null);
+        }else{
+            g.drawImage(getCurrentFrame(), 0, 0, 1080, 720, null);
+            if(getCurrentFrame().equals(Assets.backgroundMenu[22])){
+                sw=true;
+            }
+        }
         // Aplica colores al titulo del juego
         g.setColor(titleColor);
         g.setFont(titleFont);
@@ -139,10 +155,6 @@ public class MenuState extends GameState implements SaveGame {
         if (Window.keyManager.enter) {
             optionPicker();
         }
-        if (Window.keyManager.space) {
-            bgMusic.stop();
-            gsm.setState(3);
-        }
         lastPressedTime = now;
     }
 
@@ -152,7 +164,9 @@ public class MenuState extends GameState implements SaveGame {
     }
 
     BufferedImage getCurrentFrame() {
-        return anm.getCurrentFrame();
+        
+            return anm.getCurrentFrame();
+        
     }
 
     @Override

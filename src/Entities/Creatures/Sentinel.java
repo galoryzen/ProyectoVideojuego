@@ -8,6 +8,9 @@ package Entities.Creatures;
 import Entities.EntityManager;
 import Tilemaps.Tile;
 import MainG.Handler;
+import FirstMinigame.Tiles.Tile;
+import MainG.Handler;
+import SecondMinigame.HUD;
 import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.Rectangle;
@@ -40,7 +43,6 @@ public class Sentinel extends Creature{
         bounds.y=0;
         bounds.width=0;
         bounds.height=0;
-        speed = speed - 2f;
     }
     
     
@@ -128,7 +130,7 @@ public class Sentinel extends Creature{
     
 
     private void searching() {
-        if(vision.contains(manager.getJoan().getX(),manager.getJoan().getY())){
+        if(vision.contains(manager.getJoan().getX()+manager.getJoan().getBounds().getX(),manager.getJoan().getY()+manager.getJoan().getBounds().getY())){
             busted=true;
         }else{
             busted=false;

@@ -4,17 +4,24 @@ import Entities.EntityManager;
 import Tilemaps.Background;
 import java.awt.Graphics2D;
 import Handlers.KeyManager;
+import MainG.GameLauncher;
 import MainG.Handler;
 import MainG.Window;
+import static MainG.Window.mouse;
 import SecondMinigame.HUD;
 import SecondMinigame.Level2UpManager;
-import SecondMinigame.DialogueLoader;
 import SecondMinigame.WorldSpace;
+import Tilemaps.Animation;
 import Tilemaps.Assets;
+import java.awt.Image;
+import java.awt.Point;
+import java.awt.Toolkit;
+import tinysound.Music;
 
 public class Level2State extends GameState {
 
-    private Background bg;
+    private Music bgTalkMusic, bgMusic;
+    //private Background bg;
     private Handler handler;
     private WorldSpace world;
     private DialogueLoader dialogueLoader;
@@ -23,7 +30,7 @@ public class Level2State extends GameState {
     private Level2UpManager levelManager;
     public KeyManager teclas;
     private EntityManager entityManager;
-
+    private Animation background;
     private boolean ya = true;
     private long timePassed;
     private long timeDeltaTime;
@@ -34,12 +41,15 @@ public class Level2State extends GameState {
         super(gsm);
         this.handler = handler;
         this.levelTag = tag;
+        /*
         try {
             bg = new Background(Assets.fondoSpaceInvaders, 1);
             bg.setVector(-3f, 0f);
         } catch (Exception e) {
             System.out.print(e);
         }
+        */
+        background= new Animation(50,Assets.backgroundLevel2);
         entityManager = new EntityManager(handler, this);
         dialogueLoader = new DialogueLoader(handler);
         world = new WorldSpace(entityManager, handler);
@@ -61,8 +71,9 @@ public class Level2State extends GameState {
         if (Window.keyManager.pause) {
             pauseState();
         }
+        background.update();
         musicControl();
-        bg.update();
+        //bg.update();
         hud.update();
         world.update();
         levelManager.update(hud.getPoint(), hud.getHealth());
@@ -76,7 +87,8 @@ public class Level2State extends GameState {
             levelManager.setGraphics(g);
             ya = !ya;
         }
-        bg.draw(g);
+        //bg.draw(g);
+        g.drawImage(getCurrentFrame(), 0, 0,1080,720,null);
         levelManager.render();
         hud.render(g);
     }
@@ -84,11 +96,14 @@ public class Level2State extends GameState {
     @Override
     public void musicControl() {
     }
+    
 
+    
+    /*
     public Background getBg() {
         return bg;
     }
-
+    */
     @Override
     public World getWorld() {
         return world;
@@ -122,5 +137,9 @@ public class Level2State extends GameState {
     @Override
     public void getLoadData() {
         levelManager.loadData();
+    }
+
+    private Image getCurrentFrame() {
+        return background.getCurrentFrame();
     }
 }

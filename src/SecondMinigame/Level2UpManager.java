@@ -1,6 +1,7 @@
 package SecondMinigame;
 
 import Audio.AudioLoader;
+import GameStates.DialogueLoader;
 import Entities.Creatures.Player;
 import Entities.Entity;
 import Entities.EntityManager;
@@ -47,7 +48,7 @@ public class Level2UpManager extends LevelUpManager implements SaveGame {
             if (points < 10 && !dialogueLoader.getDialogueMark() && phase == 0) {
                 insertData();
                 phase = -1;
-                moveFasterBackground(state.getBg());
+                //moveFasterBackground(state.getBg());
             }
             if (points >= 25 && !flag1) {
                 // Con esto da inicio a la generacion de los primeros enemigos
@@ -55,7 +56,7 @@ public class Level2UpManager extends LevelUpManager implements SaveGame {
                 // Se guarda un Checkpoint 1, rellenando los datos del txt
                 insertData();
                 dialogueLoader.setDialogueMark();
-                moveFasterBackground(state.getBg());
+                //moveFasterBackground(state.getBg());
                 flag1 = !flag1;
                 temporaryWorld.clearScreenEntities();
                 temporaryWorld.setGenerateEnemys(false);
@@ -65,7 +66,7 @@ public class Level2UpManager extends LevelUpManager implements SaveGame {
                 // Se guarda un Checkpoint 2, rellenando los datos del txt
                 insertData();
                 dialogueLoader.setDialogueMark();
-                moveFasterBackground(state.getBg());
+                //moveFasterBackground(state.getBg());
                 flag2 = !flag2;
                 temporaryWorld.clearScreenEntities();
                 temporaryWorld.generateEnemys();
@@ -75,7 +76,7 @@ public class Level2UpManager extends LevelUpManager implements SaveGame {
                 // Se guarda un Checkpoint 3, rellenando los datos del txt
                 insertData();
                 dialogueLoader.setDialogueMark();
-                moveFasterBackground(state.getBg());
+                //moveFasterBackground(state.getBg());
                 flag3 = !flag3;
                 temporaryWorld.clearScreenEntities();
                 temporaryWorld.generateEnemys();

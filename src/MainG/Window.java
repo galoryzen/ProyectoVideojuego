@@ -7,7 +7,12 @@ import com.sun.jna.NativeLibrary;
 import java.awt.BorderLayout;
 import java.awt.Canvas;
 import java.awt.Color;
+import Tilemaps.Assets;
+import java.awt.BorderLayout;
+import java.awt.Cursor;
 import java.awt.Dimension;
+import java.awt.Point;
+import java.awt.Toolkit;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import uk.co.caprica.vlcj.binding.LibVlc;
@@ -37,12 +42,13 @@ public class Window extends JFrame {
         this.setLayout(new BorderLayout());
         this.panel = new GamePanel(width, height, this);
         //Se le pone un titulo y las dimensiones
-        setTitle("VENTANA DEL JUEGO");
+        //setTitle("VENTANA DEL JUEGO");
         setPreferredSize(new Dimension(width, height));
-
+        setUndecorated(true);
         //Se define lo que sucede si presiona la x en la esquina superior
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setContentPane(panel);
+        //setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setContentPane(new GamePanel(width, height));
+        
         //Evita que el usuario modifique las dimensiones
         setResizable(false);
         pack();
@@ -56,7 +62,8 @@ public class Window extends JFrame {
         addKeyListener(keyManager);
         addMouseListener(mouse);
         addMouseMotionListener(mouse);
-//        setVideo();
+        setIconImage(Assets.CursorSpace);
+        setCursor(Toolkit.getDefaultToolkit().createCustomCursor(Assets.CursorSpace,new Point(mouse.getMouseX(),mouse.getMouseY()), "ef"));
     }
 
     public void setVideo() {

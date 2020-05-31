@@ -30,10 +30,17 @@ public class PauseState extends GameState implements SaveGame {
         this.gsm = gsm;
         this.handler = handler;
         manager = new UIManager(handler);
+        /*
         manager.addUIObject(new UIImageButton(100f, 100f, 100, 100, Assets.Boss, new ClickListener() {
             @Override
             public void onClick() {
                 gsm.reloadState(0);
+        */        
+        manager= new UIManager(handler);
+        manager.addUIObject(new UIImageButton(100f, 100f, 100, 100, Assets.Boss, new ClickListener() {
+            @Override
+            public void onClick() {
+                System.exit(0);
             }
         }));
     }

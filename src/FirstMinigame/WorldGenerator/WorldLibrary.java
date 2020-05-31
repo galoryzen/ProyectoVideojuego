@@ -12,6 +12,8 @@ import GameStates.GameState;
 import GameStates.World;
 import MainG.Handler;
 import Tilemaps.Assets;
+import java.awt.Color;
+import java.awt.Font;
 import java.awt.Graphics2D;
 import java.util.ArrayList;
 
@@ -28,20 +30,25 @@ public class WorldLibrary extends World {
     //Entities
     private ArrayList<BookPile> bookpiles;
     private EntityManager entityM;
-    public static int bookcount=0;
+    public static int bookcount = 0;
+    private boolean showHistory = true;
+    Font textFont = new Font("pixelart", Font.PLAIN, 20);
     
 
     public WorldLibrary(Handler handler, String path, GameState state) {
         super(handler);
         this.handler = handler;
         entityM = new EntityManager(handler, state);
-        entityM.addEntity(new BookPile(handler, entityM, 100, 60, new BookInfo(entityM,Assets.vida,handler,500,100,100,100)));
-        entityM.addEntity(new BookPile(handler, entityM, 500, 150,new BookInfo(entityM,Assets.vida,handler,500,100,100,100)));
-        entityM.addEntity(new BookPile(handler, entityM, 50, 20,new BookInfo(entityM,Assets.vida,handler,500,100,100,100)));
-        entityM.addEntity(new BookPile(handler, entityM, 0, 0,new BookInfo(entityM,Assets.vida,handler,500,100,100,100)));
-        entityM.addEntity(new Sentinel(handler, entityM,150,100,40,40));
-        
-        
+        entityM.addEntity(new BookPile(handler, entityM, 600, 395, new BookInfo(entityM, Assets.vida, handler, 500, 100, 100, 100, 0)));
+        entityM.addEntity(new BookPile(handler, entityM, 385, 385, new BookInfo(entityM, Assets.vida, handler, 500, 100, 100, 100, 1)));
+        entityM.addEntity(new BookPile(handler, entityM, 3870, 1110, new BookInfo(entityM, Assets.vida, handler, 500, 100, 100, 100, 2)));
+        entityM.addEntity(new BookPile(handler, entityM, 2650, 1350, new BookInfo(entityM, Assets.vida, handler, 500, 100, 100, 100, 3)));
+        entityM.addEntity(new BookPile(handler, entityM, 1580, 625, new BookInfo(entityM, Assets.vida, handler, 500, 100, 100, 100, 4)));
+        entityM.addEntity(new BookPile(handler, entityM, 4590, 2075, new BookInfo(entityM, Assets.vida, handler, 500, 100, 100, 100, 5)));
+        entityM.addEntity(new BookPile(handler, entityM, 5650, 1690, new BookInfo(entityM, Assets.vida, handler, 500, 100, 100, 100, 6)));
+        entityM.addEntity(new BookPile(handler, entityM, 5300, 1450, new BookInfo(entityM, Assets.vida, handler, 500, 100, 100, 100, 7)));
+
+        //entityM.addEntity(new Sentinel(handler, entityM,150,100,40,40));
         loadWorld(path);
         entityM.getJoan().setX(spawnX);
         entityM.getJoan().setY(spawnY);
@@ -57,7 +64,7 @@ public class WorldLibrary extends World {
         int Xend = (int) Math.min(width, (handler.getGameCamara().getxOffset() + handler.getWidth()) / Tile.TILEWIDTH + 1);
         int Ystart = (int) Math.max(0, handler.getGameCamara().getyOffset() / Tile.TILEHEIGHT);
         int Yend = (int) Math.min(height, (handler.getGameCamara().getyOffset() + handler.getHeight()) / Tile.TILEHEIGHT + 1);
-        //g.drawImage(Assets.background, 0, 0, 800, 600, null);
+        g.setBackground(Color.gray);
         for (int y = Ystart; y < Yend; y++) {
             for (int x = Xstart; x < Xend; x++) {
                 getTile(x, y).render(g, (int) (x * Tile.TILEWIDTH - handler.getGameCamara().getxOffset()),
