@@ -1,6 +1,7 @@
 package GameStates;
 
 import Audio.AudioLoader;
+import MainG.GameLauncher;
 import Tilemaps.Background;
 import java.awt.Color;
 import java.awt.Font;
@@ -33,7 +34,7 @@ public class MenuState extends GameState implements SaveGame {
     public long lastPressedTime = 0;
 
     private Animation anm;
-
+    private boolean sw;
     static final long minPressedDelay = 150;
 
     private UIManager uimanager;
@@ -45,7 +46,8 @@ public class MenuState extends GameState implements SaveGame {
         "Creators",
         "Story",
         "Quit",};
-
+    
+    private BufferedImage lastImage;
     private Color titleColor;
     private Font titleFont;
     private Font font;
@@ -53,6 +55,7 @@ public class MenuState extends GameState implements SaveGame {
     public MenuState(GameStateManager gsm, Handler handler) {
         super(gsm);
         this.handler = handler;
+        sw=false;
         try {
             bg = new Background(Assets.fondoMenu, 1);
             bg.setVector(2, 0);
@@ -63,13 +66,19 @@ public class MenuState extends GameState implements SaveGame {
             e.printStackTrace();
         }
         uimanager = new UIManager(handler);
-        uimanager.addUIObject(new UIImageButton(100f, 100f, 100, 100, Assets.Boss, new ClickListener() {
+        uimanager.addUIObject(new UIImageButton(1047f, 0f, 32, 32, Assets.minimize, new ClickListener() {
             @Override
             public void onClick() {
-                gsm.setState(2);
+                GameLauncher.window.setState(GameLauncher.window.ICONIFIED);
             }
         }));
-        anm = new Animation(100, Assets.backgroundMenu);
+        uimanager.addUIObject(new UIImageButton(500f, 500f, 256, 57, Assets.UIMenu[5], new ClickListener() {
+            @Override
+            public void onClick() {
+                System.exit(0);
+            }
+        }));
+        anm = new Animation(150, Assets.backgroundMenu);
         init();
     }
 
@@ -82,8 +91,14 @@ public class MenuState extends GameState implements SaveGame {
     }
 
     public void draw(Graphics2D g) {
-
-        g.drawImage(getCurrentFrame(), 0, 0, 1080, 720, null);
+        if( sw ){
+            g.drawImage(Assets.backgroundMenu[22], 0, 0, 1080, 720, null);
+        }else{
+            g.drawImage(getCurrentFrame(), 0, 0, 1080, 720, null);
+            if(getCurrentFrame().equals(Assets.backgroundMenu[22])){
+                sw=true;
+            }
+        }
         // Aplica colores al titulo del juego
         g.setColor(titleColor);
         g.setFont(titleFont);
@@ -108,6 +123,10 @@ public class MenuState extends GameState implements SaveGame {
 
     @Override
     public void init() {
+        while (Window.mouse == null) {
+            System.out.println("Cargando");
+        }
+        Window.mouse.setUIManager(uimanager);
         bgMusic = AudioLoader.bgMusic;
         bgMusic.setVolume(0.3);
         bgMusic.play(true);
@@ -135,7 +154,7 @@ public class MenuState extends GameState implements SaveGame {
         }
         if (Window.keyManager.space) {
             bgMusic.stop();
-            gsm.setState(3);
+            gsm.setState(5);
         }
         // Opcion de continuar donde se habia dejado la partida
         if (Window.keyManager.enter) {
@@ -160,7 +179,9 @@ public class MenuState extends GameState implements SaveGame {
     }
 
     BufferedImage getCurrentFrame() {
-        return anm.getCurrentFrame();
+        
+            return anm.getCurrentFrame();
+        
     }
 
     @Override
@@ -189,7 +210,7 @@ public class MenuState extends GameState implements SaveGame {
 
         }
         // Se verifica que el archivo de TXT de guardado, tenga un state como primera linea, sino, esta es la primera vez que se inicia el juego
-        if (stateVerification.isEmpty() || stateVerification.isBlank()) {
+        if (stateVerification.isEmpty() || stateVerification.isEmpty()) {
             System.out.println("PARTIDA NUEVA");
         }
         state = Integer.parseInt(stateVerification);

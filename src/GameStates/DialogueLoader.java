@@ -1,4 +1,4 @@
-package SecondMinigame;
+package GameStates;
 
 import MainG.Handler;
 import MainG.Window;
@@ -10,7 +10,7 @@ import java.awt.Graphics2D;
 public class DialogueLoader {
 
     private Handler handler;
-
+    private String levelTag;
     private boolean dialogueMark = true;
 
     public static int tutorialState = 1;
@@ -170,5 +170,9 @@ public class DialogueLoader {
     
     public void setInfo(int info){
         this.info = info;
+    }
+    
+    public void setGameTag(String level) {
+        this.levelTag = level;
     }
 }

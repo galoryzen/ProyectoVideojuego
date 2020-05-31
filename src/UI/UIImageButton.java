@@ -15,6 +15,7 @@ import java.awt.image.BufferedImage;
 public class UIImageButton extends UIObject {
     
     private BufferedImage[] images;
+    private BufferedImage image;
     private ClickListener clicker;
     
     public UIImageButton(float x, float y, int width, int height,BufferedImage[] images,ClickListener clicker) {
@@ -22,6 +23,14 @@ public class UIImageButton extends UIObject {
         this.images=images;
         this.clicker=clicker;
     }
+    
+    public UIImageButton(float x, float y, int width, int height,BufferedImage image,ClickListener clicker) {
+        super(x, y, width, height);
+        this.image=image;
+        this.clicker=clicker;
+    }
+    
+    
 
     @Override
     public void tick() {
@@ -30,15 +39,21 @@ public class UIImageButton extends UIObject {
 
     @Override
     public void render(Graphics g) {
-        if(hovering)
-            g.drawImage(images[1], (int) x, (int) y, null);
-        else
-            g.drawImage(images[0], (int) x, (int) y, null);
+        if(!(images==null)){
+            if(hovering)
+                g.drawImage(images[0], (int) x, (int) y, null);
+            else
+                g.drawImage(images[1], (int) x, (int) y, null);
+        }else{
+            if(hovering)
+                g.drawImage(image, (int) x, (int) y,width-30,height-10, null);
+            else
+                g.drawImage(image, (int) x, (int) y,width , height, null);
+        }
     }
 
     @Override
     public void onClick() {
-
         clicker.onClick();
     }
     

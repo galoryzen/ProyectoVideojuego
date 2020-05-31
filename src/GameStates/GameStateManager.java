@@ -10,7 +10,7 @@ public class GameStateManager {
 
     public Handler handler;
 
-    public static final int NUMGAMESTATE = 5;
+    public static final int NUMGAMESTATE = 6;
     private static GameState[] gameStates;
     private int currentState;
     private static GameCamara gameCamera;
@@ -20,6 +20,7 @@ public class GameStateManager {
     private final int LEVEL1STATE = 2;
     private final int LEVEL2STATE = 3;
     private final int PAUSESTATE = 4;
+    private final int QUIZSTATE = 5;
 
     private int previousState;
 
@@ -63,6 +64,9 @@ public class GameStateManager {
                 break;
             case LEVEL2STATE:
                 gameStates[state] = new Level2State(this, handler, "Level 3");
+                
+                case QUIZSTATE:
+                gameStates[state] = new QuizState(this);
         }
     }
 
