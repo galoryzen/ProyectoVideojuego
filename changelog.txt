@@ -89,3 +89,9 @@ VERSION 2.6
 -Se agregan los dialogos y se perfecciona el funcionamiento de los libros
 -Se trabaja en la historia de la biblioteca
 -Se añade la funcionalidad que impide que el jugador se mueva mientras están los dialogos de los libros
+
+Version 2.7
+-Se realiza el merge de dos ramas.
+-Se realizan diversos cambios a la ventana
+-Se añaden elemntos para mejorar el UI/UX
+-Se cambian varios sprites y el background
