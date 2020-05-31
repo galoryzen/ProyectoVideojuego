@@ -13,10 +13,10 @@ public class DialogueLoader {
 
     private boolean dialogueMark = true;
 
-    public static int tutorialState = 1;
-    public static int timeAnimation = 1;
-    public static int info = 0;
-    public static int timeAnimationMark = 50;
+    private static int tutorialState = 1;
+    private static int timeAnimation = 1;
+    private static int info = 0;
+    private static int timeAnimationMark = 50;
 
     Font textFont = new Font("pixelart", Font.PLAIN, 22);
 
@@ -166,8 +166,8 @@ public class DialogueLoader {
     public int getInfo() {
         return info;
     }
-    
-    public void setInfo(int info){
+
+    public void setInfo(int info) {
         this.info = info;
     }
 }

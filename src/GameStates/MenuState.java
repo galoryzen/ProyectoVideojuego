@@ -12,7 +12,6 @@ import UI.ClickListener;
 import UI.UIImageButton;
 import UI.UIManager;
 import UtilLoader.SaveGame;
-import java.awt.AlphaComposite;
 import java.awt.image.BufferedImage;
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
@@ -107,7 +106,7 @@ public class MenuState extends GameState implements SaveGame {
 
     @Override
     public void init() {
-        while (Window.mouse == null){
+        while (Window.mouse == null) {
             System.out.println("Cargando");
         }
         Window.mouse.setUIManager(uimanager);
@@ -136,24 +135,14 @@ public class MenuState extends GameState implements SaveGame {
                 currentChoice = 0;
             }
         }
-        if (Window.keyManager.space) {
-            bgMusic.stop();
-            gsm.reloadState(3);
-        }
         // Opcion de continuar donde se habia dejado la partida
         if (Window.keyManager.enter) {
-            if (currentChoice == 1) {
-                loadData();
-            } else {
-                bgMusic.stop();
-                gsm.reloadState(2);
-            }
+            optionPicker();
         }
-        if (Window.keyManager.test) {
+        if (Window.keyManager.space) {
             bgMusic.stop();
-            gsm.reloadState(1);
+            gsm.setState(3);
         }
-
         lastPressedTime = now;
     }
 
@@ -176,18 +165,41 @@ public class MenuState extends GameState implements SaveGame {
 
     }
 
+    public void optionPicker() {
+        switch (currentChoice) {
+            case 0:
+                bgMusic.stop();
+                gsm.setState(1);
+                break;
+            case 1:
+                getLoadData();
+                break;
+            case 2:
+                break;
+            case 3:
+                break;
+            case 4:
+                break;
+            case 5:
+                break;
+        }
+    }
+
     @Override
     public void loadData() {
         BufferedReader br = null;
         int state = 0;
+        int subState = 0;
         String stateVerification = "";
+        String subStateVerification = "";
         try {
-            br = new BufferedReader(new FileReader("savefile.txt"));
+            br = new BufferedReader(new FileReader("saveGeneralFile.txt"));
         } catch (FileNotFoundException ex) {
             Logger.getLogger(MenuState.class.getName()).log(Level.SEVERE, null, ex);
         }
         try {
             stateVerification = br.readLine();
+            subStateVerification = br.readLine();
         } catch (Exception e) {
 
         }
@@ -196,10 +208,17 @@ public class MenuState extends GameState implements SaveGame {
             System.out.println("PARTIDA NUEVA");
         }
         state = Integer.parseInt(stateVerification);
+        subState = Integer.parseInt(subStateVerification);
         // Se verifica si el State cargado por el TXT, no es nulo. Si este es nulo indica que el juego se cerro y se abrio de nuevo para crear el State, de lo contaro se carga normalmente con el reloadState.
         if (!gsm.VerificarReinicioJuego(state)) {
-            gsm.reloadState(state);  // Se recarga el juego
-            gsm.getGameStates()[state].getLoadData(); // Se insertan los datos del txt
+            if (gsm.isOnMinigame(subState)) {
+                subState = gsm.getMinigame(subState);
+                gsm.reloadState(subState);
+                gsm.getGameStates()[subState].getLoadData();
+            } else {
+                gsm.reloadState(state);  // Se recarga el juego
+                gsm.getGameStates()[state].getLoadData(); // Se insertan los datos del txt
+            }
         } else {
             gsm.setState(state); // Se crea el state donde termino el guardado, toca verificar a futuro, como enlazarlo con el acceso a superiores ( del 1 a 3 y a 2)
         }

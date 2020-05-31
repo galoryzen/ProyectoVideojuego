@@ -9,6 +9,7 @@ import MainG.Handler;
 import MainLevel.Tiles.Chest;
 import MainLevel.Tiles.TileMainLevel;
 import MainLevel.Tiles.ElevatorTile;
+import MainLevel.Tiles.TeleporterTile;
 import java.awt.Graphics2D;
 
 /**
@@ -81,12 +82,16 @@ public class WorldPlat extends World {
         }
     }
 
-    public void switchElevators() {
+    public void switchElevators(int switched) {
         for (int y = 0; y < height; y++) {
             for (int x = 0; x < width; x++) {
                 TileMainLevel auxT = (TileMainLevel) getTile(x, y);
                 if (auxT instanceof ElevatorTile) {
-                    auxT.buttonPressed();
+                    if (switched % 2 != 0) {
+                        auxT.buttonPressed();
+                    } else {
+                        auxT.buttonRelased();
+                    }
                 }
             }
         }
@@ -115,9 +120,18 @@ public class WorldPlat extends World {
                 TileMainLevel auxT = (TileMainLevel) getTile(x, y);
                 if (auxT instanceof ElevatorTile) {
                     auxT.resetElevator();
-                }else if(auxT instanceof Chest){
+                } else if (auxT instanceof Chest) {
                     auxT.resetInteraction();
                 }
+            }
+        }
+    }
+
+    public void switchAllTheTiles() {
+        for (int y = 0; y < height; y++) {
+            for (int x = 0; x < width; x++) {
+                TileMainLevel tile = (TileMainLevel) getTile(x, y);
+                tile.changeTiles();
             }
         }
     }

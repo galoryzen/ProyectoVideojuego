@@ -17,9 +17,15 @@ public class InElevator extends ElevatorTile {
         isVisible = true;
     }
 
-    public void reset() {
-        isSolid = false;
-        isVisible = true;
+    @Override
+    public boolean isSolid(){
+        return !isSolid;
     }
+    
+    @Override
+    public boolean isVisible(){
+        return isVisible;
+    }
+    
 
 }

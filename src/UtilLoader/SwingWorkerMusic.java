@@ -5,15 +5,26 @@ import tinysound.Music;
 
 public class SwingWorkerMusic extends SwingWorker<Void, Void> {
 
-    private Music music;
-
+    private static Music music;
+    private boolean loop;
+    
     public SwingWorkerMusic(Music music) {
-        this.music = music;
+        SwingWorkerMusic.music = music;
+        this.loop = false;
+    }
+    
+    public SwingWorkerMusic(Music music, boolean loop){
+        SwingWorkerMusic.music = music;
+        this.loop = loop;
     }
 
     @Override
     protected Void doInBackground() throws Exception {
-        music.play(true,0.5f);
+        while (!isCancelled()) {
+            SwingWorkerMusic.music.play(loop, 0.5f);
+        }
+        music = null;
         return null;
     }
+
 }

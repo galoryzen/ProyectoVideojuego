@@ -27,6 +27,8 @@ public class Level2State extends GameState {
     private boolean ya = true;
     private long timePassed;
     private long timeDeltaTime;
+    
+    private double timeInitial;
 
     public Level2State(GameStateManager gsm, Handler handler, String tag) {
         super(gsm);
@@ -95,7 +97,9 @@ public class Level2State extends GameState {
     public void setGameFinished() {
         // Finaliza el juego y devuelve al nivel prinicipal, se espera cambiar el setState, por el reloadState, puesto que por medio de ese se accede a este
         // EFECTO DE TRANSICION
-        gsm.setState(1);
+        gsm.getGameStates()[1].getLoadData();
+        MainLevel auxS = (MainLevel) gsm.getGameStates()[1];
+        auxS.getLevelManager().setFinishedMinigame();
     }
 
     // Se verifica si el usuario presiono la letra P, para iniciar un menu de Pausa.

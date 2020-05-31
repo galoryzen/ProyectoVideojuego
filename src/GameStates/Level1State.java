@@ -60,6 +60,5 @@ public class Level1State extends GameState implements Runnable {
 
     @Override
     public void getLoadData() {
-
     }
 }

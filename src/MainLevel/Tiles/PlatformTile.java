@@ -12,5 +12,10 @@ public class PlatformTile extends TileMainLevel {
     public boolean isSolid() {
         return !isSolid;
     }
-    
+
+    @Override
+    public void changeTiles() {
+        this.texture = Assets.spaceWall2;
+    }
+
 }

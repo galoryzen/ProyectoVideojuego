@@ -15,6 +15,8 @@ public class Chest extends TileMainLevel {
 
     public Chest(int id) {
         super(Assets.chest, id);
+        isSolid = false;
+        isInteractive = false;
     }
 
     @Override
@@ -26,4 +28,10 @@ public class Chest extends TileMainLevel {
     public boolean isInteractive() {
         return !isInteractive;
     }
+
+    @Override
+    public void changeTiles() {
+        this.texture = Assets.spaceCrate;
+    }
+
 }

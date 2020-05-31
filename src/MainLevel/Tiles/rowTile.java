@@ -12,4 +12,5 @@ public class RowTile extends TileMainLevel {
     public boolean isSolid() {
         return !isSolid;
     }
+
 }

@@ -25,7 +25,9 @@ public class Level2UpManager extends LevelUpManager implements SaveGame {
     private Level2State state;
     private HUD hud;
     private Music bgTalkMusic, bgMusic;
-
+    private SwingWorkerMusic swingWM;
+    private boolean ya = true;
+    
     public Level2UpManager(GameState state, HUD hud, WorldSpace world, DialogueLoader dialogueLoader, EntityManager entityManager) {
         super(world, entityManager);
         this.hud = hud;
@@ -112,14 +114,14 @@ public class Level2UpManager extends LevelUpManager implements SaveGame {
     @Override
     public void changeMusic() {
         if (bgTalkMusic.playing()) {
-        } else {
-            if (phase == -1 && !bgMusic.done()) {
-                SwingWorkerMusic swingWM = new SwingWorkerMusic(bgTalkMusic);
-                swingWM = new SwingWorkerMusic(bgMusic);
-            } else {
-                SwingWorkerMusic swingWM = new SwingWorkerMusic(bgTalkMusic);
-                swingWM.execute();
+            if (phase == -1 && ya) {
+                ya = false;
+                swingWM.cancel(true);
+                swingWM = new SwingWorkerMusic(bgMusic, true);
             }
+        } else {
+            swingWM = new SwingWorkerMusic(bgTalkMusic);
+            swingWM.execute();
         }
     }
 
@@ -202,6 +204,7 @@ public class Level2UpManager extends LevelUpManager implements SaveGame {
             bw.write("" + hud.getPoint());
             bw.close();
         } catch (Exception e) {
+
         }
     }
 

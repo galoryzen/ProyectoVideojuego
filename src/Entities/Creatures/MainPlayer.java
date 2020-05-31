@@ -15,13 +15,18 @@ import java.awt.image.BufferedImage;
 public class MainPlayer extends Character {
 
     private double speedX, speedY, percentajeVelocity, maxSpeedY, xMove, yMove, maxPercentajeVelocity;
-    private final double gravity = 600;
-    private int antispamerJump = 0;
+    private double gravity = 750;
+    private int antiSpameJump = 0;
+    private int antiSpamChest = 0;
+
     private boolean isGround = false;
     private boolean jumping = false;
     private boolean reset = false;
-    private Punto returnPoint;
     private boolean buttonPressed = false;
+    private boolean falling = false;
+    private boolean inMinigame = false;
+
+    private Punto returnPoint;
     private int amountOfReturns;
     private int maxReturns;
     private double timePressed;
@@ -54,8 +59,8 @@ public class MainPlayer extends Character {
 
         xMove = 0;
         yMove = 0;
-        speedX = 125;
-        speedY = 100;
+        speedX = 150;
+        speedY = 200;
         percentajeVelocity = 0;
         maxPercentajeVelocity = 1.20;
         maxSpeedY = 400;
@@ -74,18 +79,20 @@ public class MainPlayer extends Character {
         if (Window.keyManager.right) {
             xMove = speedX;
         }
+
         if (Window.keyManager.left) {
             xMove = -speedX;
         }
+
         if (Window.keyManager.up) {
-            if (isGround && !jumping && antispamerJump == 0) {
+            if (isGround && !jumping && !falling && antiSpameJump == 0) {
                 speedY = maxSpeedY;
                 yMove = speedY;
                 jumping = true;
-                antispamerJump = 1;
+                antiSpameJump = 1;
             }
         } else {
-            antispamerJump = 0;
+            antiSpameJump = 0;
         }
 
         // Running
@@ -102,15 +109,14 @@ public class MainPlayer extends Character {
                 percentajeVelocity = 0;
             }
         }
+
         // Time Travel
         if (Window.keyManager.space && System.currentTimeMillis() - timePressed >= 2000) {
             if (returnPoint == null && amountOfReturns < maxReturns) {
                 returnPoint = new Punto(x, y);
-                System.out.println("Guardada");
                 timePressed = System.currentTimeMillis();
             } else {
                 if (amountOfReturns == maxReturns) {
-                    System.out.println("Pailas");
                 } else {
                     backwards(returnPoint);
                     amountOfReturns++;
@@ -119,12 +125,22 @@ public class MainPlayer extends Character {
 
             }
         }
+
         if (Window.keyManager.test) {
-            checkInteraction(rightHand());
+            if (antiSpamChest == 0) {
+                checkInteraction(rightHand(), leftHand());
+                antiSpamChest = 1;
+            } else {
+                antiSpamChest = 1;
+            }
+        } else {
+            antiSpamChest = 0;
         }
         if (Window.keyManager.reset) {
             reset = true;
+            returnPoint = null;
         }
+
     }
 
     @Override
@@ -133,6 +149,7 @@ public class MainPlayer extends Character {
         active = true;
     }
 
+    @Override
     public void move() {
         moveX();
         moveY();
@@ -155,6 +172,7 @@ public class MainPlayer extends Character {
         g.fillRect((int) (x + bounds.x), (int) (y + bounds.y), bounds.width, bounds.height);
         g.drawImage(getCurrentAnimationFrame(), (int) x, (int) y, null);
         g.draw(rightHand());
+        g.draw(leftHand());
     }
 
     @Override
@@ -195,8 +213,8 @@ public class MainPlayer extends Character {
     }
 
     public void moveY() {
-        jumping();
         fall();
+        jumping();
         cheackDamage();
     }
 
@@ -205,9 +223,20 @@ public class MainPlayer extends Character {
         return hand;
     }
 
+    private Rectangle leftHand() {
+        Rectangle hand = new Rectangle((int) (x + bounds.x) - 20, (int) (y + bounds.y) + 35, bounds.width / 2 + 5, bounds.height / 4);
+        return hand;
+    }
+
     private TileMainLevel getRightHandInteraction(Rectangle hand) {
         hand.width = hand.width * 2 - 5;
         hand.x += 20;
+        return getSpecificTile(hand.x / TileMainLevel.TILEWIDTH, hand.y / TileMainLevel.TILEHEIGHT);
+    }
+
+    private TileMainLevel getLeftHandInteraction(Rectangle hand) {
+        hand.width = hand.width * 2 - 5;
+        hand.x += 10;
         return getSpecificTile(hand.x / TileMainLevel.TILEWIDTH, hand.y / TileMainLevel.TILEHEIGHT);
     }
 
@@ -262,45 +291,53 @@ public class MainPlayer extends Character {
                 && !collisionWithTile((int) (x + bounds.x) / TileMainLevel.TILEWIDTH, ty);
     }
 
-    private TileMainLevel getTileUpTouching() {
-        int ty = (int) (y + bounds.y + yMove * handler.getDeltaTime()) / TileMainLevel.TILEHEIGHT;
-        if (!hasDownCollision()) {
-            return getSpecificTile((int) (x + bounds.x) / TileMainLevel.TILEWIDTH, ty);
-        } else {
-            return null;
-        }
-    }
-
     public void fall() {
         if (hasDownCollision() && !jumping) {
-            yMove = speedY;
-            y += yMove * handler.getDeltaTime();
-            speedY += gravity * handler.getDeltaTime();
+            double relativeY = speedY * handler.getDeltaTime();
+            double relativeMaxY = maxSpeedY * handler.getDeltaTime();
+            if (relativeY <= relativeMaxY) {
+                yMove = speedY;
+                y += yMove * handler.getDeltaTime();
+                speedY += gravity * handler.getDeltaTime();
+            } else {
+                yMove = maxSpeedY;
+                y += yMove * handler.getDeltaTime();
+            }
         } else {
             if (!jumping) {
                 int ty = (int) (y + yMove * handler.getDeltaTime() + bounds.y + bounds.height) / TileMainLevel.TILEHEIGHT;
                 y = ty * TileMainLevel.TILEHEIGHT - bounds.y - bounds.height - 1;
             }
+            falling = false;
             yMove = 100;
             isGround = true;
         }
     }
 
     public void jumping() {
-        if (hasUpCollision() && jumping) {
-            yMove = speedY;
-            y -= yMove * handler.getDeltaTime();
-            speedY -= gravity * handler.getDeltaTime();
-            if (speedY <= 0 || !hasUpCollision()) {
+        if (jumping) {
+            if (hasUpCollision()) {
+                yMove = speedY;
+                y -= yMove * handler.getDeltaTime();
+                speedY -= gravity * handler.getDeltaTime();
+                if (speedY <= 0 || !hasUpCollision()) {
+                    jumping = false;
+                    isGround = false;
+                    falling = true;
+                    speedY = 0;
+                }
+            } else {
                 jumping = false;
+                falling = true;
                 isGround = false;
-                speedY = 0;
             }
         } else {
             if (jumping) {
                 int ty = (int) (y + bounds.y + yMove * handler.getDeltaTime()) / TileMainLevel.TILEHEIGHT;
                 y = ty * TileMainLevel.TILEHEIGHT + TileMainLevel.TILEHEIGHT - bounds.y;
-                jumping = false;
+                if (!hasUpCollision()) {
+                    jumping = false;
+                }
             }
         }
     }
@@ -327,25 +364,23 @@ public class MainPlayer extends Character {
         Rectangle cb = getCollisionBounds();
     }
 
-    private void checkInteraction(Rectangle hand) {
-        TileMainLevel auxT = getRightHandInteraction(hand);
+    private void checkInteraction(Rectangle handR, Rectangle handL) {
+        TileMainLevel auxT = getRightHandInteraction(handR);
         if (auxT != null) {
-            if (auxT.isInteractive()) {
-                System.out.println("Interaccion IZQUIERDA");
-                auxT.changeInteraction();
-                buttonPressed = true;
-            } else {
-                buttonPressed = false;
-            }
-        }
-        auxT = getTileRightTouching();
-        if (auxT != null) {
-            if (auxT.isInteractive()) {
-                System.out.println("Interaccion DERECHA");
+            if (checkInteracionObject(auxT)) {
                 buttonPressed = true;
             }
+        } else {
+            buttonPressed = false;
         }
-
+        auxT = getLeftHandInteraction(handL);
+        if (auxT != null) {
+            if (checkInteracionObject(auxT)) {
+                buttonPressed = true;
+            }
+        } else {
+            buttonPressed = false;
+        }
     }
 
     private void cheackDamage() {
@@ -360,7 +395,6 @@ public class MainPlayer extends Character {
         auxT = getTileLeftTouching();
         if (auxT != null) {
             if (auxT.makeDamage()) {
-                System.out.println("MUERTO IZQUIERDA");
                 active = false;
                 die();
             }
@@ -385,6 +419,21 @@ public class MainPlayer extends Character {
         return false;
     }
 
+    public boolean checkInteracionObject(TileMainLevel tile) {
+        if (tile.isInteractive()) {
+            switch (tile.getId()) {
+                case 9:
+                    inMinigame = true;
+                    return true;
+                default:
+                    System.out.println("Interaccion");
+                    return true; 
+            }
+        }
+        return false;
+    }
+
+    // Getters y Setters
     public boolean isButtonPressed() {
         return buttonPressed;
     }
@@ -415,6 +464,46 @@ public class MainPlayer extends Character {
 
     public void setMaxReturns(int maxReturns) {
         this.maxReturns = maxReturns;
+    }
+
+    public void setReturnPoint(Punto value) {
+        this.returnPoint = value;
+    }
+
+    public boolean isInMinigame() {
+        return inMinigame;
+    }
+
+    public void setInMinigame(boolean inMinigame) {
+        this.inMinigame = inMinigame;
+    }
+
+    public void setAnimD(Animation animD) {
+        this.animD = animD;
+    }
+
+    public double getxMove() {
+        return xMove;
+    }
+
+    public double getyMove() {
+        return yMove;
+    }
+
+    public void setxMove(double xMove) {
+        this.xMove = xMove;
+    }
+
+    public void setyMove(double yMove) {
+        this.yMove = yMove;
+    }
+
+    public double getGravity() {
+        return gravity;
+    }
+
+    public void setGravity(double gravity) {
+        this.gravity = gravity;
     }
 
 }

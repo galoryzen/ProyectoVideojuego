@@ -36,4 +36,8 @@ public abstract class Tile {
     public int getId() {
         return id;
     }
+    
+    public void changeTile(BufferedImage texture){
+        this.texture = texture;
+    }
 }

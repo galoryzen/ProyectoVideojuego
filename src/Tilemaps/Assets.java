@@ -7,21 +7,24 @@ public class Assets implements Runnable {
     public static BufferedImage astronautTalker, pursoid, fondoMenu, fondoSpaceInvaders,
             spriteNina, naveOff, naveOn, naveSemiOff, asteroids, bullet, laser, LaserAlien, enemy,
             vida, floor, library, BookPile, AutoMissil, charge, pursoidBullet, halfLife, playerStand,
-            retroFloor, rowTile, platTile, empty,chest, elevatorTile,spikes;
+            retroFloor, rowTile, platTile, empty, chest, elevatorTile, spikes, enigmaMachineTeleporter,
+            floorDecorator1, platTiles, rightSing, wallTile, levelerTile, pyramidFill_1, pyramidFill_2, pyramidFill_3,
+            spaceFloor, spaceWall, spaceWall2, spaceChest, spaceCrate, spaceBlocker, spaceTeleporter;
 
     public static BufferedImage playerDown[] = new BufferedImage[2];
     public static BufferedImage playerUp[] = new BufferedImage[3];
     public static BufferedImage playerRight[] = new BufferedImage[2];
     public static BufferedImage playerLeft[] = new BufferedImage[2];
+    public static BufferedImage teleporterAnimation[] = new BufferedImage[3];
 
+    public static BufferedImage spaceSpikes[] = new BufferedImage[3];
     public static BufferedImage mainPlayerUp[] = new BufferedImage[1];
     public static BufferedImage mainPlayerRunning[] = new BufferedImage[4];
     public static BufferedImage mainPlayerLeft[] = new BufferedImage[4];
     public static BufferedImage mainPlayerRight[] = new BufferedImage[4];
     public static BufferedImage mainPlayerFalling[] = new BufferedImage[1];
     public static BufferedImage mainPlayerStandStill[] = new BufferedImage[4];
-    
-    
+
     public static BufferedImage aerialEnemy[] = new BufferedImage[4];
     public static BufferedImage downEnemy[] = new BufferedImage[4];
 
@@ -41,7 +44,6 @@ public class Assets implements Runnable {
         SpriteSheet AerialEnemy = new SpriteSheet(ImageLoader.loadImage("/Tilesets/LaserAlienSprite.png"));
         SpriteSheet boss = new SpriteSheet(ImageLoader.loadImage("/Tilesets/BossSpriteH.png"));
         spriteNina = sheet.crop(0, 0, WIDHT, HEIGHT);
-        fondoMenu = ImageLoader.loadImage("/Backgrounds/menu_gif.gif");
         fondoSpaceInvaders = ImageLoader.loadImage("/Backgrounds/spaceInvaders.png");
         naveOff = ImageLoader.loadImage("/Player/naveOff.png");
         naveOn = ImageLoader.loadImage("/Player/naveOn.png");
@@ -91,6 +93,7 @@ public class Assets implements Runnable {
 
         SpriteSheet sheetVida = new SpriteSheet(ImageLoader.loadImage("/Sprites/Tilesets/heatlhBar.png"));
         SpriteSheet playerM = new SpriteSheet(ImageLoader.loadImage("/Sprites/Player/JoanSprite.png"));
+        SpriteSheet spikeSheet = new SpriteSheet(ImageLoader.loadImage("/SpritesMainLevel/Space/saw_blade.png"));
         cargarJoan(playerM);
         SpriteSheet mainPlayer = new SpriteSheet(ImageLoader.loadImage("/Sprites/Tilesets/Sheet.png"));
         cargarMainPlayer(mainPlayer);
@@ -102,11 +105,28 @@ public class Assets implements Runnable {
         BookPile = ImageLoader.loadImage("/Testers/BookPile.png");
         retroFloor = ImageLoader.loadImage("/SpritesMainLevel/GameboyAssets/Tile_1.png");
         rowTile = ImageLoader.loadImage("/SpritesMainLevel/GameboyAssets/tile_12.png");
-        platTile = ImageLoader.loadImage("/SpritesMainLevel/GameboyAssets/tile_15.png");
+        platTile = ImageLoader.loadImage("/SpritesMainLevel/GameboyAssets/tile_16.png");
         empty = ImageLoader.loadImage("/Tilesets/empty.png");
         chest = ImageLoader.loadImage("/SpritesMainLevel/GameboyAssets/Chest_1.png");
         elevatorTile = ImageLoader.loadImage("/SpritesMainLevel/GameboyAssets/Tile_9.png");
         spikes = ImageLoader.loadImage("/SpritesMainLevel/GameboyAssets/Tile_3.png");
+        floorDecorator1 = ImageLoader.loadImage("/SpritesMainLevel/GameboyAssets/Tile_5.png");
+        enigmaMachineTeleporter = ImageLoader.loadImage("/SpritesMainLevel/GameboyAssets/EnigmaMachine_Tile.png");
+        platTiles = ImageLoader.loadImage("/SpritesMainLevel/GameboyAssets/Tile_2.png");
+        rightSing = ImageLoader.loadImage("/SpritesMainLevel/GameboyAssets/Sign_arrowRight.png");
+        wallTile = ImageLoader.loadImage("/SpritesMainLevel/GameboyAssets/Tile_8.png");
+        levelerTile = ImageLoader.loadImage("/SpritesMainLevel/GameboyAssets/Tile_10.png");
+        pyramidFill_1 = ImageLoader.loadImage("/SpritesMainLevel/GameboyAssets/Tile_7.png");
+        pyramidFill_2 = ImageLoader.loadImage("/SpritesMainLevel/GameboyAssets/Tile_6.png");
+        pyramidFill_3 = ImageLoader.loadImage("/SpritesMainLevel/GameboyAssets/Tile_5.png");
+        spaceFloor = ImageLoader.loadImage("/SpritesMainLevel/Space/Tile_5.png");
+        spaceWall = ImageLoader.loadImage("/SpritesMainLevel/Space/Tile_4.png");
+        spaceWall2 = ImageLoader.loadImage("/SpritesMainLevel/Space/Tile_6.png");
+        spaceCrate = ImageLoader.loadImage("/SpritesMainLevel/Space/crate.png");
+        spaceBlocker = ImageLoader.loadImage("/SpritesMainLevel/Space/blocker.png");
+        spaceTeleporter = ImageLoader.loadImage("/SpritesMainLevel/Space/teleporterNave.png");
+        cargaSpikes(spikeSheet);
+        cargarAnimacionTeleporter();
     }
 
     /**
@@ -137,19 +157,31 @@ public class Assets implements Runnable {
         }
     }
 
+    public static void cargaSpikes(SpriteSheet sheet) {
+        for (int i = 0; i < 3; i++) {
+            spaceSpikes[i] = sheet.crop(i * 32, 0, 32, 32);
+        }
+    }
+
     public static void cargarMainPlayer(SpriteSheet sheet) {
         BufferedImage[] temporaryContainer = new BufferedImage[36];
         int a = 0;
         for (int i = 0; i < 4; i++) {
             for (int j = 0; j < 6; j++) {
-                temporaryContainer[a] = sheet.crop(j * 128, i * 128,128,128);
+                temporaryContainer[a] = sheet.crop(j * 128, i * 128, 128, 128);
                 a++;
             }
         }
         filterContainer(temporaryContainer);
     }
 
-    public static void filterContainer(BufferedImage[] image){
+    public static void cargarAnimacionTeleporter() {
+        teleporterAnimation[0] = ImageLoader.loadImage("/SpritesMainLevel/Space/teleporterAnimationOff.png");
+        teleporterAnimation[1] = ImageLoader.loadImage("/SpritesMainLevel/Space/teleporterAnimationSemi.png");
+        teleporterAnimation[2] = ImageLoader.loadImage("/SpritesMainLevel/Space/teleporterAnimationOn.png");
+    }
+
+    public static void filterContainer(BufferedImage[] image) {
         mainPlayerStandStill[0] = image[0];
         mainPlayerStandStill[1] = image[6];
         mainPlayerStandStill[2] = image[12];
@@ -157,7 +189,7 @@ public class Assets implements Runnable {
         mainPlayerLeft[0] = image[1];
         mainPlayerLeft[1] = image[7];
         mainPlayerLeft[2] = image[13];
-        mainPlayerLeft[3] = image [19];
+        mainPlayerLeft[3] = image[19];
 //        mainPlayerRight[0] = image[];
 //        mainPlayerRight[1];
 //        mainPlayerRight[2];
@@ -169,7 +201,7 @@ public class Assets implements Runnable {
         mainPlayerRunning[2] = image[16];
         mainPlayerRunning[3] = image[22];
     }
-    
+
     @Override
     public void run() {
         init();

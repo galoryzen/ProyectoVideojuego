@@ -86,6 +86,7 @@ public class EntityManager{
             //Cambio, revisar despues
             if (!e.isActive()) {
                 entities.remove(e);
+                e = null;
             }
         }
         entities.sort(renderSorter);

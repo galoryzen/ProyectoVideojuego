@@ -21,6 +21,10 @@ public abstract class ElevatorTile extends TileMainLevel {
     public boolean isSolid() {
         return !isSolid;
     }
-    
+
+    @Override
+    public void changeTiles() {
+        this.texture = Assets.spaceBlocker;
+    }
 
 }
