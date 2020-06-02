@@ -9,8 +9,8 @@ import GameStates.GameState;
 import GameStates.Level2State;
 import GameStates.LevelUpManager;
 import Tilemaps.Background;
+import UtilLoader.MusicPlayer;
 import UtilLoader.SaveGame;
-import UtilLoader.SwingWorkerMusic;
 import java.awt.Graphics2D;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -26,9 +26,10 @@ public class Level2UpManager extends LevelUpManager implements SaveGame {
     private Level2State state;
     private HUD hud;
     private Music bgTalkMusic, bgMusic;
-    private SwingWorkerMusic swingWM;
+    private MusicPlayer musicPlayer;
+    private Thread hiloMusica;
     private boolean ya = true;
-    
+
     public Level2UpManager(GameState state, HUD hud, WorldSpace world, DialogueLoader dialogueLoader, EntityManager entityManager) {
         super(world, entityManager);
         this.hud = hud;
@@ -36,6 +37,12 @@ public class Level2UpManager extends LevelUpManager implements SaveGame {
         this.state = (Level2State) state;
         bgTalkMusic = AudioLoader.bgTalkMomentSpaceInvaders;
         bgMusic = AudioLoader.bgMusicSpaceInvaders;
+        musicPlayer = new MusicPlayer(bgTalkMusic, bgMusic);
+    }
+
+    public void init() {
+        hiloMusica = new Thread(musicPlayer, "hiloAuxiliarMusica");
+        hiloMusica.start();
     }
 
     public void levelUpManager(int points, int health) {
@@ -114,15 +121,9 @@ public class Level2UpManager extends LevelUpManager implements SaveGame {
 
     @Override
     public void changeMusic() {
-        if (bgTalkMusic.playing()) {
-            if (phase == -1 && ya) {
-                ya = false;
-                swingWM.cancel(true);
-                swingWM = new SwingWorkerMusic(bgMusic, true);
-            }
-        } else {
-            swingWM = new SwingWorkerMusic(bgTalkMusic);
-            swingWM.execute();
+        if (phase == -1 && ya) {
+            ya = false;
+            musicPlayer.switchSong();
         }
     }
 
@@ -176,7 +177,7 @@ public class Level2UpManager extends LevelUpManager implements SaveGame {
     }
 
     @Override
-    public void levelUpManager() {
+public void levelUpManager() {
 
     }
 
@@ -191,7 +192,7 @@ public class Level2UpManager extends LevelUpManager implements SaveGame {
     
      */
     @Override
-    public void insertData() {
+public void insertData() {
         try {
             BufferedWriter bw = new BufferedWriter(new FileWriter("savefile.txt"));
             bw.write("" + 3);
@@ -221,7 +222,7 @@ public class Level2UpManager extends LevelUpManager implements SaveGame {
 
      */
     @Override
-    public void loadData() {
+public void loadData() {
         try {
             BufferedReader br = new BufferedReader(new FileReader("savefile.txt"));
             br.readLine(); // Salta el GameState

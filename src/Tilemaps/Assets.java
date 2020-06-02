@@ -9,8 +9,7 @@ public class Assets implements Runnable {
             vida, floor, library, BookPile, AutoMissil, charge, pursoidBullet, halfLife, playerStand,
             retroFloor, rowTile, platTile, empty, chest, elevatorTile, spikes, enigmaMachineTeleporter,
             floorDecorator1, platTiles, rightSing, wallTile, levelerTile, pyramidFill_1, pyramidFill_2, pyramidFill_3,
-            spaceFloor, spaceWall, spaceWall2, spaceChest, spaceCrate, spaceBlocker, spaceTeleporter;
-            vida, floor, library, BookPile,AutoMissil,charge,pursoidBullet,halfLife,playerStand,
+            spaceFloor, spaceWall, spaceWall2, spaceChest, spaceCrate, spaceBlocker, spaceTeleporter,
             CursorSpace,lastBackground;
 
     public static BufferedImage playerDown[] = new BufferedImage[2];
@@ -34,12 +33,6 @@ public class Assets implements Runnable {
 
     public static BufferedImage backgroundMenu[] = new BufferedImage[60];
     
-    public static BufferedImage aerialEnemy[]= new BufferedImage[4];
-    public static BufferedImage downEnemy[]= new BufferedImage[4];
-    
-    public static BufferedImage Boss[]= new BufferedImage[2];
-    
-    public static BufferedImage backgroundMenu[]= new BufferedImage[23];
     public static BufferedImage backgroundLevel2[]= new BufferedImage[18];
     
     public static BufferedImage minimize[] = new BufferedImage[2];

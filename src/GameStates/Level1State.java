@@ -4,15 +4,9 @@ import Entities.Creatures.Player_Joan;
 import FirstMinigame.WorldGenerator.WorldLibrary;
 import MainG.Handler;
 import FirstMinigame.Level1UpManager;
-import MainG.GameLauncher;
-import MainG.Window;
-import static MainG.Window.mouse;
-import Tilemaps.Assets;
 import java.awt.Graphics2D;
-import java.awt.Point;
-import java.awt.Toolkit;
 
-public class Level1State extends GameState implements Runnable {
+public class Level1State extends GameState{
 
     Handler handler;
     private World world;
@@ -20,7 +14,7 @@ public class Level1State extends GameState implements Runnable {
     private Player_Joan joan;
     private Level1UpManager levelManager;
     private DialogueLoader dialogueLoader;
-    // Level1UpManager manager
+    
     public Level1State(GameStateManager gsm, Handler handler, String tag) {
         super(gsm);
         this.levelTag = tag;
@@ -51,12 +45,7 @@ public class Level1State extends GameState implements Runnable {
     
     @Override
     public void musicControl() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
 
-    @Override
-    public void run() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     public World getWorld() {

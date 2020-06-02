@@ -101,8 +101,6 @@ public class WorldLibrary extends World {
         }
     }
     
-    
-
     public int getWidth() {
         return width;
     }

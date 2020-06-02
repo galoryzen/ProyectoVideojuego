@@ -10,13 +10,8 @@ import javax.swing.*;
 import GameStates.GameStateManager;
 import GameStates.MainLevel;
 import Tilemaps.Assets;
-import com.sun.jna.Native;
-import com.sun.jna.NativeLibrary;
+import UtilLoader.MusicPlayer;
 import tinysound.TinySound;
-import uk.co.caprica.vlcj.binding.LibVlc;
-import uk.co.caprica.vlcj.player.MediaPlayerFactory;
-import uk.co.caprica.vlcj.player.embedded.EmbeddedMediaPlayer;
-import uk.co.caprica.vlcj.runtime.RuntimeUtil;
 
 /**
  * Es la clase esencial del juego, donde se inicializan la mayoría de cosas
@@ -29,7 +24,7 @@ public class GamePanel extends JPanel implements Runnable {
     //Dimensiones del game panel
     public static final int WIDTH_G = 1080;
     public static final int HEIGHT_G = 720;
-
+    
     //Hilo del  juego y Game Loop
     private Thread hiloPrinicipal;
 

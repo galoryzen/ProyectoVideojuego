@@ -5,7 +5,6 @@ import Entities.EntityManager;
 import Entities.Items.Bullet;
 import Tilemaps.Tile;
 import Entities.Static.BookPile;
-import FirstMinigame.Tiles.Tile;
 import Tilemaps.Animation;
 import MainG.Handler;
 import MainG.Window;
@@ -56,7 +55,7 @@ public class Player_Joan extends Character {
         animUp = new Animation(300, Assets.playerUp);
         animR = new Animation(300, Assets.playerRight);
         animL = new Animation(300, Assets.playerLeft);
-        this.speed += 10;
+        this.speed += 3;
     }
 
     @Override
@@ -209,9 +208,9 @@ public class Player_Joan extends Character {
      * @return Retorna un booleano que indica si se está chocando con un tile
      * que es SOLIDO.
      */
+    @Override
     protected boolean collisionWithTile(int x, int y) {
-        //return handler.getWorld().getTile(x, y).isSolid();
-        return false;
+        return handler.getWorld().getTile(x, y).isSolid();
     }
 
     public Rectangle getBounds() {

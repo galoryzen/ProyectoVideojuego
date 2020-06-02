@@ -1,19 +1,19 @@
 package MainLevel;
 
+import Audio.AudioLoader;
 import Entities.Creatures.MainPlayer;
 import Entities.EntityManager;
 import GameStates.LevelUpManager;
 import GameStates.MainLevel;
-import UtilLoader.SwingWorkerMusic;
 import GameStates.World;
 import MainLevel.WorldGenerator.WorldPlat;
+import UtilLoader.MusicPlayer;
 import UtilLoader.SaveGame;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.FileReader;
 import java.io.FileWriter;
 import tinysound.Music;
-import MainG.Window;
 
 /**
  *
@@ -30,7 +30,10 @@ public class MainLevelUpManager extends LevelUpManager implements SaveGame {
     private MainPlayer player;
     private int currentButtonsPressed;
     private boolean flag1 = false, flag2 = false, flag3 = false, flag4 = false, flag5 = false, flag6 = false, flag7 = false, flag8 = false, flag9 = false, flag10 = false;
-
+    
+    private MusicPlayer musicPlayer;
+    private Thread hiloMusica;
+    
     private MainLevel state;
     int[] position = new int[2];
 
@@ -39,8 +42,17 @@ public class MainLevelUpManager extends LevelUpManager implements SaveGame {
         player = this.entityManager.getMainPlayer();
         endMinigame = false;
         this.state = state;
+        init();
     }
 
+    
+    public void init(){
+        musicPlaylist = AudioLoader.musicPlayListMainLevel;
+        musicPlayer = new MusicPlayer(musicPlaylist);
+        hiloMusica = new Thread(musicPlayer,"auxiliarMusica");
+        hiloMusica.start();
+    }
+    
     @Override
     public void levelUpManager() {
         changeMusic();
@@ -161,14 +173,8 @@ public class MainLevelUpManager extends LevelUpManager implements SaveGame {
 
     @Override
     public void changeMusic() {
-        if (player.isInMinigame()) {
-            musicPlaylist[random].stop();
-        } else {
-            if (!musicPlaylist[random].playing()) {
-                random = (int) (Math.random() * 4);
-                SwingWorkerMusic swingWM = new SwingWorkerMusic(musicPlaylist[random]);
-                swingWM.execute();
-            }
+        if(!levelSwitched){
+            musicPlayer.resume();
         }
     }
 
@@ -233,6 +239,7 @@ public class MainLevelUpManager extends LevelUpManager implements SaveGame {
         int[] position = new int[2];
         if (player.isButtonPressed()) {
             if (player.isInMinigame()) {
+                musicPlayer.kill();
                 minigames++;
                 levelSwitched = true;
                 loadData();
@@ -245,7 +252,7 @@ public class MainLevelUpManager extends LevelUpManager implements SaveGame {
         }
         if (!levelSwitched) {
             if (player.isTouchingLap()) {
-                if (currentWorld == 1) {
+                if (currentWorld == 10) {
                     endMinigame = true;
                 } else {
                     currentWorld++;

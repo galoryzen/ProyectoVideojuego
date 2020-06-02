@@ -12,6 +12,7 @@ import Tilemaps.*;
 import UI.ClickListener;
 import UI.UIImageButton;
 import UI.UIManager;
+import UtilLoader.MusicPlayer;
 import UtilLoader.SaveGame;
 import java.awt.image.BufferedImage;
 import java.io.BufferedReader;
@@ -25,10 +26,13 @@ import tinysound.Sound;
 // fade in https://stackoverflow.com/questions/20346661/java-fade-in-and-out-of-images
 public class MenuState extends GameState implements SaveGame {
 
-    Music bgMusic;
-    Sound menuUp;
+    private Music bgMusic;
+    private Sound menuUp;
     Background bg;
     Handler handler;
+
+    private MusicPlayer musicPlayer;
+    private Thread hiloMusica;
 
     private int currentChoice = 0;
     public long lastPressedTime = 0;
@@ -46,7 +50,7 @@ public class MenuState extends GameState implements SaveGame {
         "Creators",
         "Story",
         "Quit",};
-    
+
     private BufferedImage lastImage;
     private Color titleColor;
     private Font titleFont;
@@ -55,7 +59,7 @@ public class MenuState extends GameState implements SaveGame {
     public MenuState(GameStateManager gsm, Handler handler) {
         super(gsm);
         this.handler = handler;
-        sw=false;
+        sw = false;
         try {
             bg = new Background(Assets.fondoMenu, 1);
             bg.setVector(2, 0);
@@ -91,12 +95,12 @@ public class MenuState extends GameState implements SaveGame {
     }
 
     public void draw(Graphics2D g) {
-        if( sw ){
+        if (sw) {
             g.drawImage(Assets.backgroundMenu[22], 0, 0, 1080, 720, null);
-        }else{
+        } else {
             g.drawImage(getCurrentFrame(), 0, 0, 1080, 720, null);
-            if(getCurrentFrame().equals(Assets.backgroundMenu[22])){
-                sw=true;
+            if (getCurrentFrame().equals(Assets.backgroundMenu[22])) {
+                sw = true;
             }
         }
         // Aplica colores al titulo del juego
@@ -125,10 +129,11 @@ public class MenuState extends GameState implements SaveGame {
         while (Window.mouse == null) {
             System.out.println("Cargando");
         }
-        Window.mouse.setUIManager(uimanager);
         bgMusic = AudioLoader.bgMusic;
-        bgMusic.setVolume(0.3);
-        bgMusic.play(true);
+        musicPlayer = new MusicPlayer(bgMusic);
+        Window.mouse.setUIManager(uimanager);
+        hiloMusica = new Thread(musicPlayer, "auxiliarThreadForMusic");
+        hiloMusica.start();
         menuUp = AudioLoader.upMenu;
     }
 
@@ -155,6 +160,10 @@ public class MenuState extends GameState implements SaveGame {
         if (Window.keyManager.enter) {
             optionPicker();
         }
+        if (Window.keyManager.space) {
+            bgMusic.stop();
+            gsm.reloadState(2);
+        }
         lastPressedTime = now;
     }
 
@@ -164,9 +173,9 @@ public class MenuState extends GameState implements SaveGame {
     }
 
     BufferedImage getCurrentFrame() {
-        
-            return anm.getCurrentFrame();
-        
+
+        return anm.getCurrentFrame();
+
     }
 
     @Override
@@ -182,17 +191,20 @@ public class MenuState extends GameState implements SaveGame {
     public void optionPicker() {
         switch (currentChoice) {
             case 0:
-                bgMusic.stop();
+                musicPlayer.kill();
                 gsm.setState(1);
                 break;
             case 1:
-                getLoadData();
+                loadData();
                 break;
             case 2:
+                musicPlayer.lowerMusicVolume();
                 break;
             case 3:
+                musicPlayer.raiseMusicVolume();
                 break;
             case 4:
+                musicPlayer.mute();
                 break;
             case 5:
                 break;
@@ -244,5 +256,9 @@ public class MenuState extends GameState implements SaveGame {
 
     @Override
     public void insertData() {
+    }
+
+    public Music getMusic() {
+        return bgMusic;
     }
 }

@@ -1,8 +1,6 @@
 package GameStates;
 
 import Entities.EntityManager;
-import SecondMinigame.DialogueLoader;
-import FirstMinigame.WorldGenerator.WorldLibrary;
 import SecondMinigame.WorldSpace;
 
 public abstract class LevelUpManager {
@@ -18,6 +16,10 @@ public abstract class LevelUpManager {
         this.entityManager = entityM;
     }
 
+    public LevelUpManager(World world){
+        this.world = world;
+    }
+    
     public abstract void levelUpManager();
 
     public abstract void changeMusic();

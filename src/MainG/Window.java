@@ -47,7 +47,7 @@ public class Window extends JFrame {
         setUndecorated(true);
         //Se define lo que sucede si presiona la x en la esquina superior
         //setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setContentPane(new GamePanel(width, height));
+        setContentPane(this.panel);
         
         //Evita que el usuario modifique las dimensiones
         setResizable(false);
