@@ -6,6 +6,7 @@ import MainG.Handler;
 import MainG.Window;
 import MainLevel.MainLevelUpManager;
 import MainLevel.WorldGenerator.WorldPlat;
+import Tilemaps.Assets;
 import java.awt.Graphics2D;
 
 public class MainLevel extends GameState {

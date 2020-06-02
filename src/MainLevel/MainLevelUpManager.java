@@ -6,6 +6,7 @@ import Entities.EntityManager;
 import GameStates.LevelUpManager;
 import GameStates.MainLevel;
 import GameStates.World;
+import MainG.Window;
 import MainLevel.WorldGenerator.WorldPlat;
 import UtilLoader.MusicPlayer;
 import UtilLoader.SaveGame;
@@ -23,7 +24,6 @@ public class MainLevelUpManager extends LevelUpManager implements SaveGame {
 
     private Music[] musicPlaylist;
     private int minigames = 0;
-    private int random = 0;
     private boolean endMinigame;
     private int currentWorld = 1;
     private boolean levelSwitched = false;
@@ -55,6 +55,9 @@ public class MainLevelUpManager extends LevelUpManager implements SaveGame {
     
     @Override
     public void levelUpManager() {
+        if(Window.keyManager.debug){
+            player.setGravity(500f);
+        }
         changeMusic();
         WorldPlat worldAux = (WorldPlat) world.cast(this);
         if (!endMinigame) {
@@ -251,7 +254,7 @@ public class MainLevelUpManager extends LevelUpManager implements SaveGame {
             }
         }
         if (!levelSwitched) {
-            if (player.isTouchingLap()) {
+            if (player.isTouchingLap()){
                 if (currentWorld == 10) {
                     endMinigame = true;
                 } else {

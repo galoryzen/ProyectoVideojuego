@@ -29,6 +29,7 @@ public class Level2UpManager extends LevelUpManager implements SaveGame {
     private MusicPlayer musicPlayer;
     private Thread hiloMusica;
     private boolean ya = true;
+    private boolean firstTime = true;
 
     public Level2UpManager(GameState state, HUD hud, WorldSpace world, DialogueLoader dialogueLoader, EntityManager entityManager) {
         super(world, entityManager);
@@ -42,7 +43,6 @@ public class Level2UpManager extends LevelUpManager implements SaveGame {
 
     public void init() {
         hiloMusica = new Thread(musicPlayer, "hiloAuxiliarMusica");
-        hiloMusica.start();
     }
 
     public void levelUpManager(int points, int health) {
@@ -101,6 +101,10 @@ public class Level2UpManager extends LevelUpManager implements SaveGame {
     }
 
     public void update(int points, int health) {
+        if (firstTime) {
+            hiloMusica.start();
+            firstTime = false;
+        }
         levelUpManager(points, health);
         WorldSpace temporaryWorld = (WorldSpace) world.cast(this);
         // Verifica que el Boos este muerto para acabar el juego
@@ -177,7 +181,7 @@ public class Level2UpManager extends LevelUpManager implements SaveGame {
     }
 
     @Override
-public void levelUpManager() {
+    public void levelUpManager() {
 
     }
 
@@ -192,7 +196,7 @@ public void levelUpManager() {
     
      */
     @Override
-public void insertData() {
+    public void insertData() {
         try {
             BufferedWriter bw = new BufferedWriter(new FileWriter("savefile.txt"));
             bw.write("" + 3);
@@ -222,7 +226,7 @@ public void insertData() {
 
      */
     @Override
-public void loadData() {
+    public void loadData() {
         try {
             BufferedReader br = new BufferedReader(new FileReader("savefile.txt"));
             br.readLine(); // Salta el GameState

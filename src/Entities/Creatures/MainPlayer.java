@@ -177,7 +177,12 @@ public class MainPlayer extends Character {
 
     @Override
     protected boolean collisionWithTile(int x, int y) {
-        return handler.getWorld().getTile(x, y).isSolid();
+        try{
+            return handler.getWorld().getTile(x, y).isSolid();
+        }catch(Exception e){
+            System.out.println("SALISTE DEL MAPA");
+            return true;
+        }
     }
 
     protected TileMainLevel getSpecificTile(int x, int y) {
@@ -412,7 +417,7 @@ public class MainPlayer extends Character {
     public boolean isTouchingLap() {
         TileMainLevel auxT = getTileRightTouching();
         if (auxT != null) {
-            if (auxT.getId() == 5) {
+            if (auxT.getId() == 5 || auxT.getId() == 17) {
                 return true;
             }
         }

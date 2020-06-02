@@ -36,6 +36,7 @@ public class TileMainLevel extends Tile {
     public static Tile pyramidFill = new PyramidFill(14);
     public static Tile pyramidFill2 = new PyramidFill2(15);
     public static Tile pyramidFill3 = new PyramidFill3(16);
+    public static Tile portal = new PortalTile(17);
 
     //Class
     public TileMainLevel(BufferedImage texture, int id) {
