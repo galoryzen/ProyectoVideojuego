@@ -7,7 +7,9 @@ package Handlers;
 
 import MainG.GameLauncher;
 import MainG.Window;
+import UI.UIImageButton;
 import UI.UIManager;
+import UI.UIObject;
 import java.awt.Point;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
@@ -99,8 +101,17 @@ public class MouseManager implements MouseListener, MouseMotionListener{
         mouseX=me.getX();
         mouseY=me.getY();
         
-        if(uiManager != null)
+        
+        
+        if(uiManager != null){
             uiManager.onMouseMove(me);
+            for (UIObject object : uiManager.getObjects()) {
+                if(object instanceof UIImageButton){
+                    UIImageButton ui=(UIImageButton)object;
+                    ui.setCurrent(false);
+                }
+            }
+        }
     }
     
 }

@@ -10,7 +10,8 @@ public class Assets implements Runnable {
             retroFloor, rowTile, platTile, empty, chest, elevatorTile, spikes, enigmaMachineTeleporter,
             floorDecorator1, platTiles, rightSing, wallTile, levelerTile, pyramidFill_1, pyramidFill_2, pyramidFill_3,
             spaceFloor, spaceWall, spaceWall2, spaceChest, spaceCrate, spaceBlocker, spaceTeleporter,
-            CursorSpace, lastBackground, fondo8bits;
+            CursorSpace, lastBackground, fondo8bits,
+            Title, Title2;
 
     public static BufferedImage playerDown[] = new BufferedImage[2];
     public static BufferedImage playerUp[] = new BufferedImage[3];
@@ -63,6 +64,8 @@ public class Assets implements Runnable {
         pursoid = ImageLoader.loadImage("/Tilesets/Pursoid.png");
         LaserAlien = ImageLoader.loadImage("/Tilesets/LaserAlien.png");
         laser = ImageLoader.loadImage("/Tilesets/laser.png");
+        Title=ImageLoader.loadImage("/UI/Title.png");
+        Title2=ImageLoader.loadImage("/UI/Title2.png");
         SpriteSheet sheetAsteroids = new SpriteSheet(ImageLoader.loadImage("/Sprites/Tilesets/Sheetasteroids.png"));
         for (int i = 0; i < 2; i++) {
             for (int j = 0; j < 2; j++) {
