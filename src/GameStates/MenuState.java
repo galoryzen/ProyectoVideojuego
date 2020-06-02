@@ -12,6 +12,7 @@ import Tilemaps.*;
 import UI.ClickListener;
 import UI.UIImageButton;
 import UI.UIManager;
+import UI.UIObject;
 import UtilLoader.SaveGame;
 import java.awt.image.BufferedImage;
 import java.io.BufferedReader;
@@ -38,16 +39,9 @@ public class MenuState extends GameState implements SaveGame {
     static final long minPressedDelay = 150;
 
     private UIManager uimanager;
+    public UIImageButton exit,option,newg,continu,tutorial;
 
-    private String[] options = {
-        "Start",
-        "Continue",
-        "Help",
-        "Creators",
-        "Story",
-        "Quit",};
-    
-    private BufferedImage lastImage;
+
     private Color titleColor;
     private Font titleFont;
     private Font font;
@@ -56,29 +50,48 @@ public class MenuState extends GameState implements SaveGame {
         super(gsm);
         this.handler = handler;
         sw=false;
-        try {
-            bg = new Background(Assets.fondoMenu, 1);
-            bg.setVector(2, 0);
-            titleColor = new Color(128, 0, 0);
-            titleFont = new Font("Century Gothic", Font.PLAIN, 28);
-            font = new Font("Arial", Font.PLAIN, 12);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        
         uimanager = new UIManager(handler);
-        uimanager.addUIObject(new UIImageButton(1047f, 0f, 32, 32, Assets.minimize, new ClickListener() {
+        uimanager.addUIObject( new UIImageButton(1047f, 0f, 32, 32, Assets.minimize, new ClickListener() {
             @Override
             public void onClick() {
                 GameLauncher.window.setState(GameLauncher.window.ICONIFIED);
             }
         }));
-        uimanager.addUIObject(new UIImageButton(500f, 500f, 256, 57, Assets.UIMenu[5], new ClickListener() {
+        uimanager.addUIObject(exit=new UIImageButton(50f,550f, 256, 57, Assets.UIMenu[5], new ClickListener() {
             @Override
             public void onClick() {
                 System.exit(0);
             }
         }));
-        anm = new Animation(150, Assets.backgroundMenu);
+        
+        uimanager.addUIObject(option=new UIImageButton(50f,460f, 256, 57, Assets.UIMenu[6], new ClickListener() {
+            @Override
+            public void onClick() {
+                
+            }
+        }));
+        
+        uimanager.addUIObject(continu=new UIImageButton(50f,380f, 256, 57, Assets.UIMenu[7], new ClickListener() {
+            @Override
+            public void onClick() {
+                
+            }
+        }));
+        
+        uimanager.addUIObject(newg=new UIImageButton(50f,300f, 256, 57, Assets.UIMenu[8], new ClickListener() {
+            @Override
+            public void onClick() {
+                gsm.setState(1);
+            }
+        }));
+        uimanager.addUIObject(tutorial=new UIImageButton(900,650, 256, 57, Assets.UIMenu[1], new ClickListener() {
+            @Override
+            public void onClick() {
+                
+            }
+        }));
+        anm = new Animation(100, Assets.backgroundMenu);
         init();
     }
 
@@ -92,33 +105,49 @@ public class MenuState extends GameState implements SaveGame {
 
     public void draw(Graphics2D g) {
         if( sw ){
-            g.drawImage(Assets.backgroundMenu[22], 0, 0, 1080, 720, null);
+        g.drawImage(Assets.backgroundMenu[22], 0, 0, 1080, 720, null);
+        g.drawImage(Assets.Title2,  380, -60,null);
+            // Aplica colores al titulo del juego
+        g.drawString("x" + Window.mouse.getMouseX() + " y" + Window.mouse.getMouseY(), Window.mouse.getMouseX(), Window.mouse.getMouseY());
+
+        // Añade las opciones del menu
+        if(noHovering()){
+            noMoreCurrently();
+            currentChoice=0;
+        }else{
+        for (int i = 1; i <= 4; i++) {
+            if (i == currentChoice) {
+                    switch(currentChoice){
+                        case 1:
+                            newg.setCurrent(true);
+                            noMoreCurrently(newg);
+                            
+                        break;
+                        case 2:
+                            continu.setCurrent(true);
+                            noMoreCurrently(continu);
+                        break;
+                        case 3:
+                            option.setCurrent(true);
+                            noMoreCurrently(option);
+                        break;
+                        case 4:
+                            exit.setCurrent(true);
+                            noMoreCurrently(exit);
+                        break;
+                    }
+                } 
+            }
+        }
+
+        uimanager.render(g);
         }else{
             g.drawImage(getCurrentFrame(), 0, 0, 1080, 720, null);
             if(getCurrentFrame().equals(Assets.backgroundMenu[22])){
                 sw=true;
             }
         }
-        // Aplica colores al titulo del juego
-        g.setColor(titleColor);
-        g.setFont(titleFont);
-        g.drawString("SIRVE", 270, 70);
-        g.drawString("x" + Window.mouse.getMouseX() + " y" + Window.mouse.getMouseY(), Window.mouse.getMouseX(), Window.mouse.getMouseY());
-        if (Window.mouse.isLeftPressed()) {
-            g.setColor(Color.blue);
-        }
-        // Añade las opciones del menu
-        g.setFont(font);
-        for (int i = 0; i < options.length; i++) {
-            if (i == currentChoice) {
-                g.setColor(Color.BLACK);
-            } else {
-                g.setColor(Color.red);
-            }
-            g.drawString(options[i], 270, 160 + i * 15);
-        }
-
-        uimanager.render(g);
+        
     }
 
     @Override
@@ -126,6 +155,7 @@ public class MenuState extends GameState implements SaveGame {
         while (Window.mouse == null) {
             System.out.println("Cargando");
         }
+        
         Window.mouse.setUIManager(uimanager);
         bgMusic = AudioLoader.bgMusic;
         bgMusic.setVolume(0.3);
@@ -135,41 +165,48 @@ public class MenuState extends GameState implements SaveGame {
 
     public void handleInput() {
         long now = System.currentTimeMillis();
-        if (now - lastPressedTime < minPressedDelay) {
-            return;
-        }
-        if (Window.keyManager.up) {
-            currentChoice--;
-            menuUp.play();
-            if (currentChoice < 0) {
-                currentChoice = 5;
-            }
-        }
-        if (Window.keyManager.down) {
-            currentChoice++;
-            menuUp.play();
-            if (currentChoice > 5) {
-                currentChoice = 0;
-            }
-        }
         if (Window.keyManager.space) {
             bgMusic.stop();
             gsm.setState(5);
         }
         // Opcion de continuar donde se habia dejado la partida
         if (Window.keyManager.enter) {
-            if (currentChoice == 1) {
-                loadData();
-            } else {
-                bgMusic.stop();
-                gsm.setState(2);
+            switch (currentChoice) {
+                case 2:
+                    loadData();
+                    break;
+                case 4:
+                    exit.onClick();
+                    break;
+                default:
+                    bgMusic.stop();
+                    gsm.setState(2);
+                    break;
             }
         }
         if (Window.keyManager.test) {
             bgMusic.stop();
             gsm.setState(1);
         }
-
+        
+        if (now - lastPressedTime < minPressedDelay) {
+            return;
+        }
+        if (Window.keyManager.up) {
+            currentChoice--;
+            menuUp.play();
+            if (currentChoice < 1) {
+                currentChoice = 4;
+            }
+        }
+        if (Window.keyManager.down) {
+            currentChoice++;
+            menuUp.play();
+            if (currentChoice > 4) {
+                currentChoice = 1;
+            }
+        }
+        
         lastPressedTime = now;
     }
 
@@ -224,6 +261,33 @@ public class MenuState extends GameState implements SaveGame {
     }
 
     
+    public boolean noHovering(){
+        if(exit.isHovering() || option.isHovering() || continu.isHovering() || newg.isHovering())
+            return true;
+        else
+            return false;
+                    
+    }
+    
+    public void noMoreCurrently(UIImageButton u){
+        for (UIObject object : uimanager.getObjects()) {
+            if(object instanceof UIImageButton){
+                UIImageButton ui= (UIImageButton) object;
+                if(!u.equals(ui))
+                    ui.setCurrent(false);
+            }
+        }
+    }
+    
+    private void noMoreCurrently() {
+        for (UIObject object : uimanager.getObjects()) {
+            if(object instanceof UIImageButton){
+                UIImageButton ui= (UIImageButton) object;
+                ui.setCurrent(false);
+            }
+        }
+    }
+    
     @Override
     public void getLoadData() {
     }
@@ -231,4 +295,6 @@ public class MenuState extends GameState implements SaveGame {
     @Override
     public void insertData() {
     }
+
+    
 }

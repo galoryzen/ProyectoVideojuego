@@ -29,12 +29,13 @@ public class MainLevel extends GameState{
 
     @Override
     public void update() {
-        world.update();
+        //world.update();
+        System.out.println("Papi queeeee");
     }
 
     @Override
     public void draw(Graphics2D g) {
-        world.render(g);
+       // world.render(g);
     }
 
 
