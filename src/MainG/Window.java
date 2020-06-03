@@ -39,7 +39,7 @@ public class Window extends JFrame {
         this.setLayout(new BorderLayout());
         this.panel = new GamePanel(width, height, this);
         //Se le pone un titulo y las dimensiones
-        //setTitle("VENTANA DEL JUEGO");
+        setTitle("Traveling Through Enigma: A Time Odyssey");
         setPreferredSize(new Dimension(width, height));
         setUndecorated(true);
         //Se define lo que sucede si presiona la x en la esquina superior

@@ -1,21 +1,16 @@
 package GameStates;
 
 import Entities.EntityManager;
-import Tilemaps.Background;
 import java.awt.Graphics2D;
 import Handlers.KeyManager;
-import MainG.GameLauncher;
 import MainG.Handler;
 import MainG.Window;
-import static MainG.Window.mouse;
 import SecondMinigame.HUD;
 import SecondMinigame.Level2UpManager;
 import SecondMinigame.WorldSpace;
 import Tilemaps.Animation;
 import Tilemaps.Assets;
 import java.awt.Image;
-import java.awt.Point;
-import java.awt.Toolkit;
 import tinysound.Music;
 
 public class Level2State extends GameState {
@@ -35,20 +30,10 @@ public class Level2State extends GameState {
     private long timePassed;
     private long timeDeltaTime;
     
-    private double timeInitial;
-
     public Level2State(GameStateManager gsm, Handler handler, String tag) {
         super(gsm);
         this.handler = handler;
         this.levelTag = tag;
-        /*
-        try {
-            bg = new Background(Assets.fondoSpaceInvaders, 1);
-            bg.setVector(-3f, 0f);
-        } catch (Exception e) {
-            System.out.print(e);
-        }
-        */
         background= new Animation(50,Assets.spaceBackgroundPlat);
         entityManager = new EntityManager(handler, this);
         dialogueLoader = new DialogueLoader(handler);
@@ -97,13 +82,6 @@ public class Level2State extends GameState {
     public void musicControl() {
     }
     
-
-    
-    /*
-    public Background getBg() {
-        return bg;
-    }
-    */
     @Override
     public World getWorld() {
         return world;
@@ -115,6 +93,7 @@ public class Level2State extends GameState {
         gsm.getGameStates()[1].getLoadData();
         MainLevel auxS = (MainLevel) gsm.getGameStates()[1];
         auxS.getLevelManager().setFinishedMinigame();
+        gsm.reloadState(1);
     }
 
     // Se verifica si el usuario presiono la letra P, para iniciar un menu de Pausa.

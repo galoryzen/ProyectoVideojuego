@@ -50,7 +50,7 @@ public class MainLevelUpManager extends LevelUpManager implements SaveGame {
         musicPlaylist = AudioLoader.musicPlayListMainLevel;
         musicPlayer = new MusicPlayer(musicPlaylist);
         hiloMusica = new Thread(musicPlayer,"auxiliarMusica");
-        hiloMusica.start();
+        //hiloMusica.start();
     }
     
     @Override
@@ -105,6 +105,7 @@ public class MainLevelUpManager extends LevelUpManager implements SaveGame {
                 case 5:
                     if (!flag5) {
                         worldAux.switchAllTheTiles();
+                        worldAux.changeAnimation();
                         player.setGravity(500);
                         player.setMaxReturns(1);
                         player.setAmountOfReturns(0);
@@ -318,4 +319,14 @@ public class MainLevelUpManager extends LevelUpManager implements SaveGame {
     public boolean getFinishedGame() {
         return endMinigame;
     }
+    
+    public void setLevelSwitched(boolean value){
+       levelSwitched = value; 
+    }
+
+    public MusicPlayer getMusicPlayer() {
+        return musicPlayer;
+    }
+    
+    
 }

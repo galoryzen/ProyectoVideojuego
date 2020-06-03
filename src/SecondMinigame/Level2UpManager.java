@@ -8,6 +8,7 @@ import Entities.EntityManager;
 import GameStates.GameState;
 import GameStates.Level2State;
 import GameStates.LevelUpManager;
+import MainG.Window;
 import Tilemaps.Background;
 import UtilLoader.MusicPlayer;
 import UtilLoader.SaveGame;
@@ -39,6 +40,7 @@ public class Level2UpManager extends LevelUpManager implements SaveGame {
         bgTalkMusic = AudioLoader.bgTalkMomentSpaceInvaders;
         bgMusic = AudioLoader.bgMusicSpaceInvaders;
         musicPlayer = new MusicPlayer(bgTalkMusic, bgMusic);
+        init();
     }
 
     public void init() {
@@ -104,6 +106,9 @@ public class Level2UpManager extends LevelUpManager implements SaveGame {
         if (firstTime) {
             hiloMusica.start();
             firstTime = false;
+        }
+        if(Window.keyManager.debug){
+            finishLevel();
         }
         levelUpManager(points, health);
         WorldSpace temporaryWorld = (WorldSpace) world.cast(this);

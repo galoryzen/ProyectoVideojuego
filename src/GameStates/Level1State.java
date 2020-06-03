@@ -4,9 +4,10 @@ import Entities.Creatures.Player_Joan;
 import FirstMinigame.WorldGenerator.WorldLibrary;
 import MainG.Handler;
 import FirstMinigame.Level1UpManager;
+import MainG.Window;
 import java.awt.Graphics2D;
 
-public class Level1State extends GameState{
+public class Level1State extends GameState {
 
     Handler handler;
     private World world;
@@ -14,7 +15,7 @@ public class Level1State extends GameState{
     private Player_Joan joan;
     private Level1UpManager levelManager;
     private DialogueLoader dialogueLoader;
-    
+
     public Level1State(GameStateManager gsm, Handler handler, String tag) {
         super(gsm);
         this.levelTag = tag;
@@ -33,7 +34,19 @@ public class Level1State extends GameState{
 
     @Override
     public void update() {
+        if (Window.keyManager.debug) {
+            setGameFinished();
+        }
         world.update();
+    }
+
+    public void setGameFinished() {
+        WorldLibrary auxW = (WorldLibrary) world.cast(levelManager);
+        gsm.getGameStates()[1].getLoadData();
+        MainLevel auxS = (MainLevel) gsm.getGameStates()[1];
+        auxS.getLevelManager().setFinishedMinigame();
+        auxW.setFinished();
+        gsm.reloadState(1);
     }
 
     @Override
@@ -41,8 +54,6 @@ public class Level1State extends GameState{
         world.render(g);
     }
 
-    
-    
     @Override
     public void musicControl() {
 

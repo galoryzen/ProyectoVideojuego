@@ -1,6 +1,8 @@
 package GameStates;
 
 import Entities.EntityManager;
+import FirstMinigame.Level1UpManager;
+import FirstMinigame.WorldGenerator.WorldLibrary;
 import Tilemaps.Tile;
 import MainG.Handler;
 import MainLevel.WorldGenerator.WorldPlat;
@@ -34,6 +36,10 @@ public abstract class World {
     public World cast(LevelUpManager levelManager) {
         if (levelManager instanceof Level2UpManager) {
             WorldSpace world = (WorldSpace) this;
+            return world;
+
+        } else if (levelManager instanceof Level1UpManager) {
+            WorldLibrary world = (WorldLibrary) this;
             return world;
         } else {
             WorldPlat world = (WorldPlat) this;

@@ -13,6 +13,7 @@ public class Assets implements Runnable {
             CursorSpace, lastBackground, fondo8bits,
             Title, Title2;
 
+    public static BufferedImage cityPlataformerBackground[] = new BufferedImage[56];
     public static BufferedImage playerDown[] = new BufferedImage[2];
     public static BufferedImage playerUp[] = new BufferedImage[3];
     public static BufferedImage playerRight[] = new BufferedImage[2];
@@ -20,14 +21,20 @@ public class Assets implements Runnable {
     public static BufferedImage teleporterAnimation[] = new BufferedImage[3];
 
     public static BufferedImage spaceBackgroundPlat[] = new BufferedImage[30];
-    
+
     public static BufferedImage spaceSpikes[] = new BufferedImage[3];
-    public static BufferedImage mainPlayerUp[] = new BufferedImage[1];
-    public static BufferedImage mainPlayerRunning[] = new BufferedImage[4];
+
+    public static BufferedImage mainPlayerUpL[] = new BufferedImage[1];
+    public static BufferedImage mainPlayerRunningL[] = new BufferedImage[4];
     public static BufferedImage mainPlayerLeft[] = new BufferedImage[4];
+    public static BufferedImage mainPlayerFallingL[] = new BufferedImage[1];
+    public static BufferedImage mainPlayerStandStillL[] = new BufferedImage[4];
+
+    public static BufferedImage mainPlayerUpR[] = new BufferedImage[1];
+    public static BufferedImage mainPlayerRunningR[] = new BufferedImage[4];
     public static BufferedImage mainPlayerRight[] = new BufferedImage[4];
-    public static BufferedImage mainPlayerFalling[] = new BufferedImage[1];
-    public static BufferedImage mainPlayerStandStill[] = new BufferedImage[4];
+    public static BufferedImage mainPlayerFallingR[] = new BufferedImage[1];
+    public static BufferedImage mainPlayerStandStillR[] = new BufferedImage[4];
 
     public static BufferedImage aerialEnemy[] = new BufferedImage[4];
     public static BufferedImage downEnemy[] = new BufferedImage[4];
@@ -57,6 +64,7 @@ public class Assets implements Runnable {
         SpriteSheet AerialEnemy = new SpriteSheet(ImageLoader.loadImage("/Tilesets/LaserAlienSprite.png"));
         SpriteSheet boss = new SpriteSheet(ImageLoader.loadImage("/Tilesets/BossSpriteH.png"));
         SpriteSheet UIbuttons = new SpriteSheet(ImageLoader.loadImage("/UI/UIsprite.png"));
+        SpriteSheet sheetR = new SpriteSheet(ImageLoader.loadImage("/Sprites/Tilesets/SheetRight.png"));
         spriteNina = sheet.crop(0, 0, WIDHT, HEIGHT);
         fondoSpaceInvaders = ImageLoader.loadImage("/Backgrounds/spaceInvaders.png");
         naveOff = ImageLoader.loadImage("/Player/naveOff.png");
@@ -66,8 +74,8 @@ public class Assets implements Runnable {
         pursoid = ImageLoader.loadImage("/Tilesets/Pursoid.png");
         LaserAlien = ImageLoader.loadImage("/Tilesets/LaserAlien.png");
         laser = ImageLoader.loadImage("/Tilesets/laser.png");
-        Title=ImageLoader.loadImage("/UI/Title.png");
-        Title2=ImageLoader.loadImage("/UI/Title2.png");
+        Title = ImageLoader.loadImage("/UI/Title.png");
+        Title2 = ImageLoader.loadImage("/UI/Title2.png");
         SpriteSheet sheetAsteroids = new SpriteSheet(ImageLoader.loadImage("/Sprites/Tilesets/Sheetasteroids.png"));
         for (int i = 0; i < 2; i++) {
             for (int j = 0; j < 2; j++) {
@@ -140,6 +148,7 @@ public class Assets implements Runnable {
         cargarJoan(playerM);
         SpriteSheet mainPlayer = new SpriteSheet(ImageLoader.loadImage("/Sprites/Tilesets/Sheet.png"));
         cargarMainPlayer(mainPlayer);
+        cargarMainPlayerR(sheetR);
         vida = sheetVida.crop(0, 0, 125, 201);
         halfLife = sheetVida.crop(266, 0, 125, 201);
         floor = ImageLoader.loadImage("/Testers/Floor.png");
@@ -176,6 +185,7 @@ public class Assets implements Runnable {
         fondo8bits = ImageLoader.loadImage("/SpritesMainLevel/GameboyAssets/Tile_14.png");
         fillPortal();
         fillBackgroundSpacePlat();
+        fillBackgroundCityPlat();
     }
 
     /**
@@ -208,13 +218,19 @@ public class Assets implements Runnable {
 
     public static void fillPortal() {
         for (int i = 0; i < teleporterTile.length; i++) {
-            teleporterTile[i] = ImageLoader.loadImage("/SpritesMainLevel/Space/portalAnimations/frame_"+i+".png");
+            teleporterTile[i] = ImageLoader.loadImage("/SpritesMainLevel/Space/portalAnimations/frame_" + i + ".png");
         }
     }
-    
-    public static void fillBackgroundSpacePlat(){
-        for(int i = 0; i < spaceBackgroundPlat.length; i++){
-            spaceBackgroundPlat[i] = ImageLoader.loadImage("/SpritesMainLevel/Backgrounds/SpaceP/frame_1 ("+(i+1)+").png");
+
+    public static void fillBackgroundCityPlat() {
+        for (int i = 0; i < cityPlataformerBackground.length; i++) {
+            cityPlataformerBackground[i] = ImageLoader.loadImage("/SpritesMainLevel/Backgrounds/CityP/frame_1 (" + (i + 1) + ").png");
+        }
+    }
+
+    public static void fillBackgroundSpacePlat() {
+        for (int i = 0; i < spaceBackgroundPlat.length; i++) {
+            spaceBackgroundPlat[i] = ImageLoader.loadImage("/SpritesMainLevel/Backgrounds/SpaceP/frame_1 (" + (i + 1) + ").png");
         }
     }
 
@@ -236,6 +252,18 @@ public class Assets implements Runnable {
         filterContainer(temporaryContainer);
     }
 
+    public static void cargarMainPlayerR(SpriteSheet sheet) {
+        BufferedImage[] temporaryContainer = new BufferedImage[36];
+        int a = 0;
+        for (int i = 0; i < 4; i++) {
+            for (int j = 0; j < 6; j++) {
+                temporaryContainer[a] = sheet.crop(j * 128, i * 128, 128, 128);
+                a++;
+            }
+        }
+        filterContainerR(temporaryContainer);
+    }
+
     public static void cargarAnimacionTeleporter() {
         teleporterAnimation[0] = ImageLoader.loadImage("/SpritesMainLevel/Space/teleporterAnimationOff.png");
         teleporterAnimation[1] = ImageLoader.loadImage("/SpritesMainLevel/Space/teleporterAnimationSemi.png");
@@ -243,24 +271,37 @@ public class Assets implements Runnable {
     }
 
     public static void filterContainer(BufferedImage[] image) {
-        mainPlayerStandStill[0] = image[0];
-        mainPlayerStandStill[1] = image[6];
-        mainPlayerStandStill[2] = image[12];
-        mainPlayerStandStill[3] = image[18];
+        mainPlayerStandStillL[0] = image[0];
+        mainPlayerStandStillL[1] = image[6];
+        mainPlayerStandStillL[2] = image[12];
+        mainPlayerStandStillL[3] = image[18];
         mainPlayerLeft[0] = image[1];
         mainPlayerLeft[1] = image[7];
         mainPlayerLeft[2] = image[13];
         mainPlayerLeft[3] = image[19];
-//        mainPlayerRight[0] = image[];
-//        mainPlayerRight[1];
-//        mainPlayerRight[2];
-//        mainPlayerRight[3];
-        mainPlayerUp[0] = image[2];
-        mainPlayerFalling[0] = image[5];
-        mainPlayerRunning[0] = image[4];
-        mainPlayerRunning[1] = image[10];
-        mainPlayerRunning[2] = image[16];
-        mainPlayerRunning[3] = image[22];
+        mainPlayerUpL[0] = image[2];
+        mainPlayerFallingL[0] = image[5];
+        mainPlayerRunningL[0] = image[4];
+        mainPlayerRunningL[1] = image[10];
+        mainPlayerRunningL[2] = image[16];
+        mainPlayerRunningL[3] = image[22];
+    }
+
+    public static void filterContainerR(BufferedImage[] image) {
+        mainPlayerStandStillR[0] = image[5];
+        mainPlayerStandStillR[1] = image[11];
+        mainPlayerStandStillR[2] = image[17];
+        mainPlayerStandStillR[3] = image[23];
+        mainPlayerRight[0] = image[4];
+        mainPlayerRight[1] = image[10];
+        mainPlayerRight[2] = image[16];
+        mainPlayerRight[3] = image[22];
+        mainPlayerUpR[0] = image[3];
+        mainPlayerFallingR[0] = image[0];
+        mainPlayerRunningR[0] = image[1];
+        mainPlayerRunningR[1] = image[7];
+        mainPlayerRunningR[2] = image[13];
+        mainPlayerRunningR[3] = image[19];
     }
 
     @Override

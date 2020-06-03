@@ -117,4 +117,8 @@ public class WorldLibrary extends World {
         this.entityM = entityManager;
     }
 
+    public void setFinished(){
+        entityM.getJoan().setGameFinished(true);
+    }
+    
 }

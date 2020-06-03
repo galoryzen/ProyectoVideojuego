@@ -164,7 +164,7 @@ public class MenuState extends GameState implements SaveGame {
         musicPlayer = new MusicPlayer(bgMusic);
         Window.mouse.setUIManager(uimanager);
         hiloMusica = new Thread(musicPlayer, "auxiliarThreadForMusic");
-        hiloMusica.start();
+        //hiloMusica.start();
         menuUp = AudioLoader.upMenu;
     }
 

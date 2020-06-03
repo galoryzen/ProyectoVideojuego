@@ -31,7 +31,7 @@ public class MainPlayer extends Character {
     private int maxReturns;
     private double timePressed;
 
-    private Animation animD, animUp, animR, animL, animSS, animRi;
+    private Animation animDL, animDR, animUpR, animUpL, animR, animL, animSSL, animSSR, animRi;
 
     public void setPosition(int[] position) {
         this.x = position[0];
@@ -59,18 +59,25 @@ public class MainPlayer extends Character {
 
         xMove = 0;
         yMove = 0;
-        speedX = 150;
+        speedX = 125;
         speedY = 200;
         percentajeVelocity = 0;
-        maxPercentajeVelocity = 1.20;
+        maxPercentajeVelocity = 0.90;
         maxSpeedY = 400;
 
         //Animations 
-        animUp = new Animation(100, Assets.mainPlayerUp);
+        animUpL = new Animation(100, Assets.mainPlayerUpL);
+        animUpR = new Animation(100, Assets.mainPlayerUpR);
+
         animL = new Animation(100, Assets.mainPlayerLeft);
-        animR = new Animation(100, Assets.mainPlayerRunning);
-        animD = new Animation(100, Assets.mainPlayerFalling);
-        animSS = new Animation(100, Assets.mainPlayerStandStill);
+        animR = new Animation(100, Assets.mainPlayerRight);
+
+        animDL = new Animation(100, Assets.mainPlayerFallingL);
+        animDR = new Animation(100, Assets.mainPlayerFallingR);
+
+        animSSL = new Animation(100, Assets.mainPlayerStandStillL);
+        animSSR = new Animation(100, Assets.mainPlayerStandStillR);
+
         timePressed = System.currentTimeMillis();
     }
 
@@ -98,7 +105,7 @@ public class MainPlayer extends Character {
         // Running
         if (Window.keyManager.shift) {
             if (percentajeVelocity <= maxPercentajeVelocity) {
-                percentajeVelocity += 0.05;
+                percentajeVelocity += 0.03;
             } else {
                 percentajeVelocity = maxPercentajeVelocity;
             }
@@ -111,7 +118,7 @@ public class MainPlayer extends Character {
         }
 
         // Time Travel
-        if (Window.keyManager.space && System.currentTimeMillis() - timePressed >= 2000) {
+        if (Window.keyManager.space && System.currentTimeMillis() - timePressed >= 1000) {
             if (returnPoint == null && amountOfReturns < maxReturns) {
                 returnPoint = new Punto(x, y);
                 timePressed = System.currentTimeMillis();
@@ -159,27 +166,40 @@ public class MainPlayer extends Character {
     public void update() {
         getInput();
         move();
+        if (xMove < 0) {
+            bounds.x = 40;
+            bounds.y = 35;
+            bounds.height = 60;
+            bounds.width = 40;
+        } else {
+            bounds.x = 60;
+            bounds.y = 35;
+            bounds.height = 60;
+            bounds.width = 40;
+        }
         animL.update();
-        animUp.update();
-        animSS.update();
-        animD.update();
+        animR.update();
+        animUpL.update();
+        animSSL.update();
+        animDL.update();
+        animUpR.update();
+        animSSR.update();
+        animDR.update();
         animR.update();
     }
 
     @Override
     public void render(Graphics2D g) {
-        g.setColor(Color.yellow);
-        g.fillRect((int) (x + bounds.x), (int) (y + bounds.y), bounds.width, bounds.height);
+        g.setColor(Color.red);
+        g.fillRect((int) (bounds.x + x), (int) (bounds.y + y), bounds.width, bounds.height);
         g.drawImage(getCurrentAnimationFrame(), (int) x, (int) y, null);
-        g.draw(rightHand());
-        g.draw(leftHand());
     }
 
     @Override
     protected boolean collisionWithTile(int x, int y) {
-        try{
+        try {
             return handler.getWorld().getTile(x, y).isSolid();
-        }catch(Exception e){
+        } catch (Exception e) {
             System.out.println("SALISTE DEL MAPA");
             return true;
         }
@@ -291,7 +311,7 @@ public class MainPlayer extends Character {
     }
 
     private boolean hasUpCollision() {
-        int ty = (int) (y + bounds.y + yMove * handler.getDeltaTime()) / TileMainLevel.TILEHEIGHT;
+        int ty = (int) (y + bounds.y + yMove * handler.getDeltaTime() - 2f) / TileMainLevel.TILEHEIGHT;
         return !collisionWithTile((int) (x + bounds.x + bounds.width) / TileMainLevel.TILEWIDTH, ty)
                 && !collisionWithTile((int) (x + bounds.x) / TileMainLevel.TILEWIDTH, ty);
     }
@@ -337,7 +357,7 @@ public class MainPlayer extends Character {
                 isGround = false;
             }
         } else {
-            if (jumping) {
+            if (jumping && isGround) {
                 int ty = (int) (y + bounds.y + yMove * handler.getDeltaTime()) / TileMainLevel.TILEHEIGHT;
                 y = ty * TileMainLevel.TILEHEIGHT + TileMainLevel.TILEHEIGHT - bounds.y;
                 if (!hasUpCollision()) {
@@ -349,20 +369,33 @@ public class MainPlayer extends Character {
 
     //Conseguir la animación en cada movimiento
     private BufferedImage getCurrentAnimationFrame() {
+        if (Window.keyManager.left && !(jumping || !isGround)) {
+            return animL.getCurrentFrame();
+        } else if (Window.keyManager.right && !(jumping || !isGround)) {
+            return animR.getCurrentFrame();
+        }
         if (jumping || !isGround) {
             if (!isGround) {
-                return animD.getCurrentFrame();
+                if (xMove < 0) {
+                    return animDL.getCurrentFrame();
+                } else {
+                    return animDR.getCurrentFrame();
+                }
             } else if (jumping) {
-                return animUp.getCurrentFrame();
-            }
-        } else {
-            if (Window.keyManager.left) {
-                return animL.getCurrentFrame();
-            } else if (Window.keyManager.right) {
-                return animR.getCurrentFrame();
+                if (xMove < 0) {
+                    return animUpL.getCurrentFrame();
+                } else {
+                    return animUpR.getCurrentFrame();
+                }
             }
         }
-        return animSS.getCurrentFrame();
+        if (xMove > 0) {
+            return animSSR.getCurrentFrame();
+        } else if (xMove < 0) {
+            return animSSL.getCurrentFrame();
+        } else {
+            return animSSL.getCurrentFrame();
+        }
     }
 
     public void checkAttacks() {
@@ -432,7 +465,7 @@ public class MainPlayer extends Character {
                     return true;
                 default:
                     System.out.println("Interaccion");
-                    return true; 
+                    return true;
             }
         }
         return false;
@@ -484,7 +517,7 @@ public class MainPlayer extends Character {
     }
 
     public void setAnimD(Animation animD) {
-        this.animD = animD;
+        this.animDL = animD;
     }
 
     public double getxMove() {

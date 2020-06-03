@@ -93,6 +93,11 @@ public class MainLevel extends GameState {
 
     @Override
     public void getLoadData() {
+        if (gameChanged == true) {
+            gameChanged = !gameChanged;
+            levelManager.setLevelSwitched(false);
+            levelManager.getMusicPlayer().resume();
+        }
         levelManager.loadData();
     }
 
@@ -110,7 +115,7 @@ public class MainLevel extends GameState {
     }
 
     public boolean isGameFinished() {
-        MainLevelUpManager manager = (MainLevelUpManager) levelManager; 
+        MainLevelUpManager manager = (MainLevelUpManager) levelManager;
         return manager.getFinishedGame();
     }
 }
