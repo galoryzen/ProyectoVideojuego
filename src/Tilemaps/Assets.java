@@ -19,6 +19,8 @@ public class Assets implements Runnable {
     public static BufferedImage playerLeft[] = new BufferedImage[2];
     public static BufferedImage teleporterAnimation[] = new BufferedImage[3];
 
+    public static BufferedImage spaceBackgroundPlat[] = new BufferedImage[30];
+    
     public static BufferedImage spaceSpikes[] = new BufferedImage[3];
     public static BufferedImage mainPlayerUp[] = new BufferedImage[1];
     public static BufferedImage mainPlayerRunning[] = new BufferedImage[4];
@@ -173,6 +175,7 @@ public class Assets implements Runnable {
         minimize[1] = ImageLoader.loadImage("/UI/minimizeHover.png");
         fondo8bits = ImageLoader.loadImage("/SpritesMainLevel/GameboyAssets/Tile_14.png");
         fillPortal();
+        fillBackgroundSpacePlat();
     }
 
     /**
@@ -206,6 +209,12 @@ public class Assets implements Runnable {
     public static void fillPortal() {
         for (int i = 0; i < teleporterTile.length; i++) {
             teleporterTile[i] = ImageLoader.loadImage("/SpritesMainLevel/Space/portalAnimations/frame_"+i+".png");
+        }
+    }
+    
+    public static void fillBackgroundSpacePlat(){
+        for(int i = 0; i < spaceBackgroundPlat.length; i++){
+            spaceBackgroundPlat[i] = ImageLoader.loadImage("/SpritesMainLevel/Backgrounds/SpaceP/frame_1 ("+(i+1)+").png");
         }
     }
 

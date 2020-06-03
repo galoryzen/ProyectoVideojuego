@@ -49,7 +49,7 @@ public class Level2State extends GameState {
             System.out.print(e);
         }
         */
-        background= new Animation(50,Assets.backgroundLevel2);
+        background= new Animation(50,Assets.spaceBackgroundPlat);
         entityManager = new EntityManager(handler, this);
         dialogueLoader = new DialogueLoader(handler);
         world = new WorldSpace(entityManager, handler);

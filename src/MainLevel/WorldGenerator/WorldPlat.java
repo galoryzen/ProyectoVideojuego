@@ -10,6 +10,8 @@ import MainLevel.Tiles.Chest;
 import MainLevel.Tiles.TileMainLevel;
 import MainLevel.Tiles.ElevatorTile;
 import MainLevel.Tiles.TeleporterTile;
+import Tilemaps.Animation;
+import Tilemaps.Assets;
 import java.awt.Graphics2D;
 
 /**
@@ -23,6 +25,7 @@ public class WorldPlat extends World {
     private int spawnX, spawnY;
     private EntityManager entityM;
     private String path;
+    private Animation animationParallax = new Animation(200,Assets.spaceBackgroundPlat);
 
     public WorldPlat(Handler handler, EntityManager entityM, String path, GameState state) {
         super(handler);
@@ -34,11 +37,13 @@ public class WorldPlat extends World {
     @Override
     public void update() {
         entityM.update();
+        animationParallax.update();
     }
 
     @Override
     public void render(Graphics2D g) {
         g.clearRect(0, 0, 1080, 720);
+        g.drawImage(animationParallax.getCurrentFrame(),0,0,1080,720,null);
         generateScenario(g);
         entityM.render(g);
     }
