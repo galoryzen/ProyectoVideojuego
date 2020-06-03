@@ -3,8 +3,8 @@ package Entities.Creatures;
 import Entities.Entity;
 import Entities.EntityManager;
 import Entities.Items.Bullet;
+import Tilemaps.Tile;
 import Entities.Static.BookPile;
-import FirstMinigame.Tiles.Tile;
 import Tilemaps.Animation;
 import MainG.Handler;
 import MainG.Window;
@@ -23,6 +23,7 @@ public class Player_Joan extends Character {
     private boolean canMove = true;
     private boolean endState = false;
     private int ar1, ar2;
+    private boolean gameFinished = false;
 
     //Attack range
     private int attackR;
@@ -55,23 +56,24 @@ public class Player_Joan extends Character {
         animUp = new Animation(300, Assets.playerUp);
         animR = new Animation(300, Assets.playerRight);
         animL = new Animation(300, Assets.playerLeft);
-        this.speed += 10;
+        this.speed += 3;
     }
 
     @Override
     public void update() {
+        if (!gameFinished) {
+            //Actualiza los frames
+            animDown.update();
+            animUp.update();
+            animR.update();
+            animL.update();
+            getInput();
+            move();
 
-        //Actualiza los frames
-        animDown.update();
-        animUp.update();
-        animR.update();
-        animL.update();
-        getInput();
-        move();
-
-        //Attack
-        checkAttacks();
-        handler.getGameCamara().centerOnEntity(this);
+            //Attack
+            checkAttacks();
+            handler.getGameCamara().centerOnEntity(this);
+        }
     }
 
     private void checkAttacks() {
@@ -107,7 +109,7 @@ public class Player_Joan extends Character {
             //System.out.println("" + en.getCollisionBounds(0, 0));
             if (!en.equals(this)) {
                 if (en.getCollisionBounds(0, 0).intersects(ar)) {
-                    BookPile book = (BookPile)en;
+                    BookPile book = (BookPile) en;
                     book.foundBook();
                     return;
                 }
@@ -198,19 +200,17 @@ public class Player_Joan extends Character {
     }
 
     /**
-     * Metodo para ver si el personaje tiene una colision con un tile que es de
-     * tipo solido.
+     * Metodo para ver si el personaje tiene una colision con un tile que es de tipo solido.
      *
      * Cambiar este metodo a que retorne falso para atravesar paredes.
      *
      * @param x Coordenada en X
      * @param y Coordenada en Y
-     * @return Retorna un booleano que indica si se está chocando con un tile
-     * que es SOLIDO.
+     * @return Retorna un booleano que indica si se está chocando con un tile que es SOLIDO.
      */
+    @Override
     protected boolean collisionWithTile(int x, int y) {
-        //return handler.getWorld().getTile(x, y).isSolid();
-        return false;
+        return handler.getWorld().getTile(x, y).isSolid();
     }
 
     public Rectangle getBounds() {
@@ -257,4 +257,9 @@ public class Player_Joan extends Character {
         }
         return true;
     }
+
+    public void setGameFinished(boolean gameFinished) {
+        this.gameFinished = gameFinished;
+    }
+    
 }

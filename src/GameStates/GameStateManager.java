@@ -1,7 +1,7 @@
 package GameStates;
 
-import FirstMinigame.Level1UpManager;
 import MainG.Handler;
+import java.awt.Graphics2D;
 
 /**
  * La clase GameStateManager se encarga de la administracion de los niveles Es el que dice en que nivel se encuentra actualmente, en cual estado.
@@ -22,6 +22,7 @@ public class GameStateManager {
     private final int PAUSESTATE = 4;
     private final int QUIZSTATE = 5;
 
+    private double deltaTime;
     private int previousState;
 
     public GameStateManager(Handler handler, GameCamara gameCamara) {
@@ -30,6 +31,7 @@ public class GameStateManager {
         gameStates = new GameState[NUMGAMESTATE];
         currentState = MENUSTATE;
         loadState(currentState);
+        preLoadState();
         this.gameCamera = gameCamara;
     }
 
@@ -70,16 +72,22 @@ public class GameStateManager {
         }
     }
 
-    public void update() {
+    public void update(double deltaTime) {
         gameStates[currentState].update();
+        this.deltaTime = deltaTime;
     }
 
-    public void draw(java.awt.Graphics2D g) {
+    public void draw(Graphics2D g) {
         gameStates[currentState].draw(g);
     }
 
     public int inGameState() {
         return currentState;
+    }
+
+    public void preLoadState() {
+        gameStates[LEVEL1STATE] = new Level1State(this, handler, "Level 2");
+        gameStates[LEVEL2STATE] = new Level2State(this, handler, "Level 3");
     }
 
     public GameState[] getGameStates() {
@@ -89,6 +97,10 @@ public class GameStateManager {
     // Guarda el estado del nivel anterior, para guardar en caso de salirse del juego o del menu de pausa
     public int getPreviousState() {
         return previousState;
+    }
+
+    public double getDeltaTime() {
+        return deltaTime;
     }
 
     public World getWorld() {
@@ -110,10 +122,31 @@ public class GameStateManager {
 
     // Se encarga de verificar, si en el TXT de guardado, en la primera linea esta vacia, lo que indica que el juego es la primera vez que se inicia
     boolean VerificarReinicioJuego(int state) {
-        if(gameStates[state] == null){
+        if (gameStates[state] == null) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    boolean isOnMinigame(int subState) {
+        if(subState == 1 || subState == 3){
             return true;
         }else{
             return false;
         }
     }
+
+    public int getMinigame(int subState) {
+        if(subState == 1){
+            return LEVEL1STATE;
+        }else{
+            return LEVEL2STATE;
+        }
+    }
+
+    public int getCurrentState() {
+        return currentState;
+    }
+    
 }

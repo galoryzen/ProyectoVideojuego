@@ -29,6 +29,13 @@ public class PauseState extends GameState implements SaveGame {
         super(gsm);
         this.gsm = gsm;
         this.handler = handler;
+        manager = new UIManager(handler);
+        /*
+        manager.addUIObject(new UIImageButton(100f, 100f, 100, 100, Assets.Boss, new ClickListener() {
+            @Override
+            public void onClick() {
+                gsm.reloadState(0);
+        */        
         manager= new UIManager(handler);
         manager.addUIObject(new UIImageButton(100f, 100f, 100, 100, Assets.Boss, new ClickListener() {
             @Override
@@ -49,8 +56,8 @@ public class PauseState extends GameState implements SaveGame {
         System.out.println("Running");
         manager.tick();
         timeDeltaTime = System.currentTimeMillis() - timePassed;
-        if (Window.keyManager.pause && timeDeltaTime > 1000) {
-            gsm.reloadState(3);
+        if (Window.keyManager.pause && timeDeltaTime > 2000) {
+            gsm.reloadState(gsm.getPreviousState());
             System.out.println("Reanuda");
         }
         if (Window.keyManager.down) {

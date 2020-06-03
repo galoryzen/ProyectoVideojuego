@@ -10,6 +10,7 @@ import Entities.EntityManager;
 import Entities.Static.BookPile;
 import MainG.Handler;
 import MainG.Window;
+import java.awt.Color;
 import Tilemaps.Assets;
 import java.awt.Color;
 import java.awt.Font;

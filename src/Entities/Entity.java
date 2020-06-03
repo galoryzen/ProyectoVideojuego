@@ -17,17 +17,14 @@ public abstract class Entity{
     protected Handler handler;
     public static final int DEFAULTHEALTH=5;
     
-    //Identificador del nivel
-    private String levelTag;
-    //Posición
-    protected float x,y;
+    private String levelTag;    //Identificador del nivel
+    protected float x,y;    //Posición
     
-    //Hitbox
     protected int width,height;
-    protected Rectangle bounds;
+    protected Rectangle bounds;     //Hitbox
     
-    //Vida
-    protected int health;
+    protected int health;   //Vida
+    
     protected boolean active=true;
     
     //EntityManager
@@ -91,6 +88,12 @@ public abstract class Entity{
         return new Rectangle ((int)(x+bounds.x),(int)(y+bounds.y),bounds.width,bounds.height);
     }
     
+    /**
+     * Usado para el movimiento de la camara en el minijuego de la libreria.
+     * @param xo Offset en X de la camara.
+     * @param yo Offset en Y de la camara.
+     * @return Retorna el hitbox de la entidad tomando en cuenta la camara.
+     */
     public Rectangle getCollisionBounds(float xo, float yo){
         return new Rectangle ((int)(x+bounds.x+xo),(int)(y+bounds.y+yo),bounds.width,bounds.height);
     }

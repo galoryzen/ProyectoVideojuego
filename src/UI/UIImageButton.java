@@ -13,42 +13,45 @@ import java.awt.image.BufferedImage;
  * @author German David
  */
 public class UIImageButton extends UIObject {
-    
+
     private BufferedImage[] images;
     private BufferedImage image;
     private ClickListener clicker;
-    
-    public UIImageButton(float x, float y, int width, int height,BufferedImage[] images,ClickListener clicker) {
+    private boolean current;
+
+    public UIImageButton(float x, float y, int width, int height, BufferedImage[] images, ClickListener clicker) {
         super(x, y, width, height);
-        this.images=images;
-        this.clicker=clicker;
+        this.images = images;
+        this.clicker = clicker;
+        current = false;
     }
-    
-    public UIImageButton(float x, float y, int width, int height,BufferedImage image,ClickListener clicker) {
+
+    public UIImageButton(float x, float y, int width, int height, BufferedImage image, ClickListener clicker) {
         super(x, y, width, height);
-        this.image=image;
-        this.clicker=clicker;
+        this.image = image;
+        this.clicker = clicker;
+        current = false;
     }
-    
-    
 
     @Override
     public void tick() {
-        
+
     }
 
     @Override
     public void render(Graphics g) {
-        if(!(images==null)){
-            if(hovering)
+        if (!(images == null)) {
+            if (hovering || current) {
                 g.drawImage(images[0], (int) x, (int) y, null);
-            else
+            } else {
                 g.drawImage(images[1], (int) x, (int) y, null);
-        }else{
-            if(hovering)
-                g.drawImage(image, (int) x, (int) y,width-30,height-10, null);
-            else
-                g.drawImage(image, (int) x, (int) y,width , height, null);
+            }
+        } else {
+            if (hovering || current) {
+                g.drawImage(image, (int) x, (int) y, width - 30, height - 10, null);
+            } else {
+                g.drawImage(image, (int) x, (int) y, width, height, null);
+            }
         }
     }
 
@@ -56,5 +59,8 @@ public class UIImageButton extends UIObject {
     public void onClick() {
         clicker.onClick();
     }
-    
+
+    public void setCurrent(boolean b) {
+        current = b;
+    }
 }

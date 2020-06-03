@@ -17,6 +17,8 @@ import java.io.FileWriter;
 public class Level1UpManager extends LevelUpManager{
     
     Graphics2D g;
+    private WorldLibrary worldLib;
+    
     private Level1State state;
     
     @Override
@@ -34,8 +36,9 @@ public class Level1UpManager extends LevelUpManager{
     }
     
     public Level1UpManager(Level1State state, World world, DialogueLoader dialogueLoader) {
+        super(world);
         this.state = state;
-        this.worldlib = (WorldLibrary) world;
+        this.worldLib = (WorldLibrary) world;
         this.dialogueLoader = dialogueLoader;
     }
     

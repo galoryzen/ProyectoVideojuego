@@ -1,23 +1,16 @@
 package GameStates;
 
-import Audio.AudioLoader;
-import Entities.Creatures.Player;
 import Entities.EntityManager;
-import Tilemaps.Background;
 import java.awt.Graphics2D;
 import Handlers.KeyManager;
-import MainG.GameLauncher;
 import MainG.Handler;
 import MainG.Window;
-import static MainG.Window.mouse;
 import SecondMinigame.HUD;
 import SecondMinigame.Level2UpManager;
 import SecondMinigame.WorldSpace;
 import Tilemaps.Animation;
 import Tilemaps.Assets;
 import java.awt.Image;
-import java.awt.Point;
-import java.awt.Toolkit;
 import tinysound.Music;
 
 public class Level2State extends GameState {
@@ -34,38 +27,27 @@ public class Level2State extends GameState {
     private EntityManager entityManager;
     private Animation background;
     private boolean ya = true;
-    private float volume = 0.3f;
     private long timePassed;
     private long timeDeltaTime;
-
+    
     public Level2State(GameStateManager gsm, Handler handler, String tag) {
         super(gsm);
         this.handler = handler;
         this.levelTag = tag;
-        /*
-        try {
-            bg = new Background(Assets.fondoSpaceInvaders, 1);
-            bg.setVector(-3f, 0f);
-        } catch (Exception e) {
-            System.out.print(e);
-        }
-        */
-        background= new Animation(50,Assets.backgroundLevel2);
+        background= new Animation(50,Assets.spaceBackgroundPlat);
         entityManager = new EntityManager(handler, this);
         dialogueLoader = new DialogueLoader(handler);
         world = new WorldSpace(entityManager, handler);
         hud = new HUD(entityManager);
         levelManager = new Level2UpManager(this, hud, world, dialogueLoader, entityManager);
-        world.setHUD(hud);
-        world.setLevelUpManager(levelManager);
-        bgTalkMusic = AudioLoader.bgTalkMomentSpaceInvaders;
-        bgMusic = AudioLoader.bgMusicSpaceInvaders;
-        timePassed = System.currentTimeMillis();
+        init();
     }
 
     @Override
     public void init() {
-        bgTalkMusic.play(true, 0.5f);
+        world.setHUD(hud);
+        world.setLevelUpManager(levelManager);
+        timePassed = System.currentTimeMillis();
     }
 
     @Override
@@ -98,19 +80,8 @@ public class Level2State extends GameState {
 
     @Override
     public void musicControl() {
-        if (levelManager.getPhase() == -1 && !bgMusic.playing()) {
-            bgTalkMusic.stop();
-            bgMusic.play(true, volume);
-        }
     }
     
-
-    
-    /*
-    public Background getBg() {
-        return bg;
-    }
-    */
     @Override
     public World getWorld() {
         return world;
@@ -118,7 +89,11 @@ public class Level2State extends GameState {
 
     public void setGameFinished() {
         // Finaliza el juego y devuelve al nivel prinicipal, se espera cambiar el setState, por el reloadState, puesto que por medio de ese se accede a este
-        gsm.setState(1);
+        // EFECTO DE TRANSICION
+        gsm.getGameStates()[1].getLoadData();
+        MainLevel auxS = (MainLevel) gsm.getGameStates()[1];
+        auxS.getLevelManager().setFinishedMinigame();
+        gsm.reloadState(1);
     }
 
     // Se verifica si el usuario presiono la letra P, para iniciar un menu de Pausa.

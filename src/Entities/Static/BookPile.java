@@ -40,6 +40,7 @@ public class BookPile extends StaticEntity{
     @Override
     public void update(){
         
+        
     }
     
     @Override

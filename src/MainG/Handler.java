@@ -50,4 +50,7 @@ public class Handler{
        return gsm.getWorld();
     }
     
+    public double getDeltaTime(){
+        return gsm.getDeltaTime() * 0.000000001;
+    }
 }

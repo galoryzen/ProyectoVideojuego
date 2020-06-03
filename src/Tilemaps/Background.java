@@ -1,9 +1,8 @@
 package Tilemaps;
 
-import MainG.GamePanel;
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
-import javax.imageio.ImageIO;
+
 
 public class Background {
 
@@ -60,5 +59,4 @@ public class Background {
     public double getDx() {
         return dx;
     }
-
 }

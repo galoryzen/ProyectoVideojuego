@@ -10,20 +10,18 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Comparator;
 
-/**
- *
- * @author German David
- */
-public class EntityManager implements Serializable{
-
+public class EntityManager{
+    
     private Handler handler;
-    private Player nave;
-    private Player_Joan joan;
-    private MainPlayer mainC;
+    private static Player nave;
+    private static Player_Joan joan;
+    private static MainPlayer mainC;
     private ArrayList<Entity> entities;
     private int Score = 0;
 
-    //Comparador
+    /**
+     * Comparador de entidades.
+     */
     private Comparator<Entity> renderSorter = new Comparator<Entity>() {
         @Override
         public int compare(Entity a, Entity b) {
@@ -37,12 +35,15 @@ public class EntityManager implements Serializable{
     /**
      * Constructor de la clase Entity Manager.
      * @param handler Handler del EntityManager.
-     * @param state El State del Entity Manager
+     * @param state El State del Entity Manager.
      */
     public EntityManager(Handler handler, GameState state) {
         this.handler = handler;
         entities = new ArrayList();
         Entity player;
+        /**
+         * Dependiendo del tag del GameState creará un personaje diferente.
+         */
         if (state.getTag().equals("Level 3")) {
             nave = new Player(handler, this, 100, 100);
             player = nave;
@@ -50,7 +51,7 @@ public class EntityManager implements Serializable{
             joan = new Player_Joan(handler, this, 100, 100);
             player = joan;
         } else {
-            mainC = new MainPlayer(handler, this, 0, 450);
+            mainC = new MainPlayer(handler, this, 0, 0);
             player = mainC;
         }
         addEntity(player);
@@ -85,6 +86,7 @@ public class EntityManager implements Serializable{
             //Cambio, revisar despues
             if (!e.isActive()) {
                 entities.remove(e);
+                e = null;
             }
         }
         entities.sort(renderSorter);
@@ -133,6 +135,10 @@ public class EntityManager implements Serializable{
 
     public void setEntities(ArrayList<Entity> entities) {
         this.entities = entities;
+    }
+
+    public MainPlayer getMainPlayer() {
+        return mainC;
     }
 
 }
