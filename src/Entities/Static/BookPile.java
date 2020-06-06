@@ -57,12 +57,21 @@ public class BookPile extends StaticEntity{
     public void foundBook(){
         WorldLibrary.bookcount += 1;
         entityM.addEntity(bookinfo);
-        this.move(6150 + this.id*85 , 1230);
+        if (this.bookinfo.getId()!=6) {
+            this.move(6150 + this.id*85 , 1330);
+        }
+        
     }
     
     public int getId() {
         return id;
     }
+
+    public BookInfo getBookinfo() {
+        return bookinfo;
+    }
+    
+    
     
     public void move(int x, int y) {
         this.x = x;

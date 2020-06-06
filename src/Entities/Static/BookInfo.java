@@ -22,9 +22,8 @@ import java.awt.image.BufferedImage;
  *
  * @author German David
  */
-public class BookInfo extends StaticEntity{
+public class BookInfo extends StaticEntity {
 
-    
     private final EntityManager manager;
     private final BufferedImage img;
     private final int id;
@@ -39,22 +38,30 @@ public class BookInfo extends StaticEntity{
         this.id = id;
     }
 
-    
-    
-    
-    
     @Override
-    public void update(){
+    public void update() {
         getInput();
     }
-    
-    void getInput(){
-        if (Window.keyManager.enter) {
-            manager.removeEntity(this);//Quitar despues, cambiar por moverse a otra posicion
-            this.manager.getJoan().setCanMove(true);
+
+    void getInput() {
+        if (this.id!=6) {
+            if (Window.keyManager.enter) {
+                manager.removeEntity(this);//Quitar despues, cambiar por moverse a otra posicion
+                this.manager.getJoan().setCanMove(true);
+
+            }
+        } else {
+            if (Window.keyManager.esc) {
+                manager.removeEntity(this);//Quitar despues, cambiar por moverse a otra posicion
+                this.manager.getJoan().setCanMove(true);
+            }
+
+            if (Window.keyManager.enter) {
+                this.manager.verifyEnd();
+            }
         }
     }
-    
+
     @Override
     public void render(Graphics2D g) {
         this.manager.getJoan().setCanMove(false);
@@ -107,19 +114,24 @@ public class BookInfo extends StaticEntity{
                 break;
             case 6:
                 g.setColor(Color.BLACK);
-                g.drawString("Bienvenida Astronauta", 280, 545);
-                g.drawString("Ahora mismo eres Katherine Johnson,estas a bordo del Apolo ", 280, 575);
-                g.drawString("Tu mision, es estar al mando del manejo de la nave y cambiar", 280, 605);
-                g.drawString("la historia", 280, 635);
+                g.drawString("PAPI QUIERES HACER EL QUIZ O NO MI HERMANO", 280, 545);
+
                 break;
             case 7:
                 g.setColor(Color.BLACK);
-                g.drawString("Bienvenida Astronauta", 280, 545);
-                g.drawString("Ahora mismo eres Katherine Johnson,estas a bordo del Apolo ", 280, 575);
-                g.drawString("Tu mision, es estar al mando del manejo de la nave y cambiar", 280, 605);
-                g.drawString("la historia", 280, 635);
+                g.drawString("PELA BICHO, LOS LEONES NO SE MEZCLAN CON LOS TIBURONES BRRRR", 280, 545);
                 break;
+            case 8:
+                g.setColor(Color.BLACK);
+                g.drawString("PAPI TE FALTAN LIBROS", 280, 545);
+                break;
+            case 9:
+                g.setColor(Color.BLACK);
+                g.drawString("PUEDES PASAR CABRON", 280, 545);
+                break;
+            case 10:
 
+                break;
             default:
                 throw new AssertionError();
         }
@@ -127,9 +139,9 @@ public class BookInfo extends StaticEntity{
 
     @Override
     public void die() {
-        
+
     }
-    
+
     public int getId() {
         return id;
     }

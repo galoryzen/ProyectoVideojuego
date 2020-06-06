@@ -1,10 +1,12 @@
 package GameStates;
 
+import GameStates.Level2State;
 import MainG.Handler;
 import java.awt.Graphics2D;
 
 /**
- * La clase GameStateManager se encarga de la administracion de los niveles Es el que dice en que nivel se encuentra actualmente, en cual estado.
+ * La clase GameStateManager se encarga de la administracion de los niveles Es
+ * el que dice en que nivel se encuentra actualmente, en cual estado.
  */
 public class GameStateManager {
 
@@ -67,7 +69,7 @@ public class GameStateManager {
             case LEVEL2STATE:
                 gameStates[state] = new Level2State(this, handler, "Level 3");
                 
-                case QUIZSTATE:
+            case QUIZSTATE:
                 gameStates[state] = new QuizState(this);
         }
     }
@@ -130,17 +132,17 @@ public class GameStateManager {
     }
 
     boolean isOnMinigame(int subState) {
-        if(subState == 1 || subState == 3){
+        if (subState == 1 || subState == 3) {
             return true;
-        }else{
+        } else {
             return false;
         }
     }
 
     public int getMinigame(int subState) {
-        if(subState == 1){
+        if (subState == 1) {
             return LEVEL1STATE;
-        }else{
+        } else {
             return LEVEL2STATE;
         }
     }
@@ -148,5 +150,5 @@ public class GameStateManager {
     public int getCurrentState() {
         return currentState;
     }
-    
+
 }

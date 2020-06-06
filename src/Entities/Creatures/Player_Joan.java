@@ -56,7 +56,7 @@ public class Player_Joan extends Character {
         animUp = new Animation(300, Assets.playerUp);
         animR = new Animation(300, Assets.playerRight);
         animL = new Animation(300, Assets.playerLeft);
-        this.speed += 3;
+        this.speed -= 3;
     }
 
     @Override
@@ -210,7 +210,8 @@ public class Player_Joan extends Character {
      */
     @Override
     protected boolean collisionWithTile(int x, int y) {
-        return handler.getWorld().getTile(x, y).isSolid();
+        //return handler.getWorld().getTile(x, y).isSolid();
+        return false;
     }
 
     public Rectangle getBounds() {
@@ -251,11 +252,10 @@ public class Player_Joan extends Character {
     }
 
     public boolean checkEnd() {
-        if (this.x > 5700 && this.y > 1600 && this.y < 1800) {
-            System.out.println("habla cachon");
-            return false;
+        if (this.x > 5700 && this.y > 1500 && this.y < 1800) {
+            return true;
         }
-        return true;
+        return false;
     }
 
     public void setGameFinished(boolean gameFinished) {

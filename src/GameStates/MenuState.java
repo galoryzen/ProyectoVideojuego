@@ -86,7 +86,7 @@ public class MenuState extends GameState implements SaveGame {
             @Override
             public void onClick() {
                 musicPlayer.kill();
-                gsm.setState(1);
+                gsm.setState(2);
             }
         }));
         uimanager.addUIObject(tutorial = new UIImageButton(900, 650, 256, 57, Assets.UIMenu[1], new ClickListener() {
