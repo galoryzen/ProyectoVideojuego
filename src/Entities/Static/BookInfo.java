@@ -8,8 +8,11 @@ package Entities.Static;
 import Entities.Entity;
 import Entities.EntityManager;
 import Entities.Static.BookPile;
+import FirstMinigame.WorldGenerator.WorldLibrary;
 import MainG.Handler;
 import MainG.Window;
+import Tilemaps.Animation;
+import java.awt.Color;
 import Tilemaps.Assets;
 import java.awt.Color;
 import java.awt.Font;
@@ -29,13 +32,17 @@ public class BookInfo extends StaticEntity{
     private final int id;
     private Graphics2D g;
     private static int contIni;
+    private boolean sw=true;
     Font textFont = new Font("pixelart", Font.PLAIN, 20);
+    private Animation openning;
 
     public BookInfo(EntityManager manager, BufferedImage img, Handler handler, float x, float y, int width, int height, int id) {
         super(handler, manager, x, y, width, height);
         this.manager = manager;
         this.img = img;
         this.id = id;
+        
+        openning = new Animation(100,Assets.BookOpenning);
     }
 
     
@@ -45,6 +52,7 @@ public class BookInfo extends StaticEntity{
     @Override
     public void update(){
         getInput();
+        openning.update();
     }
     
     void getInput(){
@@ -57,10 +65,15 @@ public class BookInfo extends StaticEntity{
     @Override
     public void render(Graphics2D g) {
         this.manager.getJoan().setCanMove(false);
+        
+        /*
         g.setFont(textFont);
         g.drawImage(Assets.astronautTalker, 25, 470, 995, 189, null);
         g.setColor(Color.WHITE);
         g.drawString("Presiona ENTER para continuar", 700, 505);
+        */
+        g.drawImage(getCurrentFrame(),200,200,null);
+        /*
         switch (this.id) {
             case 0:
                 g.setColor(Color.BLACK);
@@ -122,6 +135,7 @@ public class BookInfo extends StaticEntity{
             default:
                 throw new AssertionError();
         }
+        */
     }
 
     @Override
@@ -132,4 +146,23 @@ public class BookInfo extends StaticEntity{
     public int getId() {
         return id;
     }
+
+    private Image getCurrentFrame() {
+        
+        
+        if(sw==false){
+            if(WorldLibrary.bookcount-1<6)
+                return Assets.Books[WorldLibrary.bookcount-1];
+            else
+                return Assets.Books[WorldLibrary.bookcount-7];
+            
+        }else{
+            if(openning.getCurrentFrame().equals(Assets.BookOpenning[5])){
+                sw=!sw;
+            }
+            return openning.getCurrentFrame();
+        }
+        
+    }
+    
 }

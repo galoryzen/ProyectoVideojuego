@@ -57,6 +57,9 @@ VERSION 1.7b
 VERSION 1.7c
 -Se actualizó el changelog
 
+VERSION 2.0, 2.1
+-Desarrollo del proyecto en el que no era funcional, corrección de errores
+
 VERSION 2.2
 -Se hace el videojuego mucho más general con indicaciones del gerente de Diseño
 -Se hacen avances en la implementación del segundo minijuego a la rama principal

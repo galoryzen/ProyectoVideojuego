@@ -11,10 +11,7 @@ public abstract class Character extends Creature {
 
     public abstract void getInput();
 
-    @Override
-    public String toString() {
-        return "Character{"
-                + "character='" + this + '\''
-                + '}';
+    protected boolean collisionWithTile(int x, int y) {
+        return handler.getWorld().getTile(x, y).isSolid();
     }
 }

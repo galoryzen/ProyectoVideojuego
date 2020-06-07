@@ -9,10 +9,11 @@ import tinysound.TinySound;
  */
 public class AudioLoader implements Runnable{
 
-    public static Music damageAsteroid, damageEnemyShip, bgMusic, bgTalkMomentSpaceInvaders, bgMusicSpaceInvaders;
-    public static Sound shot, upMenu;
+    public static Music damageEnemyShip, bgMusic, bgTalkMomentSpaceInvaders, bgMusicSpaceInvaders;
+    public static Sound shot, upMenu, damageAsteroid;
+    public static Music[] musicPlayListMainLevel = new Music[5];
     /**
-     * Metodo que se hace al iniciar la clase.
+     * Metodo que se hace al inicializar la clase.
      */
     public static void init() {
         bgMusic = TinySound.loadMusic("/Music/menuMusic.wav");
@@ -20,8 +21,17 @@ public class AudioLoader implements Runnable{
         shot = TinySound.loadSound("/SFX/spaceShot.wav");
         upMenu = TinySound.loadSound("/SFX/menuSelection.wav");
         bgMusicSpaceInvaders = TinySound.loadMusic("/Music/spaceInvadersRace.wav");
-        damageAsteroid = TinySound.loadMusic("/SFX/explosionAsteroid.wav");
+        damageAsteroid = TinySound.loadSound("/SFX/explosionAsteroid.wav");
         damageEnemyShip = TinySound.loadMusic("/SFX/explosionEnemy.wav");
+        fillPlayList();
+    }
+
+    private static void fillPlayList() {
+        musicPlayListMainLevel[0] = TinySound.loadMusic("/Music/M0.wav");
+        musicPlayListMainLevel[1] = TinySound.loadMusic("/Music/M1.wav");
+        musicPlayListMainLevel[2] = TinySound.loadMusic("/Music/M2.wav");
+        musicPlayListMainLevel[3] = TinySound.loadMusic("/Music/M3.wav"); 
+        musicPlayListMainLevel[4] = TinySound.loadMusic("/Music/M4.wav");
     }
 
     @Override

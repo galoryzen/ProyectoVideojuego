@@ -1,18 +1,23 @@
 package SecondMinigame;
 
+import Audio.AudioLoader;
 import GameStates.DialogueLoader;
 import Entities.Creatures.Player;
 import Entities.Entity;
 import Entities.EntityManager;
+import GameStates.GameState;
 import GameStates.Level2State;
 import GameStates.LevelUpManager;
+import MainG.Window;
 import Tilemaps.Background;
+import UtilLoader.MusicPlayer;
 import UtilLoader.SaveGame;
 import java.awt.Graphics2D;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.FileReader;
 import java.io.FileWriter;
+import tinysound.Music;
 
 public class Level2UpManager extends LevelUpManager implements SaveGame {
 
@@ -21,28 +26,40 @@ public class Level2UpManager extends LevelUpManager implements SaveGame {
     private Graphics2D g;
     private Level2State state;
     private HUD hud;
-    private WorldSpace world;
-    private EntityManager entityM;
+    private Music bgTalkMusic, bgMusic;
+    private MusicPlayer musicPlayer;
+    private Thread hiloMusica;
+    private boolean ya = true;
+    private boolean firstTime = true;
 
-    public Level2UpManager(Level2State state, HUD hud, WorldSpace world, DialogueLoader dialogueLoader, EntityManager entityManager) {
-        this.state = state;
+    public Level2UpManager(GameState state, HUD hud, WorldSpace world, DialogueLoader dialogueLoader, EntityManager entityManager) {
+        super(world, entityManager);
         this.hud = hud;
-        this.world = world;
         this.dialogueLoader = dialogueLoader;
-        this.entityM = entityManager;
+        this.state = (Level2State) state;
+        bgTalkMusic = AudioLoader.bgTalkMomentSpaceInvaders;
+        bgMusic = AudioLoader.bgMusicSpaceInvaders;
+        musicPlayer = new MusicPlayer(bgTalkMusic, bgMusic);
+        init();
+    }
+
+    public void init() {
+        hiloMusica = new Thread(musicPlayer, "hiloAuxiliarMusica");
     }
 
     public void levelUpManager(int points, int health) {
+        changeMusic();
         if (!endMinigame) {
+            WorldSpace temporaryWorld = (WorldSpace) world.cast(this);
             if (phase == 0) {
-                world.setGenerateEnemys(false);
+                temporaryWorld.setGenerateEnemys(false);
             }
-            if (points < 3 && !dialogueLoader.getDialogueMark() && phase == 0) {
+            if (points < 10 && !dialogueLoader.getDialogueMark() && phase == 0) {
                 insertData();
                 phase = -1;
                 //moveFasterBackground(state.getBg());
             }
-            if (points >= 5 && !flag1) {
+            if (points >= 25 && !flag1) {
                 // Con esto da inicio a la generacion de los primeros enemigos
                 phase = 1;
                 // Se guarda un Checkpoint 1, rellenando los datos del txt
@@ -50,9 +67,9 @@ public class Level2UpManager extends LevelUpManager implements SaveGame {
                 dialogueLoader.setDialogueMark();
                 //moveFasterBackground(state.getBg());
                 flag1 = !flag1;
-                world.clearScreenEntities();
-                world.setGenerateEnemys(false);
-            } else if (points >= 7 && !flag2) {
+                temporaryWorld.clearScreenEntities();
+                temporaryWorld.setGenerateEnemys(false);
+            } else if (points >= 35 && !flag2) {
                 // Con esto se da inicio a la generacion de los segundos enemigos
                 phase = 2;
                 // Se guarda un Checkpoint 2, rellenando los datos del txt
@@ -60,9 +77,9 @@ public class Level2UpManager extends LevelUpManager implements SaveGame {
                 dialogueLoader.setDialogueMark();
                 //moveFasterBackground(state.getBg());
                 flag2 = !flag2;
-                world.clearScreenEntities();
-                world.generateEnemys();
-            } else if (points >= 10 && !flag3) {
+                temporaryWorld.clearScreenEntities();
+                temporaryWorld.generateEnemys();
+            } else if (points >= 50 && !flag3) {
                 //Generacion del boss y solo quedan asteorides
                 phase = 3;
                 // Se guarda un Checkpoint 3, rellenando los datos del txt
@@ -70,14 +87,14 @@ public class Level2UpManager extends LevelUpManager implements SaveGame {
                 dialogueLoader.setDialogueMark();
                 //moveFasterBackground(state.getBg());
                 flag3 = !flag3;
-                world.clearScreenEntities();
-                world.generateEnemys();
+                temporaryWorld.clearScreenEntities();
+                temporaryWorld.generateEnemys();
             }
             // Respawn del jugador
             if (isPlayerDead()) {
                 // Se cargan los datos, se limpia el mundo y se revive al jugador con los datos obtenidos.
                 loadData();
-                world.clearScreenEntities();
+                temporaryWorld.clearScreenEntities();
                 getPlayer().setActive(true);
             }
         } else {
@@ -86,25 +103,37 @@ public class Level2UpManager extends LevelUpManager implements SaveGame {
     }
 
     public void update(int points, int health) {
+        if (firstTime) {
+            hiloMusica.start();
+            firstTime = false;
+        }
+        if(Window.keyManager.debug){
+            finishLevel();
+        }
         levelUpManager(points, health);
+        WorldSpace temporaryWorld = (WorldSpace) world.cast(this);
         // Verifica que el Boos este muerto para acabar el juego
-        if (phase == 3 && flag3 == true && world.getBoss() != null) {
-            endMinigame = !world.isBossAlive();
+        if (phase == 3 && flag3 == true && temporaryWorld.getBoss() != null) {
+            endMinigame = !temporaryWorld.isBossAlive();
         }
     }
 
     public void render() {
+        WorldSpace temporaryWorld = (WorldSpace) world.cast(this);
         if (dialogueLoader.getDialogueMark()) {
             dialogueLoader.render(this.g);
         } else {
-            world.setGenerateEnemys(true);
+            temporaryWorld.setGenerateEnemys(true);
         }
         world.render(this.g);
     }
 
     @Override
     public void changeMusic() {
-
+        if (phase == -1 && ya) {
+            ya = false;
+            musicPlayer.switchSong();
+        }
     }
 
     @Override
@@ -133,7 +162,7 @@ public class Level2UpManager extends LevelUpManager implements SaveGame {
     }
 
     public boolean isPlayerDead() {
-        for (Entity e : entityM.getEntities()) {
+        for (Entity e : entityManager.getEntities()) {
             if (e instanceof Player) {
                 Player player = (Player) e;
                 if (player.isActive()) {
@@ -147,7 +176,7 @@ public class Level2UpManager extends LevelUpManager implements SaveGame {
     }
 
     public Player getPlayer() {
-        for (Entity e : entityM.getEntities()) {
+        for (Entity e : entityManager.getEntities()) {
             if (e instanceof Player) {
                 Player player = (Player) e;
                 return player;
@@ -186,6 +215,7 @@ public class Level2UpManager extends LevelUpManager implements SaveGame {
             bw.write("" + hud.getPoint());
             bw.close();
         } catch (Exception e) {
+
         }
     }
 
@@ -214,5 +244,4 @@ public class Level2UpManager extends LevelUpManager implements SaveGame {
 
         }
     }
-
 }

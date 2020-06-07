@@ -32,7 +32,7 @@ public class QuizState extends GameState{
         answered= false;
         manager= new UIManager(handler);
         Window.mouse.setUIManager(manager);
-         a= new Answer(true,"Correcta",500,300,100,100,new ClickListener() {
+         a= new Answer(true,"Correcta",500,300,277,79,new ClickListener() {
                 @Override
                 public void onClick() {
                     if(a.isCorrect()){
@@ -46,7 +46,7 @@ public class QuizState extends GameState{
             });
                     manager.addUIObject(a);
                     
-                    b= new Answer(false,"Falsa",500,410,100,100,new ClickListener() {
+                    b= new Answer(false,"Falsa",500,410,277,79,new ClickListener() {
                 @Override
                 public void onClick() {
                     if(b.isCorrect()){
@@ -59,7 +59,7 @@ public class QuizState extends GameState{
                 }
             });
                     manager.addUIObject(b);
-                    c= new Answer(false,"Falsa",500,510,100,100,new ClickListener() {
+                    c= new Answer(false,"Falsa",500,510,277,79,new ClickListener() {
                 @Override
                 public void onClick() {
                     if(c.isCorrect()){
@@ -72,7 +72,7 @@ public class QuizState extends GameState{
                 }
             });
                     manager.addUIObject(c);
-                    d= new Answer(false,"Falsa",500,610,100,100,new ClickListener() {
+                    d= new Answer(false,"Falsa",500,610,277,79,new ClickListener() {
                 @Override
                 public void onClick() {
                     if(d.isCorrect()){
@@ -94,6 +94,7 @@ public class QuizState extends GameState{
     
     @Override
     public void init() {
+        timePassed = System.currentTimeMillis();
     }
 
     @Override
@@ -147,7 +148,10 @@ public class QuizState extends GameState{
                 }
                 
             }
-            
+            // Iniciar el menu de pausa
+            if (Window.keyManager.pause) {
+                pauseState();
+            }
             manager.tick();
         }
     

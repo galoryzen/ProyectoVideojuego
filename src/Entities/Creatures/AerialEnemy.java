@@ -29,17 +29,29 @@ public class AerialEnemy extends Enemy {
     private boolean shootin = false;
     private HUD hud;
     private Animation anm;
-
+    
+    /**
+     * Constructor de la clase AerialEnemy.
+     * @param handler El handler del Enemigo.
+     * @param manager El EntityManager del Enemigo.
+     * @param x Coordenada en X de la posicion inicial.
+     * @param y Coordenada en Y de la posicion inicial.
+     * @param width Anchura del enemigo.
+     * @param height Altura del enemigo.
+     * @param hud Hud del minijuego.
+     */
     public AerialEnemy(Handler handler, EntityManager manager, float x, float y, int width, int height, HUD hud) {
         super(handler, manager, x, y, width, height, hud);
         this.hud = hud;
         //Cronometro para saber el tiempo transcurrido antes de su generación
         lastAttackTimer = System.currentTimeMillis();
+        //Dimensiones
         this.width = 110;
         this.height = 99;
+        //Vida y velocidad
         this.setHealth(15);
         speed = 1;
-
+        //Hitbox
         bounds.x = 0;
         bounds.y = 0;
         bounds.width = 110;
@@ -51,7 +63,9 @@ public class AerialEnemy extends Enemy {
     public void die() {
         this.setActive(false);
     }
-
+    /**
+     * Metodo que va actualizando lo que hace el enemigo.
+     */
     @Override
     public void update() {
 
@@ -69,7 +83,11 @@ public class AerialEnemy extends Enemy {
         }
 
     }
-
+    /**
+     * Metodo que se encarga del movimiento del enemigo en X.
+     * En el metodo el enemigo lo que hace es moverse en X,
+     * hacia la coordenada X del jugador.
+     */
     public void movex() {
         if (x > manager.getPlayer().getX() + manager.getPlayer().getWidth() / 2) {
             Xmove = -speed;
@@ -79,7 +97,11 @@ public class AerialEnemy extends Enemy {
             Xmove = 0;
         }
     }
-
+    
+    /**
+     * Metodo para reenderizar al enemigo.  
+     * @param g Los graficos para reenderizarlo.
+     */
     @Override
     public void render(Graphics2D g) {
         g.drawImage(getCurrentAnimationFrame(), (int) x, 0, null);
@@ -87,7 +109,10 @@ public class AerialEnemy extends Enemy {
             g.drawImage(Assets.laser, (int) (this.getX() - 10), (int) (this.getY()) + 94, null);
         }
     }
-
+    
+    /**
+     * Se encarga del ataque del enemigo (El rasho laser).
+     */
     private void shootRay() {
 
         shootin = true;
@@ -106,7 +131,10 @@ public class AerialEnemy extends Enemy {
         }
     }
 
-    //Conseguir la animación en cada movimiento
+    /**
+     * Metodo para conseguir la animación.
+     * @return La animación del movimiento.
+     */
     private BufferedImage getCurrentAnimationFrame() {
         return anm.getCurrentFrame();
     }

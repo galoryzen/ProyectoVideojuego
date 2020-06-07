@@ -6,7 +6,8 @@ import Entities.Creatures.Sentinel;
 import Entities.Entity;
 import Entities.EntityManager;
 import Entities.Static.BookPile;
-import FirstMinigame.Tiles.Tile;
+import FirstMinigame.Tiles.TileLibrary;
+import Tilemaps.Tile;
 import GameStates.GameState;
 import GameStates.World;
 import MainG.Handler;
@@ -77,9 +78,9 @@ public class WorldLibrary extends World {
         if (x < 0 || y < 0 || x >= width || y >= height) {
             return null;
         }
-        Tile t = Tile.tiles[tiles[x][y]];
+        Tile t = TileLibrary.tiles[tiles[x][y]];
         if (t == null) {
-            return Tile.floor;
+            return TileLibrary.floor;
         }
         return t;
     }
@@ -100,8 +101,6 @@ public class WorldLibrary extends World {
         }
     }
     
-    
-
     public int getWidth() {
         return width;
     }
@@ -118,4 +117,8 @@ public class WorldLibrary extends World {
         this.entityM = entityManager;
     }
 
+    public void setFinished(){
+        entityM.getJoan().setGameFinished(true);
+    }
+    
 }

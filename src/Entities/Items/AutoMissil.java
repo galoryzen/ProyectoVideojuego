@@ -17,8 +17,7 @@ import java.awt.Graphics2D;
 import java.awt.Rectangle;
 
 /**
- *
- * @author German David
+ * Los automisiles del Boss del minijuego
  */
 public class AutoMissil extends Entity {
 
@@ -27,11 +26,17 @@ public class AutoMissil extends Entity {
     private int xo, yo, yp, xp, m;
 
     private int Xmove, Ymove;
-
+   /**
+    * Al constructor como de costumbre se le pasa el handler, entity manager y coordenadas.
+    * @param handler Handler
+    * @param manager EntityManager
+    * @param x Coordenada en X de la bala.
+    * @param y Coordenada en Y de la bala.
+    */
     public AutoMissil(Handler handler, EntityManager manager, float x, float y) {
         super(handler, manager, x, y, 30, 15);
 
-        bulletSpeed = 1;
+        bulletSpeed = 1; //Velocidad de las balas
 
         xo = (int) this.getX();
         yo = (int) this.getY();
@@ -41,30 +46,45 @@ public class AutoMissil extends Entity {
             m = (int) ((yo - yp) / (xo - xp));
         }
         //Division 0
-
-        this.setHealth(1);
+        
+        
+        this.setHealth(1);  //Las balas tienen vida para ser destruidas por el jugador.
 
         bounds.x = 0;
         bounds.y = 0;
         bounds.width = 30;
         bounds.height = 15;
     }
-
+    
+    /**
+     * Metodo para lo que se debe realizar cuando el AutoMisil muera.
+     * Hasta el momento nada.
+     */
     @Override
     public void die() {
     }
-
+    
+    /**
+     * La bala tiene que moverse y revisar si ha sido golpeada por las balas del jugador.
+     */
     @Override
     public void update() {
         move();
         checkAttacks();
     }
-
+    
+    /**
+     * Metodo para reenderizar la bala
+     * @param g Graficos
+     */
     @Override
     public void render(Graphics2D g) {
         g.drawImage(Assets.AutoMissil, (int) x, (int) y, null);
     }
-
+    
+    /**
+     * Metodo para que la bala se mueva.
+     */
     private void move() {
         movex();
         movey();
@@ -72,7 +92,10 @@ public class AutoMissil extends Entity {
         y += Ymove;
 
     }
-
+    /**
+     * Metodo para el movimiento en Y del automisil.
+     * Lo que hace es buscar la coordenada en Y del jugador y se mueve hacia esta.
+     */
     public void movey() {
         if (y > manager.getPlayer().getY() + manager.getPlayer().getHeight() / 2) {
             Ymove = -bulletSpeed;
@@ -82,7 +105,11 @@ public class AutoMissil extends Entity {
             Ymove = 0;
         }
     }
-
+    
+    /**
+     * Metodo para el movimiento en X del AutoMisil.
+     * Lo que hace es buscar la coordenada en X del jugador y se mueve hacia esta.
+     */
     public void movex() {
         if (x > manager.getPlayer().getX() + manager.getPlayer().getWidth() / 2) {
             Xmove = -bulletSpeed;
@@ -92,7 +119,10 @@ public class AutoMissil extends Entity {
             Xmove = 0;
         }
     }
-
+    
+    /**
+     * Metodo para revisar si la bala se intersecta con una bala del jugador.
+     */
     public void checkAttacks() {
         Rectangle cb = getCollisionBounds();
         for (Entity e : manager.getEntities()) {

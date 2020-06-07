@@ -16,7 +16,7 @@ public class Util {
         StringBuilder builder = new StringBuilder();
         
         try {
-            BufferedReader br= new BufferedReader(new FileReader(path));
+            BufferedReader br = new BufferedReader(new FileReader(path));
             //current line
             String line;
             //while the txt isnt over

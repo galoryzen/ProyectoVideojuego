@@ -1,20 +1,16 @@
 package GameStates;
 
 import Entities.Creatures.Player_Joan;
-import Entities.EntityManager;
-import FirstMinigame.Level1UpManager;
 import FirstMinigame.WorldGenerator.WorldLibrary;
 import MainG.Handler;
 import FirstMinigame.Level1UpManager;
-import MainG.GameLauncher;
 import MainG.Window;
-import static MainG.Window.mouse;
 import Tilemaps.Assets;
+import UI.UIHelper;
+import UI.UIManager;
 import java.awt.Graphics2D;
-import java.awt.Point;
-import java.awt.Toolkit;
 
-public class Level1State extends GameState implements Runnable {
+public class Level1State extends GameState {
 
     Handler handler;
     private World world;
@@ -22,45 +18,66 @@ public class Level1State extends GameState implements Runnable {
     private Player_Joan joan;
     private Level1UpManager levelManager;
     private DialogueLoader dialogueLoader;
-    // Level1UpManager manager
+    private UIManager uimanager;
+
     public Level1State(GameStateManager gsm, Handler handler, String tag) {
         super(gsm);
         this.levelTag = tag;
         this.handler = handler;
+        world = new WorldLibrary(this.handler, path, this);
         dialogueLoader = new DialogueLoader(handler);
         dialogueLoader.setGameTag(this.levelTag);
+        uimanager= new UIManager(handler);
+        uimanager.addUIObject(new UIHelper(Assets.UIHelperLvl1,5000,230,457,600,253,uimanager));
         this.levelManager = new Level1UpManager(this, world, dialogueLoader);
-        world = new WorldLibrary(this.handler, path,this);
+
         init();
     }
 
     @Override
     public void init() {
+        System.out.println("QUE");
+        timePassed = System.currentTimeMillis();
     }
 
     @Override
     public void update() {
+
+        uimanager.tick();
+        if (Window.keyManager.debug) {
+            setGameFinished();
+        }
+        // Iniciar el menu de pausa
+        if (Window.keyManager.pause) {
+            pauseState();
+        }
+        
+
+        
         world.update();
+    }
+
+    public void setGameFinished() {
+        WorldLibrary auxW = (WorldLibrary) world.cast(levelManager);
+        gsm.getGameStates()[1].getLoadData();
+        MainLevel auxS = (MainLevel) gsm.getGameStates()[1];
+        auxS.getLevelManager().setFinishedMinigame();
+        auxW.setFinished();
+        gsm.reloadState(1);
     }
 
     @Override
     public void draw(Graphics2D g) {
         world.render(g);
+        uimanager.render(g);
     }
 
-    
-    
     @Override
     public void musicControl() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+
     }
 
-    @Override
-    public void run() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-    
-    public World getWorld(){
+    public World getWorld() {
         return world;
     }
 
@@ -71,6 +88,5 @@ public class Level1State extends GameState implements Runnable {
 
     @Override
     public void getLoadData() {
-
     }
 }

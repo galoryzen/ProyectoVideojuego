@@ -8,21 +8,28 @@ import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 import javax.swing.*;
 import GameStates.GameStateManager;
+import GameStates.MainLevel;
 import Tilemaps.Assets;
-import Handlers.KeyManager;
+import UtilLoader.MusicPlayer;
 import tinysound.TinySound;
 
 /**
  * Es la clase esencial del juego, donde se inicializan la mayoría de cosas
+ *
  * @version 1.0
  */
+// Ideas de los gameLoops corregidos https://gameprogrammingpatterns.com/game-loop.html#interview-with-a-cpu
 public class GamePanel extends JPanel implements Runnable {
+
     //Dimensiones del game panel
     public static final int WIDTH_G = 1080;
     public static final int HEIGHT_G = 720;
-
+    
     //Hilo del  juego y Game Loop
     private Thread hiloPrinicipal;
+
+    // Frame principal (Ventana)
+    private JFrame frame;
 
     //KeyManager
     public Handler handler;
@@ -38,6 +45,8 @@ public class GamePanel extends JPanel implements Runnable {
     final int PREFERED_UPS = 60; // Actualizacion por segundos deseads
     final double NANO_PER_UPS = NANO_POR_SEG / PREFERED_UPS; // Nanosegundos por actualizacion
 
+    private boolean finishedGame = false;
+
     //GameStateManager
     GameStateManager gsm;
     
@@ -47,18 +56,20 @@ public class GamePanel extends JPanel implements Runnable {
 
     /**
      * Se inicializa el GamePanel
+     *
      * @param width Anchura del GamePanel
      * @param height Altura del GamePanel
      */
-    public GamePanel(int width, int height) {
+    public GamePanel(int width, int height, JFrame fatherF) {
         super();
         setPreferredSize(new Dimension(width, height));
         setVisible(false);
         setFocusable(true);
         requestFocus();
         handler = new Handler(this);
+        this.frame = fatherF;
     }
-    
+
     /**
      * Funcion que se llama una vez que se cree el panel, para poder iniciar el juego
      */
@@ -92,25 +103,15 @@ public class GamePanel extends JPanel implements Runnable {
         long referenceUpdate = System.nanoTime();
         //  Contador para los FPS 
         long referencerTimer = System.nanoTime();
-
         double timePassed; // Tiempo trasncurrido por cuadro
         double delta = 0; // Cantidad de tiempo hasta actualizacion
-
-        while (running) {
+        while (running && !finishedGame) {
             final long beginLoop = System.nanoTime(); // Cronometro que inicia el juego
-
-            // tiempo desde el ultimo cuadro cargado
+            // tiempo desde el ultimo cuadro cargado, Delta Time para el movement
             timePassed = beginLoop - referenceUpdate;
             referenceUpdate = beginLoop;
-
-            // Segundos que se le añaden al delta para sumar 1 seg 
-            delta += timePassed / NANO_PER_UPS;
-
             // Cuando se completa un segundo se actualiza el juego y se resta delta a 0
-            if (delta >= 1) {
-                gameUpdate(); // Se llama cada cuadro
-                delta--;
-            }
+            gameUpdate(timePassed); // Se llama cada cuadro
             gameDraw();
             gameDrawToScreen();
 
@@ -120,22 +121,19 @@ public class GamePanel extends JPanel implements Runnable {
                 FPS = 0;
                 referencerTimer = System.nanoTime();
             }
-
-//            try {
-//                // Acaba el hilo progresivamente
-//                hiloPrinicipal.join();
-//            } catch (InterruptedException e) {
-//                e.printStackTrace();
-//            }
+            isAnimationFinished();
         }
+        Window w = (Window) frame;
+        w.setVideo();
+        this.setVisible(true);
     }
 
     /**
      * Metodo que actualiza los Frames
      */
-    public void gameUpdate() {
+    public void gameUpdate(double deltaTime) {
         UPS++;
-        gsm.update();
+        gsm.update(deltaTime);
         Window.keyManager.update();
     }
 
@@ -177,5 +175,21 @@ public class GamePanel extends JPanel implements Runnable {
     @Override
     public int getHeight() {
         return HEIGHT_G;
+    }
+
+    public void setAnimation(boolean value) {
+        finishedGame = value;
+    }
+
+    public void isAnimationFinished() {
+        finishedGame = getTermination();
+    }
+
+    public boolean getTermination() {
+        if(gsm.getGameStates()[1] == null){
+            return false;
+        }
+        MainLevel level = (MainLevel) gsm.getGameStates()[1];
+        return level.isGameFinished();
     }
 }

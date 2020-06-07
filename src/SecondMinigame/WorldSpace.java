@@ -7,7 +7,7 @@ import Entities.Creatures.DownEnemy;
 import Entities.Creatures.Player;
 import Entities.Entity;
 import Entities.EntityManager;
-import FirstMinigame.Tiles.Tile;
+import Tilemaps.Tile;
 import GameStates.World;
 import MainG.Handler;
 import MainG.Window;
@@ -73,11 +73,14 @@ public class WorldSpace extends World {
     public void generateAsteroids(int j) {
         for (Entity e : manager.getEntities()) {
             if (e instanceof Asteroid) {
-                j++;
+                if(e.isActive()){
+                    j++;
+                }
             }
         }
-        if (j < 4) {
-            for (int i = j; i <= 4; i++) {
+        System.out.println(j);
+        if (j < 8) {
+            for (int i = j; i <= 8; i++) {
                 manager.addEntity(new Asteroid(handler, manager, 1080, (float) (Math.random() * 600 + 60), 100, 100, this.hud));
             }
         }
