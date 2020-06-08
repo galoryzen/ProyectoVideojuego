@@ -24,15 +24,14 @@ import java.awt.image.BufferedImage;
  *
  * @author German David
  */
-public class BookInfo extends StaticEntity{
+public class BookInfo extends StaticEntity {
 
-    
     private final EntityManager manager;
     private final BufferedImage img;
     private final int id;
     private Graphics2D g;
     private static int contIni;
-    private boolean sw=true;
+    private boolean sw = true;
     Font textFont = new Font("pixelart", Font.PLAIN, 20);
     private Animation openning;
 
@@ -41,18 +40,18 @@ public class BookInfo extends StaticEntity{
         this.manager = manager;
         this.img = img;
         this.id = id;
-        
-        openning = new Animation(100,Assets.BookOpenning);
+
+        openning = new Animation(100, Assets.BookOpenning);
     }
 
     @Override
-    public void update(){
+    public void update() {
         getInput();
         openning.update();
     }
-    
+
     void getInput() {
-        if (this.id!=6) {
+        if (this.id != 6) {
             if (Window.keyManager.enter) {
                 manager.removeEntity(this);//Quitar despues, cambiar por moverse a otra posicion
                 this.manager.getJoan().setCanMove(true);
@@ -69,38 +68,41 @@ public class BookInfo extends StaticEntity{
             }
         }
     }
-    
+
     @Override
     public void render(Graphics2D g) {
         this.manager.getJoan().setCanMove(false);
-        g.drawImage(getCurrentFrame(),200,200,null);
+        g.drawImage(getCurrentFrame(), 200, 200, null);
     }
 
     @Override
     public void die() {
-        
+
     }
-    
+
     public int getId() {
         return id;
     }
 
     private Image getCurrentFrame() {
-        
-        
-        if(sw==false){
-            if(WorldLibrary.bookcount<6){
-                return Assets.Books[WorldLibrary.bookcount-1];
-            }else{
-                return Assets.Books[this.id];
+
+        if (sw == false) {
+            if (WorldLibrary.bookcount < 6) {
+                return Assets.Books[WorldLibrary.bookcount - 1];
+            } else {
+                if (this.id == 6) {
+                    return Assets.Books[2];
+                } else {
+                    return Assets.Books[this.id];
+                }
             }
-        }else{
-            if(openning.getCurrentFrame().equals(Assets.BookOpenning[5])){
-                sw=!sw;
+        } else {
+            if (openning.getCurrentFrame().equals(Assets.BookOpenning[5])) {
+                sw = !sw;
             }
             return openning.getCurrentFrame();
         }
-        
+
     }
-    
+
 }

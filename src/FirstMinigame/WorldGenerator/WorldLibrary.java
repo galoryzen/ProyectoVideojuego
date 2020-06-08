@@ -137,5 +137,9 @@ public class WorldLibrary extends World {
             passed = true;
         }
     }
+
+    public EntityManager getEntityM() {
+        return entityM;
+    }
     
 }

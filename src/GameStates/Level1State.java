@@ -28,10 +28,10 @@ public class Level1State extends GameState {
         this.levelTag = tag;
         this.handler = handler;
         world = new WorldLibrary(this.handler, path, this);
+        this.entityManager = this.world.getEntityM();
         uimanager= new UIManager(handler);
         uimanager.addUIObject(new UIHelper(Assets.UIHelperLvl1,5000,230,457,600,253,uimanager));
-        Window.mouse.setUIManager(uimanager);
-        this.levelManager = new Level1UpManager(this, world, world.entityM);
+        this.levelManager = new Level1UpManager(this, world, entityManager);
 
         init();
     }
@@ -56,7 +56,7 @@ public class Level1State extends GameState {
 
         
         world.update();
-        //levelManager.update();
+        levelManager.update();
     }
 
     public void setGameFinished() {
