@@ -11,7 +11,7 @@ public class Assets implements Runnable {
             floorDecorator1, platTiles, rightSing, wallTile, levelerTile, pyramidFill_1, pyramidFill_2, pyramidFill_3,
             spaceFloor, spaceWall, spaceWall2, spaceChest, spaceCrate, spaceBlocker, spaceTeleporter,
             CursorSpace, lastBackground, fondo8bits,pauseBackgroundLvl1,pauseBackgroundLvl2,pauseBackgroundMain,
-            Title, Title2, Answer,AnswerHover, MenuMain, Menu1,QuitLvl2;
+            Title, Title2, Answer,AnswerHover, MenuMain, Menu1,QuitLvl2,Table;
 
     public static BufferedImage cityPlataformerBackground[] = new BufferedImage[56];
     public static BufferedImage playerDown[] = new BufferedImage[2];
@@ -41,6 +41,10 @@ public class Assets implements Runnable {
     
     public static BufferedImage BookOpenning[] = new BufferedImage[6];
     public static BufferedImage Books[] = new BufferedImage[6];
+    public static BufferedImage[] QuizBook= new BufferedImage[18];
+    
+    public static BufferedImage Questions[]= new BufferedImage[6];
+    public static BufferedImage QuizAnswers[]= new BufferedImage[6];
 
     public static BufferedImage teleporterTile[] = new BufferedImage[9];
     public static BufferedImage Boss[] = new BufferedImage[2];
@@ -80,6 +84,7 @@ public class Assets implements Runnable {
         pauseBackgroundLvl1 = ImageLoader.loadImage("/Backgrounds/pauseBackgroundLvl1.png");
         pauseBackgroundLvl2 = ImageLoader.loadImage("/Backgrounds/pauseBackgroundLvl2.png");
         pauseBackgroundMain = ImageLoader.loadImage("/Backgrounds/pauseBackgroundMain.png");
+        Table = ImageLoader.loadImage("/Backgrounds/Table.png");
         naveOff = ImageLoader.loadImage("/Player/naveOff.png");
         naveOn = ImageLoader.loadImage("/Player/naveOn.png");
         astronautTalker = ImageLoader.loadImage("/HUD/HUD_DIALOGUE.png");
@@ -121,6 +126,19 @@ public class Assets implements Runnable {
         for (int i = 0; i < 6; i++) {
             Books[i]=ImageLoader.loadImage("/UI/Book"+(i+1)+".png");
         }
+        
+        for (int i = 0; i < 18; i++) {
+            QuizBook[i]=ImageLoader.loadImage("/UI/frame-"+(i+1)+".png");
+        }
+        
+        for (int i = 0; i < 6; i++) {
+            Questions[i]=ImageLoader.loadImage("/UI/Pregunta "+(i+1)+".1.png");
+        }
+        for (int i = 0; i < 6; i++) {
+            QuizAnswers[i]=ImageLoader.loadImage("/UI/Pregunta "+(i+1)+".2.png");
+        }
+        
+        
         
         for (int i = 0; i < 7; i++) {
             UIHelperMenu[i]=ImageLoader.loadImage("/UI/UIHelper/UIHelperMenu-"+(i+1)+".png");
