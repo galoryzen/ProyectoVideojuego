@@ -56,7 +56,7 @@ public class Player_Joan extends Character {
         animUp = new Animation(300, Assets.playerUp);
         animR = new Animation(300, Assets.playerRight);
         animL = new Animation(300, Assets.playerLeft);
-        this.speed += 3;
+        this.speed-=2;
     }
 
     @Override

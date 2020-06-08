@@ -9,6 +9,7 @@ import java.awt.image.BufferedImage;
 import javax.swing.*;
 import GameStates.GameStateManager;
 import GameStates.MainLevel;
+import GameStates.MenuState;
 import Tilemaps.Assets;
 import UtilLoader.MusicPlayer;
 import tinysound.TinySound;
@@ -46,6 +47,7 @@ public class GamePanel extends JPanel implements Runnable {
     final double NANO_PER_UPS = NANO_POR_SEG / PREFERED_UPS; // Nanosegundos por actualizacion
 
     private boolean finishedGame = false;
+    private boolean videoPlayed = true;
 
     //GameStateManager
     GameStateManager gsm;
@@ -121,7 +123,9 @@ public class GamePanel extends JPanel implements Runnable {
                 FPS = 0;
                 referencerTimer = System.nanoTime();
             }
+            if (videoPlayed) {
             isAnimationFinished();
+            }
         }
         Window w = (Window) frame;
         w.setVideo();
@@ -134,6 +138,9 @@ public class GamePanel extends JPanel implements Runnable {
     public void gameUpdate(double deltaTime) {
         UPS++;
         gsm.update(deltaTime);
+        if(gsm.getCurrentState() != 0){
+            videoPlayed = true;
+        }
         Window.keyManager.update();
     }
 
@@ -186,10 +193,19 @@ public class GamePanel extends JPanel implements Runnable {
     }
 
     public boolean getTermination() {
-        if(gsm.getGameStates()[1] == null){
+        if (gsm.getGameStates()[1] == null) {
             return false;
         }
         MainLevel level = (MainLevel) gsm.getGameStates()[1];
         return level.isGameFinished();
     }
+
+    public GameStateManager getGsm() {
+        return gsm;
+}
+
+    public void setVideoPlayed(boolean videoPlayed) {
+        this.videoPlayed = videoPlayed;
+    }
+    
 }

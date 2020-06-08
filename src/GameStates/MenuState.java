@@ -20,6 +20,9 @@ import java.awt.image.BufferedImage;
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import tinysound.Music;
@@ -80,7 +83,9 @@ public class MenuState extends GameState implements SaveGame {
             @Override
             public void onClick() {
                 musicPlayer.kill();
-                gsm.setState(5);
+                clearFile("saveGeneralFile.txt");
+                clearFile("savefile.txt");
+                gsm.setState(3);
             }
         }));
         uimanager.addUIObject(new UIHelper(Assets.UIHelperMenu, 8000, 540, 430, 475, 200));
@@ -258,16 +263,14 @@ public class MenuState extends GameState implements SaveGame {
         subState = Integer.parseInt(subStateVerification);
         // Se verifica si el State cargado por el TXT, no es nulo. Si este es nulo indica que el juego se cerro y se abrio de nuevo para crear el State, de lo contaro se carga normalmente con el reloadState.
         if (!gsm.VerificarReinicioJuego(state)) {
-            if (gsm.isOnMinigame(subState)) {
+            gsm.reloadState(state);  // Se recarga el juego
+            gsm.getGameStates()[1].getLoadData();// Se insertan los datos del txt   
+        } else {
+            if (subState == 2 || subState == 3) {
                 subState = gsm.getMinigame(subState);
                 gsm.reloadState(subState);
                 gsm.getGameStates()[subState].getLoadData();
-            } else {
-                gsm.reloadState(state);  // Se recarga el juego
-                gsm.getGameStates()[state].getLoadData(); // Se insertan los datos del txt
             }
-        } else {
-            gsm.setState(state); // Se crea el state donde termino el guardado, toca verificar a futuro, como enlazarlo con el acceso a superiores ( del 1 a 3 y a 2)
         }
     }
 
@@ -310,5 +313,24 @@ public class MenuState extends GameState implements SaveGame {
 
     public Music getMusic() {
         return bgMusic;
+    }
+
+    // Codigo tomado de https://stackoverflow.com/questions/29878237/java-how-to-clear-a-text-file-without-deleting-it/42282671
+    // Autor: Ankur Anand
+    public void clearFile(String file) {
+        FileWriter fwOb = null;
+        try {
+            fwOb = new FileWriter(file, false);
+        } catch (IOException ex) {
+            Logger.getLogger(MenuState.class.getName()).log(Level.SEVERE, null, ex);
+}
+        PrintWriter pwOb = new PrintWriter(fwOb, false);
+        pwOb.flush();
+        pwOb.close();
+        try {
+            fwOb.close();
+        } catch (IOException ex) {
+            Logger.getLogger(MenuState.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 }

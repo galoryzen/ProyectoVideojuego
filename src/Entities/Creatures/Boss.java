@@ -38,7 +38,7 @@ public class Boss extends Enemy {
         last = System.currentTimeMillis();
         this.setHealth(300);
         this.setSpeed(10);
-        speed = 1;
+        speed = 200;
         bounds.x = 0;
         bounds.y = 0;
         bounds.width = 100;
@@ -92,16 +92,16 @@ public class Boss extends Enemy {
             moveY();
             y += Ymove;
             if (x > 980) {
-                x -= speed;
+                x -= speed * handler.getDeltaTime();
             }
         }
     }
 
     private void moveY() {
         if (y > manager.getPlayer().getY()) {
-            Ymove = -speed;
+            Ymove = (float) (-speed * handler.getDeltaTime());
         } else if (y < manager.getPlayer().getY()) {
-            Ymove = speed;
+            Ymove = (float) (speed * handler.getDeltaTime());
         } else {
             Ymove = 0;
         }
@@ -115,13 +115,9 @@ public class Boss extends Enemy {
         {
             return;
         }
-
         shoot();
-
         Rectangle cb = getCollisionBounds();
-
         attackTimer = 0;
-
         for (Entity e : manager.getEntities()) {
             if (!e.equals(this)) {
                 if (e.getCollisionBounds().intersects(cb) && !(e instanceof AutoMissil)) {

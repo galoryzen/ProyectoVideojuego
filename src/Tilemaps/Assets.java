@@ -20,6 +20,7 @@ public class Assets implements Runnable {
     public static BufferedImage playerLeft[] = new BufferedImage[2];
     public static BufferedImage teleporterAnimation[] = new BufferedImage[3];
 
+    public static BufferedImage timeStamp[] = new BufferedImage[61];
     public static BufferedImage spaceBackgroundPlat[] = new BufferedImage[30];
 
     public static BufferedImage spaceSpikes[] = new BufferedImage[3];
@@ -73,6 +74,8 @@ public class Assets implements Runnable {
      * El metodo init() de la clase assets carga todas las imagenes que necesitaremos para los minijuegos
      */
     public static void init() {
+        int randomEffect = randomNumberEffectGenerator();
+        SpriteSheet timeStapMark = new SpriteSheet(ImageLoader.loadImage("/Tilesets/timeStamp ("+randomEffect+").png"));
         SpriteSheet sheet = new SpriteSheet(ImageLoader.loadImage("/Sprites/Tilesets/Sheet.png"));
         SpriteSheet DownEnemy = new SpriteSheet(ImageLoader.loadImage("/Tilesets/pursoidSprite.png"));
         SpriteSheet AerialEnemy = new SpriteSheet(ImageLoader.loadImage("/Tilesets/LaserAlienSprite.png"));
@@ -245,6 +248,7 @@ public class Assets implements Runnable {
         fillPortal();
         fillBackgroundSpacePlat();
         fillBackgroundCityPlat();
+        cargarTimeStamp(timeStapMark);
     }
 
     /**
@@ -323,6 +327,20 @@ public class Assets implements Runnable {
         filterContainerR(temporaryContainer);
     }
 
+    public static void cargarTimeStamp(SpriteSheet sheet) {
+        int a = 0;
+        int limit = 8;
+        for (int i = 0; i < 8; i++) {
+            for (int j = 0; j < limit; j++) {
+                if (i == 7) {
+                    limit = 5;
+                }
+                timeStamp[a] = sheet.crop(j * 100, i * 100, 100, 100);
+                a++;
+            }
+        }
+    }
+
     public static void cargarAnimacionTeleporter() {
         teleporterAnimation[0] = ImageLoader.loadImage("/SpritesMainLevel/Space/teleporterAnimationOff.png");
         teleporterAnimation[1] = ImageLoader.loadImage("/SpritesMainLevel/Space/teleporterAnimationSemi.png");
@@ -361,6 +379,14 @@ public class Assets implements Runnable {
         mainPlayerRunningR[1] = image[7];
         mainPlayerRunningR[2] = image[13];
         mainPlayerRunningR[3] = image[19];
+    }
+
+    public static int randomNumberEffectGenerator(){
+        int random = (int) (Math.random() * 13 + 1);
+        while(random == 2){
+            random = (int) (Math.random() * 13 + 1);
+        }
+        return random;
     }
 
     @Override
