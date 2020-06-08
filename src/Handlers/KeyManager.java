@@ -33,7 +33,6 @@ public class KeyManager implements KeyListener {
         shift = keys[KeyEvent.VK_SHIFT];
         reset = keys[KeyEvent.VK_R];
         debug = keys[KeyEvent.VK_L];
-        esc = keys[KeyEvent.VK_ESCAPE];
         
         //Flechas
         upf=keys[KeyEvent.VK_UP];
@@ -44,6 +43,7 @@ public class KeyManager implements KeyListener {
         test = keys[KeyEvent.VK_E];
         enter = keys[KeyEvent.VK_ENTER];
         pause = keys[KeyEvent.VK_P];
+        esc = keys[KeyEvent.VK_ESCAPE];
         
         a = keys[KeyEvent.VK_A];
         b = keys[KeyEvent.VK_B];

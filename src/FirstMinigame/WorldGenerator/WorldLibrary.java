@@ -29,7 +29,7 @@ public class WorldLibrary extends World {
     private int[][] tiles = new int[100][100];
     //Entities
     private ArrayList<BookPile> bookpiles;
-    public EntityManager entityM;
+    private EntityManager entityM;
     public static int bookcount = 0;
     private boolean showHistory = true;
     Font textFont = new Font("pixelart", Font.PLAIN, 20);
@@ -40,14 +40,13 @@ public class WorldLibrary extends World {
         super(handler);
         this.handler = handler;
         entityM = new EntityManager(handler, state);
-        entityM.addEntity(new BookPile(handler, entityM, 385, 385, new BookInfo(entityM, Assets.vida, handler, 500, 100, 100, 100, 0)));
-        entityM.addEntity(new BookPile(handler, entityM, 3870, 1110, new BookInfo(entityM, Assets.vida, handler, 500, 100, 100, 100, 1)));
-        entityM.addEntity(new BookPile(handler, entityM, 2650, 1350, new BookInfo(entityM, Assets.vida, handler, 500, 100, 100, 100, 2)));
-        entityM.addEntity(new BookPile(handler, entityM, 1580, 625, new BookInfo(entityM, Assets.vida, handler, 500, 100, 100, 100, 3)));
-        entityM.addEntity(new BookPile(handler, entityM, 4590, 2075, new BookInfo(entityM, Assets.vida, handler, 500, 100, 100, 100, 4)));
-        entityM.addEntity(new BookPile(handler, entityM, 5650, 1690, new BookInfo(entityM, Assets.vida, handler, 500, 100, 100, 100, 5)));
+        entityM.addEntity(new BookPile(handler, entityM, 600, 395, new BookInfo(entityM, Assets.vida, handler, 500, 100, 100, 100, 0)));
+        entityM.addEntity(new BookPile(handler, entityM, 385, 385, new BookInfo(entityM, Assets.vida, handler, 500, 100, 100, 100, 1)));
+        entityM.addEntity(new BookPile(handler, entityM, 3870, 1110, new BookInfo(entityM, Assets.vida, handler, 500, 100, 100, 100, 2)));
+        entityM.addEntity(new BookPile(handler, entityM, 2650, 1350, new BookInfo(entityM, Assets.vida, handler, 500, 100, 100, 100, 3)));
+        entityM.addEntity(new BookPile(handler, entityM, 1580, 625, new BookInfo(entityM, Assets.vida, handler, 500, 100, 100, 100, 4)));
+        entityM.addEntity(new BookPile(handler, entityM, 4590, 2075, new BookInfo(entityM, Assets.vida, handler, 500, 100, 100, 100, 5)));
         entityM.addEntity(new BookPile(handler, entityM, 6757, 1650, new BookInfo(entityM, Assets.vida, handler, 500, 100, 100, 100, 6)));
-
         //entityM.addEntity(new Sentinel(handler, entityM,150,100,40,40));
         loadWorld(path);
         entityM.getJoan().setX(spawnX);
@@ -55,10 +54,6 @@ public class WorldLibrary extends World {
     }
 
     public void update() {
-        if (showHistory) {
-            this.entityM.addEntity(new BookInfo(entityM, Assets.vida, handler, 500, 100, 100, 100, 7));
-            showHistory = false;
-        }
         entityM.update();
         if (checkPositionEndGame()) {
             if (!passed) {
@@ -135,12 +130,10 @@ public class WorldLibrary extends World {
     }
     
     private void checkBooks(){
-        if(bookcount < 7){
-            entityM.addEntity(new BookInfo(entityM, Assets.vida, handler, 500, 100, 100, 100, 8));
+        if(bookcount < 6){
             entityM.getJoan().setX(entityM.getJoan().getX()-20);
 
         }else{
-            entityM.addEntity(new BookInfo(entityM, Assets.vida, handler, 500, 100, 100, 100, 9));
             passed = true;
         }
     }

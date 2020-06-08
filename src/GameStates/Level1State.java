@@ -6,40 +6,57 @@ import FirstMinigame.WorldGenerator.WorldLibrary;
 import MainG.Handler;
 import FirstMinigame.Level1UpManager;
 import MainG.Window;
+import Tilemaps.Assets;
+import UI.UIHelper;
+import UI.UIManager;
 import java.awt.Graphics2D;
 
 public class Level1State extends GameState {
 
     Handler handler;
-    private WorldLibrary world;
+    private World world;
     private String path = "Resources/Worlds/World1.txt";
     private Player_Joan joan;
     private Level1UpManager levelManager;
     boolean showedTutorial = false;
     private EntityManager entityManager;
     private boolean doingQuiz = false;
+    private UIManager uimanager;
 
     public Level1State(GameStateManager gsm, Handler handler, String tag) {
         super(gsm);
         this.levelTag = tag;
         this.handler = handler;
         world = new WorldLibrary(this.handler, path, this);
+        uimanager= new UIManager(handler);
+        uimanager.addUIObject(new UIHelper(Assets.UIHelperLvl1,5000,230,457,600,253,uimanager));
+        Window.mouse.setUIManager(uimanager);
         this.levelManager = new Level1UpManager(this, world, world.entityM);
+
         init();
     }
 
     @Override
     public void init() {
-        System.out.println("QUE");
+        timePassed = System.currentTimeMillis();
     }
 
     @Override
     public void update() {
+
+        uimanager.tick();
         if (Window.keyManager.debug) {
             setGameFinished();
         }
+        // Iniciar el menu de pausa
+        if (Window.keyManager.pause) {
+            pauseState();
+        }
+        
+
+        
         world.update();
-        levelManager.update();
+        //levelManager.update();
     }
 
     public void setGameFinished() {
@@ -49,6 +66,7 @@ public class Level1State extends GameState {
     @Override
     public void draw(Graphics2D g) {
         world.render(g);
+        uimanager.render(g);
     }
 
     @Override

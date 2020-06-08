@@ -58,6 +58,7 @@ public class MainLevelUpManager extends LevelUpManager implements SaveGame {
         if(Window.keyManager.debug){
             player.setGravity(500f);
         }
+        
         changeMusic();
         WorldPlat worldAux = (WorldPlat) world.cast(this);
         if (!endMinigame) {

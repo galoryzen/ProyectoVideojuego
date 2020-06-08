@@ -1,12 +1,10 @@
 package GameStates;
 
-import GameStates.Level2State;
 import MainG.Handler;
 import java.awt.Graphics2D;
 
 /**
- * La clase GameStateManager se encarga de la administracion de los niveles Es
- * el que dice en que nivel se encuentra actualmente, en cual estado.
+ * La clase GameStateManager se encarga de la administracion de los niveles Es el que dice en que nivel se encuentra actualmente, en cual estado.
  */
 public class GameStateManager {
 
@@ -14,7 +12,7 @@ public class GameStateManager {
 
     public static final int NUMGAMESTATE = 6;
     private static GameState[] gameStates;
-    private int currentState;
+    public static int currentState;
     private static GameCamara gameCamera;
 
     private final int MENUSTATE = 0;
@@ -38,7 +36,7 @@ public class GameStateManager {
     }
 
     public void setState(int state) {
-        unloadState(currentState);
+        //unloadState(currentState);
         currentState = state;
         loadState(currentState);
     }
@@ -47,11 +45,15 @@ public class GameStateManager {
     public void reloadState(int state) {
         previousState = currentState;
         currentState = state;
+        gameStates[currentState].init();
+        
     }
 
+    /*
     public void unloadState(int state) {
         gameStates[state] = null;
     }
+    */
 
     // Funcion encargada de cargar los State, controlador de niveles
     private void loadState(int state) {
@@ -68,13 +70,18 @@ public class GameStateManager {
                 break;
             case LEVEL2STATE:
                 gameStates[state] = new Level2State(this, handler, "Level 3");
-                
+                break;
             case QUIZSTATE:
                 gameStates[state] = new QuizState(this);
+                break;
         }
     }
 
     public void update(double deltaTime) {
+            while(gameStates[currentState] == null){
+                System.out.println("Cargando");
+            }
+        
         gameStates[currentState].update();
         this.deltaTime = deltaTime;
     }
@@ -115,11 +122,12 @@ public class GameStateManager {
                 Level1State state = (Level1State) gameStates[currentState];
                 return state.getWorld();
             }
-            default: {
+            case 3: {
                 Level2State state = (Level2State) gameStates[currentState];
                 return state.getWorld();
             }
         }
+        return null;
     }
 
     // Se encarga de verificar, si en el TXT de guardado, en la primera linea esta vacia, lo que indica que el juego es la primera vez que se inicia
@@ -132,17 +140,17 @@ public class GameStateManager {
     }
 
     boolean isOnMinigame(int subState) {
-        if (subState == 1 || subState == 3) {
+        if(subState == 1 || subState == 3){
             return true;
-        } else {
+        }else{
             return false;
         }
     }
 
     public int getMinigame(int subState) {
-        if (subState == 1) {
+        if(subState == 1){
             return LEVEL1STATE;
-        } else {
+        }else{
             return LEVEL2STATE;
         }
     }
@@ -150,5 +158,5 @@ public class GameStateManager {
     public int getCurrentState() {
         return currentState;
     }
-
+    
 }

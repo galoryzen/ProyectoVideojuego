@@ -10,6 +10,7 @@ import MainG.Handler;
 import MainG.Window;
 import Tilemaps.*;
 import UI.ClickListener;
+import UI.UIHelper;
 import UI.UIImageButton;
 import UI.UIManager;
 import UtilLoader.MusicPlayer;
@@ -53,7 +54,6 @@ public class MenuState extends GameState implements SaveGame {
         super(gsm);
         this.handler = handler;
         sw = false;
-
         uimanager = new UIManager(handler);
         uimanager.addUIObject(new UIImageButton(1047f, 0f, 32, 32, Assets.minimize, new ClickListener() {
             @Override
@@ -68,35 +68,25 @@ public class MenuState extends GameState implements SaveGame {
             }
         }));
 
-        uimanager.addUIObject(option = new UIImageButton(50f, 460f, 256, 57, Assets.UIMenu[6], new ClickListener() {
-            @Override
-            public void onClick() {
-
-            }
-        }));
-
-        uimanager.addUIObject(continu = new UIImageButton(50f, 380f, 256, 57, Assets.UIMenu[7], new ClickListener() {
-            @Override
-            public void onClick() {
-
-            }
-        }));
-
-        uimanager.addUIObject(newg = new UIImageButton(50f, 300f, 256, 57, Assets.UIMenu[8], new ClickListener() {
+        uimanager.addUIObject(continu = new UIImageButton(50f, 460f, 256, 57, Assets.UIMenu[7], new ClickListener() {
             @Override
             public void onClick() {
                 musicPlayer.kill();
-                gsm.setState(2);
+                loadData();
             }
         }));
-        uimanager.addUIObject(tutorial = new UIImageButton(900, 650, 256, 57, Assets.UIMenu[1], new ClickListener() {
+
+        uimanager.addUIObject(newg = new UIImageButton(50f, 370f, 256, 57, Assets.UIMenu[8], new ClickListener() {
             @Override
             public void onClick() {
-
+                musicPlayer.kill();
+                gsm.setState(5);
             }
         }));
+        uimanager.addUIObject(new UIHelper(Assets.UIHelperMenu, 8000, 540, 430, 475, 200));
         anm = new Animation(100, Assets.backgroundMenu);
         init();
+        
     }
 
     @Override
@@ -104,7 +94,9 @@ public class MenuState extends GameState implements SaveGame {
         handleInput();
         anm.update();
         musicControl();
-        uimanager.tick();
+        if (sw) {
+            uimanager.tick();
+        }
     }
 
     public void draw(Graphics2D g) {
@@ -119,7 +111,7 @@ public class MenuState extends GameState implements SaveGame {
                 noMoreCurrently();
                 currentChoice = 0;
             } else {
-                for (int i = 1; i <= 4; i++) {
+                for (int i = 1; i <= 3; i++) {
                     if (i == currentChoice) {
                         switch (currentChoice) {
                             case 1:
@@ -132,10 +124,6 @@ public class MenuState extends GameState implements SaveGame {
                                 noMoreCurrently(continu);
                                 break;
                             case 3:
-                                option.setCurrent(true);
-                                noMoreCurrently(option);
-                                break;
-                            case 4:
                                 exit.setCurrent(true);
                                 noMoreCurrently(exit);
                                 break;
@@ -158,11 +146,9 @@ public class MenuState extends GameState implements SaveGame {
         while (Window.mouse == null) {
             System.out.println("Cargando");
         }
-
         Window.mouse.setUIManager(uimanager);
         bgMusic = AudioLoader.bgMusic;
         musicPlayer = new MusicPlayer(bgMusic);
-        Window.mouse.setUIManager(uimanager);
         hiloMusica = new Thread(musicPlayer, "auxiliarThreadForMusic");
         //hiloMusica.start();
         menuUp = AudioLoader.upMenu;
@@ -189,13 +175,13 @@ public class MenuState extends GameState implements SaveGame {
             currentChoice--;
             menuUp.play();
             if (currentChoice < 1) {
-                currentChoice = 4;
+                currentChoice = 3;
             }
         }
         if (Window.keyManager.down) {
             currentChoice++;
             menuUp.play();
-            if (currentChoice > 4) {
+            if (currentChoice > 3) {
                 currentChoice = 1;
             }
         }
@@ -228,7 +214,7 @@ public class MenuState extends GameState implements SaveGame {
         switch (currentChoice) {
             case 0:
                 musicPlayer.kill();
-                gsm.setState(1);
+                gsm.setState(2);
                 break;
             case 1:
                 musicPlayer.kill();
@@ -286,7 +272,7 @@ public class MenuState extends GameState implements SaveGame {
     }
 
     public boolean noHovering() {
-        if (exit.isHovering() || option.isHovering() || continu.isHovering() || newg.isHovering()) {
+        if (exit.isHovering() || continu.isHovering() || newg.isHovering()) {
             return true;
         } else {
             return false;

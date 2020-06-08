@@ -6,7 +6,6 @@ import GameStates.DialogueLoader;
 import GameStates.Level1State;
 import GameStates.LevelUpManager;
 import GameStates.World;
-import MainG.Window;
 import SecondMinigame.HUD;
 import SecondMinigame.WorldSpace;
 import java.awt.Graphics2D;
@@ -19,6 +18,7 @@ public class Level1UpManager extends LevelUpManager{
     
     Graphics2D g;
     private WorldLibrary worldLib;
+    
     private Level1State state;
     private boolean doingQuiz = false;
     
@@ -41,7 +41,6 @@ public class Level1UpManager extends LevelUpManager{
         this.state = (Level1State) state;
         this.worldLib = (WorldLibrary) world;
     }
-    
     
     public void update() {
         doingQuiz = this.entityManager.getQuizState();

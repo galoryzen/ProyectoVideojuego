@@ -27,8 +27,7 @@ public class Level2State extends GameState {
     private EntityManager entityManager;
     private Animation background;
     private boolean ya = true;
-    private long timePassed;
-    private long timeDeltaTime;
+
     
     public Level2State(GameStateManager gsm, Handler handler, String tag) {
         super(gsm);
@@ -96,15 +95,7 @@ public class Level2State extends GameState {
         gsm.reloadState(1);
     }
 
-    // Se verifica si el usuario presiono la letra P, para iniciar un menu de Pausa.
-    private void pauseState() {
-        timeDeltaTime = System.currentTimeMillis() - timePassed;
-        if (timeDeltaTime > 2000) { // Deley Tecla
-            timePassed = System.currentTimeMillis();
-            gsm.reloadState(4); // Se recarga el state, porque ya esta creado
-            gsm.getGameStates()[4].init(); // Se inicia su contador para el delay de la tecla P
-        }
-    }
+    
 
     // Indica al levelManager, en este caso, el encargado de Loader y Rellenar el TXT, de rellenar sus datos.
     @Override

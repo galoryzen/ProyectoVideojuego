@@ -4,7 +4,6 @@ import Entities.Creatures.MainPlayer;
 import Entities.Creatures.Player;
 import Entities.Creatures.Player_Joan;
 import Entities.Static.BookInfo;
-import Entities.Static.BookPile;
 import GameStates.GameState;
 import MainG.Handler;
 import java.awt.Graphics2D;
@@ -12,8 +11,8 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Comparator;
 
-public class EntityManager {
-
+public class EntityManager{
+    
     private Handler handler;
     private static Player nave;
     private static Player_Joan joan;
@@ -21,6 +20,7 @@ public class EntityManager {
     private ArrayList<Entity> entities;
     private int Score = 0;
     private boolean quizState = false;
+    Entity player;
 
     /**
      * Comparador de entidades.
@@ -34,17 +34,16 @@ public class EntityManager {
             return 1;
         }
     };
-
+    
     /**
      * Constructor de la clase Entity Manager.
-     *
+     * 
      * @param handler Handler del EntityManager.
      * @param state El State del Entity Manager.
      */
     public EntityManager(Handler handler, GameState state) {
         this.handler = handler;
         entities = new ArrayList();
-        Entity player;
         /**
          * Dependiendo del tag del GameState creará un personaje diferente.
          */
@@ -60,28 +59,36 @@ public class EntityManager {
         }
         addEntity(player);
     }
-
+    
     /**
      * Constructor que solo recibe Handler.
-     *
+     * 
      * @param handler Handler del entity manager.
      */
     public EntityManager(Handler handler) {
         this.handler = handler;
         entities = new ArrayList<Entity>();
     }
-
+    
     /**
      * Metodo que renderiza la entidad.
-     *
+     * 
      * @param g graficos
      */
     public void render(Graphics2D g) {
         for (Entity e : entities) {
-            e.render(g);
+            if(!(e instanceof BookInfo)){
+                e.render(g);
+            }
+        }
+        
+        for (Entity entity : entities) {
+            if((entity instanceof BookInfo)){
+                entity.render(g);
+            }
         }
     }
-
+    
     /**
      * Metodo que actualiza todas las entidades del videojuego.
      */
@@ -146,7 +153,7 @@ public class EntityManager {
     public MainPlayer getMainPlayer() {
         return mainC;
     }
-
+    
     public void verifyEnd() {
         this.quizState = true;
     }
@@ -154,5 +161,4 @@ public class EntityManager {
     public boolean getQuizState() {
         return this.quizState;
     }
-
 }
