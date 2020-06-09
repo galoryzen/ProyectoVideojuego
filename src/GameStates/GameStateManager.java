@@ -95,6 +95,7 @@ public class GameStateManager {
     }
 
     public void preLoadState() {
+        gameStates[MAINLEVELSTATE] = new MainLevel(this,handler, "Main Level");
         gameStates[LEVEL1STATE] = new Level1State(this, handler, "Level 2");
         gameStates[LEVEL2STATE] = new Level2State(this, handler, "Level 3");
     }
@@ -158,5 +159,5 @@ public class GameStateManager {
     public int getCurrentState() {
         return currentState;
     }
-    
+
 }

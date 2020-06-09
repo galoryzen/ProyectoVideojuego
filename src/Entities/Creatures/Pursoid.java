@@ -56,9 +56,9 @@ public class Pursoid extends Creature{
     public void move(){
        
         movex();
-        x+=Xmove;
+        x += Xmove;
         movey();
-        y+=Ymove;
+        y += Ymove;
         
     }
     

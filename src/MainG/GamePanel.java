@@ -25,7 +25,7 @@ public class GamePanel extends JPanel implements Runnable {
     //Dimensiones del game panel
     public static final int WIDTH_G = 1080;
     public static final int HEIGHT_G = 720;
-    
+
     //Hilo del  juego y Game Loop
     private Thread hiloPrinicipal;
 
@@ -48,10 +48,9 @@ public class GamePanel extends JPanel implements Runnable {
 
     private boolean finishedGame = false;
     private boolean videoPlayed = true;
-
     //GameStateManager
     GameStateManager gsm;
-    
+
     //Imagenes
     private BufferedImage image;
     private Graphics2D g;
@@ -113,9 +112,19 @@ public class GamePanel extends JPanel implements Runnable {
             timePassed = beginLoop - referenceUpdate;
             referenceUpdate = beginLoop;
             // Cuando se completa un segundo se actualiza el juego y se resta delta a 0
-            gameUpdate(timePassed); // Se llama cada cuadro
-            gameDraw();
-            gameDrawToScreen();
+            if (gsm.getCurrentState() != 0 && timePassed > 1.25 * Math.exp(7)) {
+                gameUpdate(timePassed); // Se llama cada cuadro
+                gameDraw();
+                gameDrawToScreen();
+            } else {
+                if (gsm.getCurrentState() == 0) {
+                    gameUpdate(timePassed); // Se llama cada cuadro
+                    gameDraw();
+                    gameDrawToScreen();
+                } else {
+                    System.out.println("Cargando JUEGO");
+                }
+            }
 
             //Contador de FPS y UPS ( FPS: FRAMES PER SECONDS - UPS: UPDATES PER SECOND)
             if (System.nanoTime() - referencerTimer > NANO_POR_SEG) {
@@ -124,7 +133,7 @@ public class GamePanel extends JPanel implements Runnable {
                 referencerTimer = System.nanoTime();
             }
             if (videoPlayed) {
-            isAnimationFinished();
+                isAnimationFinished();
             }
         }
         Window w = (Window) frame;
@@ -138,7 +147,7 @@ public class GamePanel extends JPanel implements Runnable {
     public void gameUpdate(double deltaTime) {
         UPS++;
         gsm.update(deltaTime);
-        if(gsm.getCurrentState() != 0){
+        if (gsm.getCurrentState() != 0) {
             videoPlayed = true;
         }
         Window.keyManager.update();
@@ -202,10 +211,14 @@ public class GamePanel extends JPanel implements Runnable {
 
     public GameStateManager getGsm() {
         return gsm;
-}
+    }
 
     public void setVideoPlayed(boolean videoPlayed) {
         this.videoPlayed = videoPlayed;
     }
-    
+
+    public void eraseFile() {
+        MenuState aux = (MenuState) gsm.getGameStates()[0];
+        aux.clearFile();
+    }
 }

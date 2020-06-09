@@ -13,7 +13,6 @@ import SecondMinigame.HUD;
 import Tilemaps.Animation;
 import Tilemaps.Assets;
 import java.awt.Color;
-import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
@@ -37,7 +36,6 @@ public class Boss extends Enemy {
 
         last = System.currentTimeMillis();
         this.setHealth(300);
-        this.setSpeed(10);
         speed = 200;
         bounds.x = 0;
         bounds.y = 0;

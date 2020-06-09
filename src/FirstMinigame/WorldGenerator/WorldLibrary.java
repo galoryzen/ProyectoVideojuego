@@ -53,6 +53,7 @@ public class WorldLibrary extends World {
         entityM.getJoan().setY(spawnY);
     }
 
+    @Override
     public void update() {
         entityM.update();
         if (checkPositionEndGame()) {
@@ -62,6 +63,7 @@ public class WorldLibrary extends World {
         }
     }
 
+    @Override
     public void render(Graphics2D g) {
         //Varibales para crear las tiles visibles
         int Xstart = (int) Math.max(0, handler.getGameCamara().getxOffset() / Tile.TILEWIDTH);
@@ -132,14 +134,21 @@ public class WorldLibrary extends World {
     private void checkBooks(){
         if(bookcount < 6){
             entityM.getJoan().setX(entityM.getJoan().getX()-20);
-
-        }else{
-            passed = true;
         }
     }
 
-    public EntityManager getEntityM() {
-        return entityM;
+    public static int getBookcount() {
+        return bookcount;
     }
+
+    public static void setBookcount(int bookcount) {
+        WorldLibrary.bookcount = bookcount;
+    }
+    
+    public void startQuiz(){
+        
+    }
+    
+    
     
 }

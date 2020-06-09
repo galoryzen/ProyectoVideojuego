@@ -132,7 +132,7 @@ public class MainPlayer extends Character {
         }
 
         // Time Travel
-        if (Window.keyManager.space && System.currentTimeMillis() - timePressed >= 1000) {
+        if (Window.keyManager.actionTime && System.currentTimeMillis() - timePressed >= 1000) {
             if (returnPoint == null && amountOfReturns < maxReturns) {
                 returnPoint = new Punto(x, y);
                 timePressed = System.currentTimeMillis();
@@ -145,7 +145,6 @@ public class MainPlayer extends Character {
                     showStamp = false;
                     backTime.play(0.5f);
                 }
-
             }
         }
 
@@ -599,5 +598,4 @@ public class MainPlayer extends Character {
     public void setShowStamp(boolean showStamp) {
         this.showStamp = showStamp;
     }
-
 }

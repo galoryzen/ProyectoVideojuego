@@ -15,10 +15,12 @@ public class MainLevel extends GameState {
 
     private EntityManager entityManager;
     private World world;
-    private boolean gameChanged = false;
+    private boolean gameChanged;
     private MainLevelUpManager levelManager;
     private String path = "Resources/Worlds/WorldThematic1.txt";
     private UIManager uimanager;
+    private boolean onlyThis;
+    private boolean ya, isAnimation;
 
     public MainLevel(GameStateManager gsm, Handler handler, String tag) {
         super(gsm);
@@ -26,39 +28,51 @@ public class MainLevel extends GameState {
         entityManager = new EntityManager(handler);
         this.world = new WorldPlat(handler, entityManager, path, this);
         this.levelManager = new MainLevelUpManager(world, entityManager, this);
-        uimanager= new UIManager(handler);
-        
-        uimanager.addUIObject(new UIHelper(Assets.UIHelperMain,5000,400,30,475,200));
-        
-        Window.mouse.setUIManager(uimanager);
+        uimanager = new UIManager(handler);
+        uimanager.addUIObject(new UIHelper(Assets.UIHelperMain, 5000, 400, 30, 475, 200));
+        ya = true;
+        isAnimation = false;
+        gameChanged = false;
         init();
     }
 
     @Override
     public void init() {
+        onlyThis = true;
         levelManager.setMusic(AudioLoader.musicPlayListMainLevel);
         timePassed = System.currentTimeMillis();
     }
 
     @Override
     public void update() {
+        if (onlyThis) {
+            Window.mouse.setUIManager(uimanager);
+            onlyThis = false;
+        }
         if (!gameChanged) {
             world.update();
-            
-                
             levelManager.levelUpManager();
             // Iniciar el menu de pausa
             if (Window.keyManager.pause) {
                 pauseState();
             }
         }
+
     }
 
     @Override
     public void draw(Graphics2D g) {
         if (!gameChanged) {
             world.render(g);
-            uimanager.render(g);
+            if (levelManager.getCurrentWorld() == 1) {
+                uimanager.render(g);
+                if (ya) {
+                    g.drawImage(Assets.viñetaF, 0, 0, 1080, 720, null);
+                    if (Window.keyManager.enter) {
+                        ya = false;
+                    }
+                }
+            }
         }
     }
 
@@ -130,5 +144,10 @@ public class MainLevel extends GameState {
     public boolean isGameFinished() {
         MainLevelUpManager manager = (MainLevelUpManager) levelManager;
         return manager.getFinishedGame();
+    }
+
+    @Override
+    public void killMusic() {
+        levelManager.getMusicPlayer().kill();
     }
 }

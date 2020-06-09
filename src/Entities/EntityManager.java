@@ -44,6 +44,7 @@ public class EntityManager{
     public EntityManager(Handler handler, GameState state) {
         this.handler = handler;
         entities = new ArrayList();
+        Entity player;
         /**
          * Dependiendo del tag del GameState creará un personaje diferente.
          */

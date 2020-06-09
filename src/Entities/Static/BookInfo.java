@@ -40,7 +40,6 @@ public class BookInfo extends StaticEntity {
         this.manager = manager;
         this.img = img;
         this.id = id;
-
         openning = new Animation(100, Assets.BookOpenning);
     }
 

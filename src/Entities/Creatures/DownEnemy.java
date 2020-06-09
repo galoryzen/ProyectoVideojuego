@@ -8,8 +8,6 @@ import MainG.Handler;
 import SecondMinigame.HUD;
 import Tilemaps.Animation;
 import Tilemaps.Assets;
-import java.awt.Color;
-import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Rectangle;
 import java.awt.image.BufferedImage;

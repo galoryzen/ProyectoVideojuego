@@ -6,7 +6,6 @@ import Entities.EntityManager;
 import GameStates.LevelUpManager;
 import GameStates.MainLevel;
 import GameStates.World;
-import MainG.Window;
 import MainLevel.WorldGenerator.WorldPlat;
 import UtilLoader.MusicPlayer;
 import UtilLoader.SaveGame;
@@ -23,17 +22,18 @@ import tinysound.Music;
 public class MainLevelUpManager extends LevelUpManager implements SaveGame {
 
     private Music[] musicPlaylist;
-    private int minigames = 0;
+    private static int minigames = 0;
     private boolean endMinigame;
     private int currentWorld = 1;
-    private boolean levelSwitched = false;
+    private boolean levelSwitched;
     private MainPlayer player;
     private int currentButtonsPressed;
-    private boolean flag1 = false, flag2 = false, flag3 = false, flag4 = false, flag5 = false, flag6 = false, flag7 = false, flag8 = false, flag9 = false, flag10 = false;
-    
+    private boolean flag1, flag2, flag3, flag4, flag5, flag6, flag7, flag8, flag9, flag10;
+    private boolean onlyOne;
+
     private MusicPlayer musicPlayer;
     private Thread hiloMusica;
-    
+
     private MainLevel state;
     int[] position = new int[2];
 
@@ -45,26 +45,35 @@ public class MainLevelUpManager extends LevelUpManager implements SaveGame {
         init();
     }
 
-    
-    public void init(){
+    public void init() {
         musicPlaylist = AudioLoader.musicPlayListMainLevel;
         musicPlayer = new MusicPlayer(musicPlaylist);
-        hiloMusica = new Thread(musicPlayer,"auxiliarMusica");
-        //hiloMusica.start();
+        hiloMusica = new Thread(musicPlayer, "auxiliarMusica");
+        flag1 = false;
+        flag2 = false;
+        flag3 = false;
+        flag4 = false;
+        flag5 = false;
+        flag6 = false;
+        flag7 = false;
+        flag8 = false;
+        flag9 = false;
+        flag10 = false;
+        levelSwitched = false;
+        currentWorld = 1;
+        minigames = 0;
+        onlyOne = true;
     }
-    
+
     @Override
     public void levelUpManager() {
-        if(Window.keyManager.debug){
-            player.setGravity(500f);
-        }
-        
         changeMusic();
         WorldPlat worldAux = (WorldPlat) world.cast(this);
         if (!endMinigame) {
             switch (currentWorld) {
                 case 1:
                     if (!flag1) {
+                        worldAux.resetTileSprite();
                         player.setMaxReturns(1);
                         player.setAmountOfReturns(0);
                         flag1 = true;
@@ -75,6 +84,7 @@ public class MainLevelUpManager extends LevelUpManager implements SaveGame {
                     break;
                 case 2:
                     if (!flag2) {
+                        worldAux.resetTileSprite();
                         player.setMaxReturns(1);
                         player.setAmountOfReturns(0);
                         flag2 = true;
@@ -85,6 +95,7 @@ public class MainLevelUpManager extends LevelUpManager implements SaveGame {
                     break;
                 case 3:
                     if (!flag3) {
+                        worldAux.resetTileSprite();
                         player.setMaxReturns(1);
                         player.setAmountOfReturns(0);
                         flag3 = true;
@@ -95,6 +106,7 @@ public class MainLevelUpManager extends LevelUpManager implements SaveGame {
                     break;
                 case 4:
                     if (!flag4) {
+                        worldAux.resetTileSprite();
                         player.setMaxReturns(1);
                         player.setAmountOfReturns(0);
                         flag4 = true;
@@ -107,7 +119,7 @@ public class MainLevelUpManager extends LevelUpManager implements SaveGame {
                     if (!flag5) {
                         worldAux.switchAllTheTiles();
                         worldAux.changeAnimation();
-                        player.setGravity(400);
+                        player.setGravity(600);
                         player.setMaxReturns(1);
                         player.setAmountOfReturns(0);
                         flag5 = true;
@@ -182,14 +194,18 @@ public class MainLevelUpManager extends LevelUpManager implements SaveGame {
 
     @Override
     public void changeMusic() {
-        if(!levelSwitched){
+        if (!levelSwitched) {
             musicPlayer.resume();
+        }
+        if (state.getGsm().getCurrentState() == 1 && onlyOne) {
+            hiloMusica.start();
+            onlyOne = false;
         }
     }
 
     @Override
     public void finishLevel() {
-        
+
     }
 
     @Override
@@ -252,7 +268,7 @@ public class MainLevelUpManager extends LevelUpManager implements SaveGame {
                 musicPlayer.kill();
                 minigames++;
                 levelSwitched = true;
-                loadData();
+                insertData();
                 state.teleporterReached(minigames);
             } else {
                 currentButtonsPressed++;
@@ -261,7 +277,7 @@ public class MainLevelUpManager extends LevelUpManager implements SaveGame {
             }
         }
         if (!levelSwitched) {
-            if (player.isTouchingLap()){
+            if (player.isTouchingLap()) {
                 if (currentWorld == 10) {
                     endMinigame = true;
                 } else {
@@ -332,14 +348,17 @@ public class MainLevelUpManager extends LevelUpManager implements SaveGame {
         System.out.println(endMinigame);
         return endMinigame;
     }
-    
-    public void setLevelSwitched(boolean value){
-       levelSwitched = value; 
+
+    public void setLevelSwitched(boolean value) {
+        levelSwitched = value;
     }
 
     public MusicPlayer getMusicPlayer() {
         return musicPlayer;
     }
-    
-    
+
+    public int getCurrentWorld() {
+        return currentWorld;
+    }
+
 }
