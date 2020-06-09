@@ -101,7 +101,6 @@ public class Level2UpManager extends LevelUpManager implements SaveGame {
                 // Se cargan los datos, se limpia el mundo y se revive al jugador con los datos obtenidos.
                 loadData();
                 temporaryWorld.clearScreenEntities();
-                getPlayer().setActive(true);
             }
         } else {
             finishLevel();
@@ -173,10 +172,11 @@ public class Level2UpManager extends LevelUpManager implements SaveGame {
         for (Entity e : entityManager.getEntities()) {
             if (e instanceof Player) {
                 Player player = (Player) e;
-                if (player.isActive()) {
-                    return false;
-                } else {
+                if (player.isActive()==false || player.getHealth()<=0) {
+                    player.setActive(true);
                     return true;
+                } else {
+                    return false;
                 }
             }
         }

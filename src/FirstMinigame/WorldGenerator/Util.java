@@ -5,10 +5,9 @@ import java.io.FileReader;
 import java.io.IOException;
 
 /**
- *
- * @author German David
+ * Clase para leer el mundo.
+ * @author Raul
  */
-
 public class Util {
     
     public static String loadFileAsString(String path){

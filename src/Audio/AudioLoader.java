@@ -29,7 +29,10 @@ public class AudioLoader implements Runnable{
         jumpSound = TinySound.loadSound("SFX/jumpSound.wav");
         fillPlayList();
     }
-
+    
+    /**
+     * Toma las canciones del juego para meterlas en un arraylist y reproducirlas aleatoriamente.
+     */
     private static void fillPlayList() {
         musicPlayListMainLevel[0] = TinySound.loadMusic("/Music/M0.wav");
         musicPlayListMainLevel[1] = TinySound.loadMusic("/Music/M1.wav");

@@ -10,15 +10,24 @@ import java.awt.Color;
 import java.awt.Graphics;
 
 /**
- *
- * @author German David
+ * Clase de las respuestas del quiz
  */
 public class Answer extends UIObject{
 
     boolean correct;
     String information;
     private ClickListener clicker;
-
+    
+    /**
+     * Constructor de answer
+     * @param correct Es la respuesta correcta o no.
+     * @param information String de lo que va a decir.
+     * @param x Coordenada en X.
+     * @param y Coordenada en Y.
+     * @param width Ancho.
+     * @param height Altura.
+     * @param clicker ClickListener.
+     */
     public Answer(boolean correct, String information, float x, float y, int width, int height,ClickListener clicker) {
         super(x, y, width, height);
         this.correct=correct;
@@ -31,7 +40,10 @@ public class Answer extends UIObject{
     public void tick() {
         
     }
-
+    /**
+     * Meteodo para reenderizar las respuestas.
+     * @param g Graphics2D.
+     */
     @Override
     public void render(Graphics g) {
         if(hovering){

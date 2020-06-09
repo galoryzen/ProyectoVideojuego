@@ -4,7 +4,8 @@ import MainG.Handler;
 import java.awt.Graphics2D;
 
 /**
- * La clase GameStateManager se encarga de la administracion de los niveles Es el que dice en que nivel se encuentra actualmente, en cual estado.
+ * La clase GameStateManager se encarga de la administracion de los niveles Es
+ * el que dice en que nivel se encuentra actualmente, en cual estado.
  */
 public class GameStateManager {
 
@@ -25,6 +26,12 @@ public class GameStateManager {
     private double deltaTime;
     private int previousState;
 
+    /**
+     * Constructor del GameStateManager.
+     *
+     * @param handler Handler.
+     * @param gameCamara Camara.
+     */
     public GameStateManager(Handler handler, GameCamara gameCamara) {
         this.handler = handler;
         handler.setGSM(this);
@@ -35,27 +42,41 @@ public class GameStateManager {
         this.gameCamera = gameCamara;
     }
 
+    /**
+     * Carga un State.
+     *
+     * @param state El estado que se va a cargar.
+     */
     public void setState(int state) {
         //unloadState(currentState);
         currentState = state;
         loadState(currentState);
     }
 
-    // A diferencia del setState, este carga un State ya creado, no lo vuelve este nulo ni lo crea, de manera que puede acceder desde el menu de Pausa o el menu.
+    /**
+     * A diferencia del setState, este carga un State ya creado, no lo vuelve
+     * este nulo ni lo crea, de manera que puede acceder desde el menu de Pausa
+     * o el menu.
+     *
+     * @param state El state que se va a relodear.
+     */
     public void reloadState(int state) {
         previousState = currentState;
         currentState = state;
         gameStates[currentState].init();
-        
+
     }
 
     /*
     public void unloadState(int state) {
         gameStates[state] = null;
-    }
-    */
-
-    // Funcion encargada de cargar los State, controlador de niveles
+    }*/
+    
+    /**
+     * Funcion encargada de cargar los State, controlador de niveles
+     *
+     * @param state
+     */
     private void loadState(int state) {
         switch (state) {
             case MENUSTATE:
@@ -78,10 +99,10 @@ public class GameStateManager {
     }
 
     public void update(double deltaTime) {
-            while(gameStates[currentState] == null){
-                System.out.println("Cargando");
-            }
-        
+        while (gameStates[currentState] == null) {
+            System.out.println("Cargando");
+        }
+
         gameStates[currentState].update();
         this.deltaTime = deltaTime;
     }
@@ -93,9 +114,12 @@ public class GameStateManager {
     public int inGameState() {
         return currentState;
     }
-
+    
+    /**
+     * Metodo que carga los Estados antes de jugarlos.
+     */
     public void preLoadState() {
-        gameStates[MAINLEVELSTATE] = new MainLevel(this,handler, "Main Level");
+        gameStates[MAINLEVELSTATE] = new MainLevel(this, handler, "Main Level");
         gameStates[LEVEL1STATE] = new Level1State(this, handler, "Level 2");
         gameStates[LEVEL2STATE] = new Level2State(this, handler, "Level 3");
     }
@@ -104,7 +128,10 @@ public class GameStateManager {
         return gameStates;
     }
 
-    // Guarda el estado del nivel anterior, para guardar en caso de salirse del juego o del menu de pausa
+    /**
+     * Guarda el estado del nivel anterior, para guardar en caso de salirse del juego o del menu de pausa
+     * @return El estado previo.
+     */
     public int getPreviousState() {
         return previousState;
     }
@@ -131,7 +158,11 @@ public class GameStateManager {
         return null;
     }
 
-    // Se encarga de verificar, si en el TXT de guardado, en la primera linea esta vacia, lo que indica que el juego es la primera vez que se inicia
+    /**
+     * Se encarga de verificar, si en el TXT de guardado, en la primera linea esta vacia, lo que indica que el juego es la primera vez que se inicia.
+     * @param state Estado que va a verificar.
+     * @return Retorna true si el juego aun no se ha jugado.
+     */
     boolean VerificarReinicioJuego(int state) {
         if (gameStates[state] == null) {
             return true;
@@ -141,17 +172,17 @@ public class GameStateManager {
     }
 
     boolean isOnMinigame(int subState) {
-        if(subState == 1 || subState == 3){
+        if (subState == 1 || subState == 3) {
             return true;
-        }else{
+        } else {
             return false;
         }
     }
 
     public int getMinigame(int subState) {
-        if(subState == 1){
+        if (subState == 1) {
             return LEVEL1STATE;
-        }else{
+        } else {
             return LEVEL2STATE;
         }
     }

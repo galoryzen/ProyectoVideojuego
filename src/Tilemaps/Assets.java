@@ -106,6 +106,7 @@ public class Assets implements Runnable {
         pauseUIHelper = ImageLoader.loadImage("/UI/UIHelper/UIHelperPause.png");
         restrictionLvl1= ImageLoader.loadImage("/UI/UIHelper/UIHelperLvl1-r.png");
         QuizAsk = ImageLoader.loadImage("/UI/UIHelper/UIHelperLvl1-quiz.png");
+        viñetaF = ImageLoader.loadImage("/SpritesMainLevel/Final_viñetas.jpg");
         
         SpriteSheet sheetAsteroids = new SpriteSheet(ImageLoader.loadImage("/Sprites/Tilesets/Sheetasteroids.png"));
         for (int i = 0; i < 2; i++) {
@@ -242,7 +243,7 @@ public class Assets implements Runnable {
         spaceWall2 = ImageLoader.loadImage("/SpritesMainLevel/Space/Tile_6.png");
         spaceCrate = ImageLoader.loadImage("/SpritesMainLevel/Space/crate.png");
         spaceBlocker = ImageLoader.loadImage("/SpritesMainLevel/Space/blocker.png");
-        spaceTeleporter = ImageLoader.loadImage("/SpritesMainLevel/Space/teleporterNave.png");
+        spaceTeleporter = ImageLoader.loadImage("/SpritesMainLevel/Space/teleporteSpace.png");
         cargaSpikes(spikeSheet);
         cargarAnimacionTeleporter();
         minimize[0] = ImageLoader.loadImage("/UI/minimize.png");

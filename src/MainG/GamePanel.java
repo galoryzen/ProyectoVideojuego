@@ -60,6 +60,7 @@ public class GamePanel extends JPanel implements Runnable {
      *
      * @param width Anchura del GamePanel
      * @param height Altura del GamePanel
+     * @param fatherF JFrame
      */
     public GamePanel(int width, int height, JFrame fatherF) {
         super();
@@ -142,7 +143,8 @@ public class GamePanel extends JPanel implements Runnable {
     }
 
     /**
-     * Metodo que actualiza los Frames
+     * Metodo que actualiza los frames.
+     * @param deltaTime Correcion del game loop.
      */
     public void gameUpdate(double deltaTime) {
         UPS++;

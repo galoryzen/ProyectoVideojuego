@@ -15,14 +15,22 @@ import java.awt.Graphics2D;
 import java.awt.Rectangle;
 
 /**
- *
- * @author German David
+ * Enemigo LaserAlien del Space Invaders.
  */
 public class LaserAlien extends Creature {
 
     private long lastAttackTimer, attackCooldown = 2000, attackTimer = 0;
     private boolean shootin = false;
-
+    
+    /**
+     * Constructor de Creature.
+     * @param handler Handler.
+     * @param manager Entity manager al que pertenece.
+     * @param x Coordenada en X.
+     * @param y Coordenada en Y.
+     * @param width Anchura.
+     * @param height Altura.
+     */
     public LaserAlien(Handler handler, EntityManager manager, float x, float y, int width, int height) {
         super(handler, manager, x, y, width, height);
         //Cronometro para saber el tiempo transcurrido antes de su generación
@@ -37,11 +45,15 @@ public class LaserAlien extends Creature {
         bounds.width = 60;
         bounds.height = 36;
     }
-
+    /**
+     * Lo que se realiza luego de que muere.
+     */
     @Override
     public void die() {
     }
-
+    /**
+     * Actualiza al enemigo.
+     */
     @Override
     public void update() {
 
@@ -59,7 +71,10 @@ public class LaserAlien extends Creature {
         }
 
     }
-
+    
+    /**
+     * Mueve al enemigo en x.
+     */
     public void movex() {
         if (x > manager.getPlayer().getX() + manager.getPlayer().getWidth() / 2) {
             Xmove = (float) (-speed * handler.getDeltaTime());
@@ -69,7 +84,11 @@ public class LaserAlien extends Creature {
             Xmove = 0;
         }
     }
-
+    
+    /**
+     * Reenderiza al enemigo.
+     * @param g Graphics2D que necesita.
+     */
     @Override
     public void render(Graphics2D g) {
         g.drawImage(Assets.LaserAlien, (int) x, 0, null);
@@ -77,7 +96,10 @@ public class LaserAlien extends Creature {
             g.drawImage(Assets.laser, (int) (this.getX() + this.getWidth() / 4), (int) (this.getY()), null);
         }
     }
-
+    
+    /**
+     * Dispara el rasho laser.
+     */
     private void shootRay() {
 
         shootin = true;

@@ -6,7 +6,9 @@ import Tilemaps.Assets;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics2D;
-
+/**
+ * Clase para cargar los dialogos del Space Invaders.
+ */
 public class DialogueLoader {
 
     private Handler handler;
@@ -19,7 +21,10 @@ public class DialogueLoader {
     private static int timeAnimationMark = 50;
 
     Font textFont = new Font("pixelart", Font.PLAIN, 22);
-
+    /**
+     * Constructor del DialogueLoader.
+     * @param handler Handler.
+     */
     public DialogueLoader(Handler handler) {
         this.handler = handler;
         tutorialState = 1;
@@ -28,7 +33,10 @@ public class DialogueLoader {
         timeAnimationMark = 50;
         dialogueMark = true;
     }
-
+    /**
+     * Reenderiza los dialogos.
+     * @param g Graphics2D.
+     */
     public void render(Graphics2D g) {
         if (dialogueMark) {
             timeAnimation++;
@@ -50,7 +58,11 @@ public class DialogueLoader {
     public void setDialogueMark() {
         dialogueMark = !dialogueMark;
     }
-
+    
+    /**
+     * Método que muestra el tutorial apenas entras en el minijuego.
+     * @param g Graphics2D.
+     */
     public void showTutorial(Graphics2D g) {
         switch (tutorialState) {
             case 1: // Explicas el contexto
@@ -120,7 +132,11 @@ public class DialogueLoader {
                 info = 1;
         }
     }
-
+    
+    /**
+     * Metodo que muestra información a medida que pasa los stages.
+     * @param g Graphics2D.
+     */
     public void showSomeInfo(Graphics2D g) {
         switch (info) {
             case 1:

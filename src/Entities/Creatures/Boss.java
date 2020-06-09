@@ -30,7 +30,16 @@ public class Boss extends Enemy {
     private int summonNumber = 2;
     private Animation anm;
     private HUD hud;
-    
+    /**
+     * 
+     * @param handler Handler del juego.
+     * @param manager Entity manager al que se agrega.
+     * @param x Coordenada en X.
+     * @param y Coordenada en Y.
+     * @param width Ancho.
+     * @param height Alto.
+     * @param hud su HUD.
+     */
     public Boss(Handler handler, EntityManager manager, float x, float y, int width, int height, HUD hud) {
         super(handler, manager, x, y, width, height, hud);
 
@@ -43,11 +52,17 @@ public class Boss extends Enemy {
         bounds.height = 100;
         anm = new Animation(200, Assets.Boss);
     }
-
+    
+    /**
+     * Metodo de lo que sucede luego que el enemigo muere.
+     */
     @Override
     public void die() {
     }
-
+    
+    /**
+     * Metodo que actualiza lo que debe pasar con el boss.
+     */
     @Override
     public void update() {
         //Attack conditions
@@ -65,7 +80,11 @@ public class Boss extends Enemy {
         checkAttacks();
 
     }
-
+    
+    /**
+     * Metodo para rendear al boss en pantalla.
+     * @param g Los graficos que necesita.
+     */
     public void render(Graphics2D g) {
         g.setColor(Color.red);
         if (tackling == false) {
@@ -78,7 +97,10 @@ public class Boss extends Enemy {
         g.fillRect(20, 50, (int) (this.getHealth() * 3.5), 20);
 
     }
-
+    
+    /**
+     * Mueve al enemigo.
+     */
     @Override
     public void move() {
         now += System.currentTimeMillis() - last;
@@ -94,7 +116,10 @@ public class Boss extends Enemy {
             }
         }
     }
-
+    
+    /**
+     * Mueve al enemigo en Y
+     */
     private void moveY() {
         if (y > manager.getPlayer().getY()) {
             Ymove = (float) (-speed * handler.getDeltaTime());
@@ -104,7 +129,10 @@ public class Boss extends Enemy {
             Ymove = 0;
         }
     }
-
+    
+    /**
+     * Revisa si le ha pegado una bala del usuario.
+     */
     private void checkAttacks() {
 
         attackTimer += System.currentTimeMillis() - lastAttackTimer;
@@ -128,7 +156,10 @@ public class Boss extends Enemy {
             }
         }
     }
-
+    
+    /**
+     * Ejecuta el ataque tackle.
+     */
     public void tackle() {
 
         tackling = true;
@@ -142,7 +173,10 @@ public class Boss extends Enemy {
             now = 0;
         }
     }
-
+    
+    /**
+     * Hace que el boss dispare.
+     */
     private void shoot() {
         for (int i = 1; i <= this.getSummonNumber(); i++) {
             if (i % 2 == 0) {

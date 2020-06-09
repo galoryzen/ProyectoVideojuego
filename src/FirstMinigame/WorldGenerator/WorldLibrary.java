@@ -18,6 +18,7 @@ import java.awt.Graphics2D;
 import java.util.ArrayList;
 
 /**
+ * Clase del Mundo de LibraryGame.
  *
  * @author German David
  */
@@ -37,6 +38,13 @@ public class WorldLibrary extends World {
     private boolean stopped;
     long cont = 0, last;
 
+    /**
+     * Constructor de WorldLibrary.
+     *
+     * @param handler Handler.
+     * @param path Path del mundo.
+     * @param state El GameState.
+     */
     public WorldLibrary(Handler handler, String path, GameState state) {
         super(handler);
         this.handler = handler;
@@ -56,25 +64,34 @@ public class WorldLibrary extends World {
         last = System.currentTimeMillis();
     }
 
+    /**
+     * Actualiza el estado del mundo.
+     */
     @Override
     public void update() {
         entityM.update();
+        if (stopped) {
+            cont += System.currentTimeMillis() - last;
+            last = System.currentTimeMillis();
+
+            if (cont > 5000) {
+                stopped = false;
+                cont = 0;
+            }
+        }
         if (checkPositionEndGame()) {
             if (!passed) {
                 checkBooks();
-                if (stopped) {
-                    cont += System.currentTimeMillis() - last;
-                    last = System.currentTimeMillis();
 
-                    if (cont > 5000) {
-                        stopped = false;
-                        cont = 0;
-                    }
-                }
             }
         }
     }
 
+    /**
+     * Reenderiza el mundo.
+     *
+     * @param g Graphics2D.
+     */
     @Override
     public void render(Graphics2D g) {
         //Varibales para crear las tiles visibles
@@ -89,8 +106,8 @@ public class WorldLibrary extends World {
                         (int) (y * Tile.TILEHEIGHT - handler.getGameCamara().getyOffset()));
             }
         }
-        if(stopped){
-            g.drawImage(Assets.restrictionLvl1, 200,450,null);
+        if (stopped) {
+            g.drawImage(Assets.restrictionLvl1, 200, 450, null);
         }
         entityM.render(g);
     }
@@ -106,6 +123,11 @@ public class WorldLibrary extends World {
         return t;
     }
 
+    /**
+     * Metodo para leer el mundo.
+     *
+     * @param path
+     */
     private void loadWorld(String path) {
         String file = Util.loadFileAsString(path);
         //\\s+ es cada espacio en blanco
@@ -142,15 +164,23 @@ public class WorldLibrary extends World {
         entityM.getJoan().setGameFinished(true);
     }
 
+    /**
+     * Se revisa si el usuario ha alcanzado el final.
+     *
+     * @return True si alcanzó el final.
+     */
     public boolean checkPositionEndGame() {
         return this.entityM.getJoan().checkEnd();
     }
 
-    private void checkBooks(){
-        if(bookcount < 6){
-            entityM.getJoan().setX(entityM.getJoan().getX()-20);
-            stopped=true;
-        }else{
+    /**
+     * Revisa cunatos libros tiene el personaje hasta ahora.
+     */
+    private void checkBooks() {
+        if (bookcount < 6) {
+            entityM.getJoan().setX(entityM.getJoan().getX() - 20);
+            stopped = true;
+        } else {
             passed = true;
         }
     }

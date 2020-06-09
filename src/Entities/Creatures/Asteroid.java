@@ -78,7 +78,10 @@ public class Asteroid extends Creature {
     public void move() {
         this.x -= Xmove * handler.getDeltaTime();
     }
-
+    
+    /**
+     * Metodo que se encarga de cuando los asteroides se salen de la ventana, los desactiva.
+     */
     public void getState() {
         if (this.x < -100) {
             active = false;

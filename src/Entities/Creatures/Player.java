@@ -11,7 +11,7 @@ import java.awt.image.BufferedImage;
 import tinysound.Sound;
 
 /**
- *
+ * Player del minijuego Space Invaders.
  * @author German David
  */
 public class Player extends Character {
@@ -50,12 +50,17 @@ public class Player extends Character {
         naveStates[1] = Assets.naveSemiOff;
         naveStates[2] = Assets.naveOff;
     }
-
+    /**
+     * Actualiza el estado de player.
+     */
     @Override
     public void update() {
         clock = System.nanoTime();
         getInput();
         move();
+        if (this.getHealth()==0) {
+            this.die();
+        }
 
     }
     
@@ -84,7 +89,9 @@ public class Player extends Character {
             y = handler.getGame().getHeight() - bounds.height;
         }
     }
-    //Metodo que transforma los input del teclado en movimiento del jugador
+    /**
+     * Obtiene el input del usuario.
+     */
     @Override
     public void getInput() {
 
@@ -110,12 +117,20 @@ public class Player extends Character {
             manager.addEntity(new Bullet(handler, manager, this.getX() + this.getWidth() / 1.3f, this.getY() + this.getHeight() / 3.3f, 100, 100, this));
         }
     }
-
+    /**
+     * Reenderiza al personaje.
+     * @param g Graphics2D que necesita.
+     */
     @Override
     public void render(Graphics2D g) {
         g.drawImage(getCurrentImage(), (int) (x), (int) (y), null);
     }
-
+    
+    /**
+     * Metodo para verificar si puede disparar.
+     * @param c Long del tiempo que ha pasado.
+     * @return Booleano si puede disparar o no.
+     */
     public boolean canShoot(long c) {
         if ((double) c / 1000000000 >= ShootSpeed) {
             System.out.println("" + (double) c / 1000000000);
@@ -133,12 +148,15 @@ public class Player extends Character {
     public void setShootSpeed(float ShootSpeed) {
         this.ShootSpeed = ShootSpeed;
     }
-
+    /**
+     * Lo que pasa si muere.
+     */
     @Override
     public void die() {
-        System.out.println("You lose");
+        setActive(false);
     }
-
+    
+    
     private BufferedImage getCurrentImage() {
         if (System.currentTimeMillis() - timerAnimation>= 100) {
             i++;

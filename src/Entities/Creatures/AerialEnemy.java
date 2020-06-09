@@ -58,11 +58,15 @@ public class AerialEnemy extends Enemy {
         bounds.height = 99;
         anm = new Animation(300, Assets.aerialEnemy);
     }
-
+    
+    /**
+     * Metodo que se ejecuta cuando la entidad muere. En este caso se desactiva.
+     */
     @Override
     public void die() {
         this.setActive(false);
     }
+    
     /**
      * Metodo que va actualizando lo que hace el enemigo.
      */

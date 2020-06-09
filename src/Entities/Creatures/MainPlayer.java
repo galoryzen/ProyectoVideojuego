@@ -14,6 +14,9 @@ import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
 import tinysound.Sound;
 
+/**
+ * Clase MainPlayer, que es el jugador del juego principal.
+ */
 public class MainPlayer extends Character {
 
     private double speedX, speedY, percentajeVelocity, maxSpeedY, xMove, yMove, maxPercentajeVelocity;
@@ -37,14 +40,21 @@ public class MainPlayer extends Character {
     private Sound backTime, jumpSound;
 
     private Animation animDL, animDR, animUpR, animUpL, animR, animL, animSSL, animSSR, animTimeStamp;
-
+    
     public void setPosition(int[] position) {
         this.x = position[0];
         this.y = position[1];
     }
-
+    
+    /**
+     * Clase que guarda un punto en el nivel.
+     */
     public class Punto {
-
+        /**
+         * Constructor del pungo
+         * @param x Coordenada en X.
+         * @param y Coordenada en Y.
+         */
         public Punto(float x, float y) {
             this.x = x;
             this.y = y;
@@ -53,7 +63,14 @@ public class MainPlayer extends Character {
         public float x;
         public float y;
     }
-
+    
+    /**
+     * Constructor del MainPlayer.
+     * @param handler Handler.
+     * @param entityM Entity Manager al que pertenece.
+     * @param x Coordenada en X.
+     * @param y Coordenada en Y.
+     */
     public MainPlayer(Handler handler, EntityManager entityM, float x, float y) {
         super(handler, entityM, x, y, Creature.DEFAULT_CREATURE_WIDTH, Creature.DEFAULT_CREATUR_HEIGHT);
 
@@ -88,12 +105,17 @@ public class MainPlayer extends Character {
         timePressed = System.currentTimeMillis();
         init();
     }
-
+    /**
+     * Metodo que se corre al iniciar la clase.
+     */
     public void init() {
         backTime = AudioLoader.backInTime;
         jumpSound = AudioLoader.jumpSound;
     }
-
+    
+    /**
+     * Obtiene los inputs del usuario.
+     */
     @Override
     public void getInput() {
         if (Window.keyManager.right) {
@@ -164,20 +186,29 @@ public class MainPlayer extends Character {
         }
 
     }
-
+    
+    /**
+     * Lo que hace luego de que se muere el personaje.
+     */
     @Override
     public void die() {
         reset = true;
         active = true;
         setReturnPoint(null);
     }
-
+    
+    /**
+     * Movimiento del personaje. 
+     */
     @Override
     public void move() {
         moveX();
         moveY();
     }
-
+    
+    /**
+     * Actualiza el estado del personaje.
+     */
     @Override
     public void update() {
         getInput();
@@ -204,7 +235,10 @@ public class MainPlayer extends Character {
         animR.update();
         animTimeStamp.update();
     }
-
+    /**
+     * Reenderiza el personaje.
+     * @param g Graphics2D que necesita.
+     */
     @Override
     public void render(Graphics2D g) {
         g.drawImage(getCurrentAnimationFrame(), (int) x, (int) y, null);
@@ -240,6 +274,7 @@ public class MainPlayer extends Character {
      * @author CodeNMore
      * @param x Posicion horizontal relativa de la Tile
      * @param y Posicion vertical relativa de la Tile
+     * @return La tile.
      */
     protected TileMainLevel getSpecificTile(int x, int y) {
         WorldPlat tempWorld = (WorldPlat) handler.getWorld();
@@ -257,7 +292,10 @@ public class MainPlayer extends Character {
         x = punto.x;
         y = punto.y;
     }
-
+    
+    /**
+     * Mueve al personaje en X.
+     */
     public void moveX() {
         if (Window.keyManager.right) {
             if (hasRightCollision()) {
@@ -288,41 +326,70 @@ public class MainPlayer extends Character {
             }
         }
     }
-
+    
+    /**
+     * Mueve al personaje en Y.
+     */
     public void moveY() {
         fall();
         jumping();
         cheackDamage();
     }
-
+    
+    /**
+     * Hitbox para interactuar a la derecha.
+     * @return El hitbox.
+     */
     private Rectangle rightHand() {
         Rectangle hand = new Rectangle((int) (x + bounds.x) + 25, (int) (y + bounds.y) + 35, bounds.width / 2 + 5, bounds.height / 4);
         return hand;
     }
-
+    
+    /**
+     * Hitbox para interactuar a la izquierda.
+     * @return El hitbox.
+     */
     private Rectangle leftHand() {
         Rectangle hand = new Rectangle((int) (x + bounds.x) - 20, (int) (y + bounds.y) + 35, bounds.width / 2 + 5, bounds.height / 4);
         return hand;
     }
-
+    
+    /**
+     * Busca el tile con el que está interactuando a la derecha.
+     * @param hand El hitbox de la derecha.
+     * @return El tile con el que interactúa.
+     */
     private TileMainLevel getRightHandInteraction(Rectangle hand) {
         hand.width = hand.width * 2 - 5;
         hand.x += 20;
         return getSpecificTile(hand.x / TileMainLevel.TILEWIDTH, hand.y / TileMainLevel.TILEHEIGHT);
     }
-
+    
+    /**
+     * Busca el tile con el que está interactuando a la izquierda.
+     * @param hand El hitbox de la izquierda.
+     * @return El tile con el que interactúa.
+     */
     private TileMainLevel getLeftHandInteraction(Rectangle hand) {
         hand.width = hand.width * 2 - 5;
         hand.x += 10;
         return getSpecificTile(hand.x / TileMainLevel.TILEWIDTH, hand.y / TileMainLevel.TILEHEIGHT);
     }
-
+    
+    /**
+     * Revisa si tiene una colision a la izquierda.
+     * @return Booleano.
+     */
     private boolean hasLeftCollision() {
         int tx = (int) (x + xMove * handler.getDeltaTime() + bounds.x) / TileMainLevel.TILEWIDTH;
         return !collisionWithTile(tx, (int) (y + bounds.y + bounds.height) / TileMainLevel.TILEHEIGHT)
                 && !collisionWithTile(tx, (int) (y + bounds.y) / TileMainLevel.TILEHEIGHT);
     }
-
+    
+    /**
+     * Obtiene el Tile que tiene a la izquierda.
+     * @return El tile, o nulo si no está tocando nada.
+     */
     private TileMainLevel getTileLeftTouching() {
         int tx = (int) (x + xMove * handler.getDeltaTime() + bounds.x) / TileMainLevel.TILEWIDTH;
         if (!hasLeftCollision()) {
@@ -331,13 +398,20 @@ public class MainPlayer extends Character {
             return null;
         }
     }
-
+    /**
+     * Revisa si tiene una colision a la derecha.
+     * @return Booleano.
+     */
     private boolean hasRightCollision() {
         int tx = (int) (x + xMove * handler.getDeltaTime() + bounds.x + bounds.width) / TileMainLevel.TILEWIDTH;
         return !collisionWithTile(tx, (int) (y + bounds.y + bounds.height) / TileMainLevel.TILEHEIGHT)
                 && !collisionWithTile(tx, (int) (y + bounds.y) / TileMainLevel.TILEHEIGHT);
     }
-
+    
+    /**
+     * Obtiene el Tile que tiene a la derecha.
+     * @return El tile, o nulo si no está tocando nada.
+     */
     private TileMainLevel getTileRightTouching() {
         int tx = (int) (x + xMove * handler.getDeltaTime() + bounds.x + bounds.width) / TileMainLevel.TILEWIDTH;
         if (!hasRightCollision()) {
@@ -346,13 +420,21 @@ public class MainPlayer extends Character {
             return null;
         }
     }
-
+    
+    /**
+     * Revisa si tiene una colision debajo.
+     * @return Booleano.
+     */
     private boolean hasDownCollision() {
         int ty = (int) (y + yMove * handler.getDeltaTime() + bounds.y + bounds.height) / TileMainLevel.TILEHEIGHT;
         return !collisionWithTile((int) (x + bounds.x + bounds.width) / TileMainLevel.TILEWIDTH, ty)
                 && !collisionWithTile((int) (x + bounds.x) / TileMainLevel.TILEWIDTH, ty);
     }
-
+    
+    /**
+     * Obtiene el Tile que tiene abajo.
+     * @return El tile, o nulo si no está tocando nada.
+     */
     private TileMainLevel getTileDownTouching() {
         int ty = (int) (y + yMove * handler.getDeltaTime() + bounds.y + bounds.height) / TileMainLevel.TILEHEIGHT;
         if (!hasDownCollision()) {
@@ -361,13 +443,19 @@ public class MainPlayer extends Character {
             return null;
         }
     }
-
+    
+    /**
+     * Revisa si tiene una colision arriba.
+     * @return Booleano.
+     */
     private boolean hasUpCollision() {
         int ty = (int) (y + bounds.y + yMove * handler.getDeltaTime() - 2f) / TileMainLevel.TILEHEIGHT;
         return !collisionWithTile((int) (x + bounds.x + bounds.width) / TileMainLevel.TILEWIDTH, ty)
                 && !collisionWithTile((int) (x + bounds.x) / TileMainLevel.TILEWIDTH, ty);
     }
-
+    /**
+     * Caida del personaje
+     */
     public void fall() {
         if (hasDownCollision() && !jumping) {
             double relativeY = speedY * handler.getDeltaTime();
@@ -390,7 +478,9 @@ public class MainPlayer extends Character {
             isGround = true;
         }
     }
-
+    /**
+     * Salto del personaje.
+     */
     public void jumping() {
         if (jumping) {
             if (hasUpCollision()) {
@@ -420,7 +510,10 @@ public class MainPlayer extends Character {
         }
     }
 
-    //Conseguir la animación en cada movimiento
+    /**
+     * Consigue la animacion en cada movimiento.
+     * @return Retorna el frame.
+     */
     private BufferedImage getCurrentAnimationFrame() {
         if (Window.keyManager.left && !(jumping || !isGround)) {
             return animL.getCurrentFrame();
@@ -450,11 +543,17 @@ public class MainPlayer extends Character {
             return animSSL.getCurrentFrame();
         }
     }
-
+    /**
+     * Revisa los ataques.
+     */
     public void checkAttacks() {
         Rectangle cb = getCollisionBounds();
     }
-
+    /**
+     * Revisa la interaccion de ambos lados
+     * @param handR Hitbox del lado derecho de la interaccion.
+     * @param handL Hitbox del lado izquierdo de la interaccion.
+     */
     private void checkInteraction(Rectangle handR, Rectangle handL) {
         TileMainLevel auxT = getRightHandInteraction(handR);
         if (auxT != null) {
@@ -473,7 +572,9 @@ public class MainPlayer extends Character {
             buttonPressed = false;
         }
     }
-
+    /**
+     * Revisa el daño que se le hace al player.
+     */
     private void cheackDamage() {
         TileMainLevel auxT = getTileDownTouching();
         if (auxT != null) {
@@ -497,7 +598,10 @@ public class MainPlayer extends Character {
             }
         }
     }
-
+    /**
+     * Metodo que revisa si el personaje está tocando la meta.
+     * @return Booleano de si ha llegado o no a la meta.
+     */
     public boolean isTouchingLap() {
         TileMainLevel auxT = getTileRightTouching();
         if (auxT != null) {
@@ -507,7 +611,12 @@ public class MainPlayer extends Character {
         }
         return false;
     }
-
+    
+    /**
+     * Revisa si el objeto con el que interactúa tiene alguna interacción.
+     * @param tile La tile con la que está interactuando
+     * @return Un booleano dependiendo si la Tile es interactiva o no.
+     */
     public boolean checkInteracionObject(TileMainLevel tile) {
         if (tile.isInteractive()) {
             switch (tile.getId()) {

@@ -22,9 +22,13 @@ public abstract class GameState {
     public GameState(GameStateManager gsm) {
         this.gsm = gsm;
     }
-
+    /**
+     * Metodo que se hace al inicializar la clase.
+     */
     public abstract void init();
-
+    /**
+     * Metodo que actualiza el estado de la clase.
+     */
     public abstract void update();
 
     public abstract void draw(Graphics2D g);
@@ -35,7 +39,9 @@ public abstract class GameState {
 
     public abstract void killMusic();
     
-    // Se verifica si el usuario presiono la letra P, para iniciar un menu de Pausa.
+    /**
+     * Método para implementar la pausa en todos los estados.
+     */
     protected void pauseState() {
         timeDeltaTime = System.currentTimeMillis() - timePassed;
         if (timeDeltaTime > 2000) { // Deley Tecla

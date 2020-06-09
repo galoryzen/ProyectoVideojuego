@@ -14,7 +14,7 @@ import java.awt.Graphics2D;
 import java.awt.Rectangle;
 
 /**
- *
+ * Balas del usuario en el Space Invaders.
  * @author German David
  */
 public class Bullet extends Entity {
@@ -23,7 +23,17 @@ public class Bullet extends Entity {
     private int Y;
     private int BulletSpeed = 500;
     private Creature creature;
-
+    
+    /**
+     * Constructor de Bullet.
+     * @param handler Handler.
+     * @param manager EntityManager.
+     * @param x Coordenada en X.
+     * @param y Coordenada en Y.
+     * @param width Ancho.
+     * @param height Alto.
+     * @param creature Creatura que dispara la bala.
+     */
     public Bullet(Handler handler, EntityManager manager, float x, float y, int width, int height, Creature creature) {
         super(handler, manager, x, y, width, height);
 
@@ -34,14 +44,19 @@ public class Bullet extends Entity {
         this.creature = creature;
 
     }
-
+    /**
+     * Actualiza el estado de la bala.
+     */
     @Override
     public void update() {
         move();
         checkAttacks();
 
     }
-
+    
+    /**
+     * Movimiento de la bala.
+     */
     public void move() {
         if (this.creature instanceof Player) {
             x += BulletSpeed*handler.getDeltaTime();
@@ -50,7 +65,11 @@ public class Bullet extends Entity {
         }
 
     }
-
+    
+    /**
+     * Reenderiza la bala.
+     * @param g Graphics2D.
+     */
     @Override
     public void render(Graphics2D g) {
         if(creature instanceof Player)
@@ -66,12 +85,18 @@ public class Bullet extends Entity {
     public void setBulletSpeed(int BulletSpeed) {
         this.BulletSpeed = BulletSpeed;
     }
-
+    
+    /**
+     * Metodo que se ejecuta cuando muere.
+     */
     @Override
     public void die() {
 
     }
-
+    
+    /**
+     * Revisa con quien se golpeó.
+     */
     public void checkAttacks() {
         Rectangle cb = getCollisionBounds();
         for (Entity e : manager.getEntities()) {

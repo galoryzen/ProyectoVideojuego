@@ -11,9 +11,9 @@ import Tilemaps.Assets;
 import java.awt.Graphics2D;
 import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
-
-/*
- * @author German David
+/**
+ * Clase del Player perteneciente al LibraryGame.
+ * @author Raul
  */
 public class Player_Joan extends Character {
 
@@ -31,17 +31,16 @@ public class Player_Joan extends Character {
 
     //Animations
     private Animation animDown, animUp, animR, animL;
-
+    
+    /**
+     * Constructor de la clase.
+     * @param handler Handler.
+     * @param entityM EntityManager.
+     * @param x Coordenada en X.
+     * @param y Coordenada en Y.
+     */
     public Player_Joan(Handler handler, EntityManager entityM, float x, float y) {
         super(handler, entityM, x, y, Creature.DEFAULT_CREATURE_WIDTH, Creature.DEFAULT_CREATUR_HEIGHT);
-
-        /* 
-            Bounds para la chica
-            bounds.x=40;
-            bounds.y=35;
-            bounds.width=35;
-            bounds.height=60;
-         */
         
         bounds.x = 40;
         bounds.y = 65;
@@ -57,7 +56,9 @@ public class Player_Joan extends Character {
         animL = new Animation(300, Assets.playerLeft);
         this.speed-=2;
     }
-
+    /**
+     * Actualiza el estado de personaje.
+     */
     @Override
     public void update() {
         if (!gameFinished) {
@@ -74,7 +75,9 @@ public class Player_Joan extends Character {
             handler.getGameCamara().centerOnEntity(this);
         }
     }
-
+    /**
+     * Revisa si encontró un libro.
+     */
     private void checkAttacks() {
 
         Rectangle cb = getCollisionBounds(0, 0);
@@ -113,12 +116,16 @@ public class Player_Joan extends Character {
             }
         }
     }
-
+    /**
+     * Lo que se ejecuta si llega a morir.
+     */
     @Override
     public void die() {
         System.out.println("You lose");
     }
-
+    /**
+     * Maneja el input del usuario.
+     */
     public void getInput() {
         Xmove = 0;
         Ymove = 0;
@@ -139,7 +146,9 @@ public class Player_Joan extends Character {
             }
         }
     }
-
+    /**
+     * Movimiento del personaje.
+     */
     @Override
     public void move() {
         if (!checkEntityCollisions(Xmove, 0f)) {
@@ -149,7 +158,9 @@ public class Player_Joan extends Character {
             moveY();
         }
     }
-
+    /**
+     * Movimiento en X.
+     */
     public void moveX() {
         if (Xmove > 0) {
             int tx = (int) (x + Xmove + bounds.x + bounds.width) / Tile.TILEWIDTH;
@@ -163,7 +174,9 @@ public class Player_Joan extends Character {
             }
         }
     }
-
+    /**
+     * Movimiento en Y.
+     */
     public void moveY() {
         if (Ymove < 0) {
             int ty = (int) ((y + Ymove + bounds.y) / Tile.TILEHEIGHT);
@@ -180,7 +193,10 @@ public class Player_Joan extends Character {
             }
         }
     }
-
+    /**
+     * Reenderiza el personaje.
+     * @param g Graphics2D necesarios.
+     */
     @Override
     public void render(Graphics2D g) {
         g.drawImage(getCurrentAnimationFrame(), (int) (x - handler.getGameCamara().getxOffset()), (int) (y - handler.getGameCamara().getyOffset()), width, height, null);
@@ -219,7 +235,12 @@ public class Player_Joan extends Character {
             return Assets.playerDown[0];
         }
     }
-
+    /**
+     * Checkea las colisiones de las entidades.
+     * @param xOffset Offset de la camara en X.
+     * @param yOffset Offset de la camara en Y.
+     * @return 
+     */
     public boolean checkEntityCollisions(float xOffset, float yOffset) {
         for (Entity e : manager.getEntities()) {
             if (e.equals(this)) //Continua al siguiente objeto
@@ -233,11 +254,18 @@ public class Player_Joan extends Character {
         }
         return false;
     }
-
+    /**
+     * Permite o no que el usuario se mueva.
+     * @param b Estado al que se cambiará, si se pasa un true, el atributo canMove será true.
+     */
     public void setCanMove(boolean b) {
         this.canMove = b;
     }
-
+    
+    /**
+     * Revisa si el usuario llegó al final.
+     * @return Retorna true si llegó o false sino.
+     */
     public boolean checkEnd() {
         if (this.x > 5700 && this.y > 1500 && this.y < 1800) {
             return true;

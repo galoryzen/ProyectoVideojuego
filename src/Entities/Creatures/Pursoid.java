@@ -14,7 +14,7 @@ import java.awt.Graphics2D;
 import java.awt.Rectangle;
 
 /**
- *
+ * Enemigo Pursoid.
  * @author German David
  */
 public class Pursoid extends Creature{
@@ -24,7 +24,13 @@ public class Pursoid extends Creature{
     //Attack timer, AttackCooldown=
     private long lastAttackTimer,attackCooldown=10, attackTimer=attackCooldown;
 
-    
+    /**
+     * Constructor de Pursoid.
+     * @param handler Handler.
+     * @param manager EntityManager.
+     * @param x Coordenada en X.
+     * @param y Coordenada en Y.
+     */
     public Pursoid(Handler handler,EntityManager manager, float x, float y) {
         super(handler,manager, x, y, 65,21);
         
@@ -37,21 +43,28 @@ public class Pursoid extends Creature{
                 
         
     }
-
+    /**
+     * Actualiza el estado de Pursoid.
+     */
     @Override
     public void update() {
         
         move();
         checkAttacks();
     }
-
+    /**
+     * Reenderiza al enemigo.
+     * @param g Graphics2D.
+     */
     @Override
     public void render(Graphics2D g) {
         
             g.drawImage(Assets.pursoid, (int) (x ), (int) (y ), 65, 21, null);
         
     }
-    
+    /**
+     * Movimiento del enemigo.
+     */
     @Override
     public void move(){
        
@@ -62,7 +75,9 @@ public class Pursoid extends Creature{
         
     }
     
-    
+    /**
+     * Movimiento en X.
+     */
     public void movex(){
         if(x>manager.getPlayer().getX()+ manager.getPlayer().getWidth()/2){
             Xmove=(float) (-speed * handler.getDeltaTime()); 
@@ -73,7 +88,9 @@ public class Pursoid extends Creature{
         }
     }
     
-    
+    /**
+     * Movimiento en Y.
+     */
     public void movey(){
         if(y>manager.getPlayer().getY()+ manager.getPlayer().getHeight()/2){
             Ymove=(float) (-speed * handler.getDeltaTime());
@@ -83,7 +100,10 @@ public class Pursoid extends Creature{
             Ymove=0;
         }
     }
-
+    
+    /**
+     * Revisa si es atacado.
+     */
     private void checkAttacks(){
         
         attackTimer+= System.currentTimeMillis()-lastAttackTimer;
@@ -108,6 +128,9 @@ public class Pursoid extends Creature{
         }
     }
     
+    /**
+     * Lo que ejecuta si muere.
+     */
     @Override
     public void die() {
         

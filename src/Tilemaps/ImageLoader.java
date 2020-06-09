@@ -10,9 +10,9 @@ import javax.imageio.ImageIO;
 public class ImageLoader {
     
     /**
-     * @param path Es el path hacia el archivo que se quiere cargar
-     * @return Retorna la imagen
-     * @throws ImageLoaderException si la imagen no se encuentra en el path definido.
+     * Carga la imagen dado un path.
+     * @param path Path de la imagen.
+     * @return La imagen.
      */
     public static BufferedImage loadImage(String path){
         try{

@@ -13,6 +13,9 @@ import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
 import tinysound.Music;
 
+/**
+ * Enemigo DownEnemy del Space Invaders.
+ */
 public class DownEnemy extends Enemy {
 
     private HUD hud;
@@ -21,6 +24,16 @@ public class DownEnemy extends Enemy {
     private static Music explosionEnemy;
     private Animation anm;
     
+    /**
+     * Constructor de DownEnemy.
+     * @param handler Handler.
+     * @param manager Entity manager al que pertenece.
+     * @param x Coordenada en X.
+     * @param y Coordenada en Y.
+     * @param width Anchura.
+     * @param height Altura.
+     * @param hud HUD del enemigo.
+     */
     public DownEnemy(Handler handler, EntityManager manager, float x, float y, int width, int height, HUD hud) {
         super(handler, manager, x, y, width, height, hud);
         this.hud = hud;
@@ -34,14 +47,20 @@ public class DownEnemy extends Enemy {
         
         anm=new Animation(400,Assets.downEnemy);
     }
-
+    
+    /**
+     * Lo que se ejecuta cuando muere.
+     */
     @Override
     public void die() {
         explosionEnemy.play(false);
         hud.setPoint(hud.getPoint() + 2);
         this.setActive(false);
     }
-
+    
+    /**
+     * Actualiza lo que está realizando.
+     */
     @Override
     public void update() {
         move();
@@ -54,14 +73,18 @@ public class DownEnemy extends Enemy {
         }
         checkAttacks();
     }
-
+    
+    /**
+     * Renderiza al enemigo.
+     * @param g Graphics2D que necesita.
+     */
     @Override
     public void render(Graphics2D g) {
-//        g.setColor(Color.red);
-//        g.fillRect((int) x + bounds.x, (int) y + bounds.y, bounds.width, bounds.height);
         g.drawImage(getCurrentAnimationFrame(), (int) this.x, (int) this.y, width, height, null);
     }
-
+    /**
+     * Mueve al enemigo.
+     */
     public void move() {
         if (updownswitch) {
             if (this.y <= 40) {
@@ -75,11 +98,17 @@ public class DownEnemy extends Enemy {
             this.y += Ymove * handler.getDeltaTime();
         }
     }
-
+    
+    /**
+     * Hace que el enemigo dispare.
+     */
     private void shot() {
         manager.addEntity(new Bullet(handler, manager, this.getX(), this.getY() + this.getHeight() / 3.3f, 100, 100, this));
     }
-
+    
+    /**
+     * Revisa si fue herido por una bala.
+     */
     private void checkAttacks() {
         if (attackTimer < attackCooldown) //No hace lo de abajo
         {
@@ -101,7 +130,9 @@ public class DownEnemy extends Enemy {
         }
     }
     
-    //Conseguir la animación en cada movimiento
+    /**
+     * Conseguir la animación en cada movimiento
+     */
     private BufferedImage getCurrentAnimationFrame(){
         return anm.getCurrentFrame();
     }

@@ -15,7 +15,7 @@ import java.awt.Graphics2D;
 import java.awt.Rectangle;
 
 /**
- *
+ * Clase sentinel, enemigo en el LibraryGame.
  * @author German David
  */
 public class Sentinel extends Creature{
@@ -25,7 +25,15 @@ public class Sentinel extends Creature{
     private final int placeY;
     private Rectangle vision;
     private String tag;
-
+    /**
+     * Constructor de Sentinel.
+     * @param handler Handler
+     * @param manager EntityManager.
+     * @param x Coordenada en X.
+     * @param y Coordenada en Y.
+     * @param width Ancho.
+     * @param height Altura.
+     */
     public Sentinel(Handler handler, EntityManager manager, float x, float y, int width, int height) {
         super(handler, manager, x, y, width, height);
         busted=false;
@@ -46,12 +54,16 @@ public class Sentinel extends Creature{
     
     
     
-    
+    /**
+     * Lo que se ejecuta cuando muere.
+     */
     @Override
     public void die() {
         
     }
-
+    /**
+     * Actualiza el estado del sentinela.
+     */
     @Override
     public void update() {
         searching();
@@ -93,7 +105,10 @@ public class Sentinel extends Creature{
         }
 
     }
-
+    /**
+     * Reenderiza el sentinela.
+     * @param g Graphics2D.
+     */
     @Override
     public void render(Graphics2D g) {
         g.setColor(Color.red);
@@ -101,11 +116,17 @@ public class Sentinel extends Creature{
         g.setColor(Color.gray);
         g.fillRect( (int) (x-handler.getGameCamara().getxOffset()),(int) (y-handler.getGameCamara().getyOffset()), width,height);
     }
-    
+    /**
+     * Movimiento del sentinela.
+     */
     @Override
      public void move(){
         moveY();
     }
+     
+    /**
+     * Movimiento en X.
+     */ 
     public void moveX(){
         if(Xmove>0){
            
@@ -117,7 +138,9 @@ public class Sentinel extends Creature{
             
         }
     }
-    
+    /**
+     * Movimiento en Y.
+     */
     public void moveY(){
         if(Ymove<0){
             y+=Ymove;
@@ -127,7 +150,9 @@ public class Sentinel extends Creature{
         }
     }
     
-
+    /**
+     * Metodo para perseguir al personaje.
+     */
     private void searching() {
         if(vision.contains(manager.getJoan().getX()+manager.getJoan().getBounds().getX(),manager.getJoan().getY()+manager.getJoan().getBounds().getY())){
             busted=true;
@@ -135,18 +160,15 @@ public class Sentinel extends Creature{
             busted=false;
         }
     }
-
+    
+    /**
+     * Metodo del rango de vision.
+     */
     private void looking() {
         vision.x=(int)x-30;
         vision.y=(int)y;
         vision.width=Tile.TILEWIDTH;
         vision.height=Tile.TILEHEIGHT*3;
     }
-/*
-    private void caught() {
-        if(bounds.intersects(manager.getJoan().getBounds())){
-            manager.getJoan().die();
-        }
-    }
-  */  
+    
 }

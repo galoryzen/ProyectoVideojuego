@@ -11,6 +11,10 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Comparator;
 
+/**
+ * Es el manager de todas las entidades que se van a generar en el juego.
+ * @author Raul
+ */
 public class EntityManager{
     
     private Handler handler;
@@ -98,9 +102,11 @@ public class EntityManager{
             Entity e = entities.get(i);
             e.update();
             //Cambio, revisar despues
+            
             if (!e.isActive()) {
-                entities.remove(e);
-                e = null;
+                if (!(e instanceof Player)) {
+                    entities.remove(e);
+                }
             }
         }
         entities.sort(renderSorter);

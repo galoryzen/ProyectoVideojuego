@@ -10,7 +10,10 @@ import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.FileReader;
 import java.io.FileWriter;
-
+/**
+ * Clase que se encarga de manejar lo que ocurre en el nivel.
+ * @author Raul
+ */
 public class Level1UpManager extends LevelUpManager {
 
     Graphics2D g;
@@ -31,13 +34,20 @@ public class Level1UpManager extends LevelUpManager {
     public void finishLevel() {
 
     }
-
+    /**
+     * Constructor de Level1UpManager.
+     * @param state State en el que se encuentra.
+     * @param world World de ese state.
+     * @param entityManager EntityManager.
+     */
     public Level1UpManager(Level1State state, World world, EntityManager entityManager) {
         super(world, entityManager);
         this.state = (Level1State) state;
         this.worldLib = (WorldLibrary) world;
     }
-
+    /**
+     * Actualiza el estado del LevelManager.
+     */
     public void update() {
         if (entityManager == null) {
             System.out.println("Eso");
@@ -47,7 +57,10 @@ public class Level1UpManager extends LevelUpManager {
             }
         }
     }
-
+    
+    /**
+     * 
+     */
     public void insertData() {
         try {
             BufferedWriter bw = new BufferedWriter(new FileWriter("savefile.txt"));
