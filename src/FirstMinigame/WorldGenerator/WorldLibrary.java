@@ -34,7 +34,8 @@ public class WorldLibrary extends World {
     private boolean showHistory = true;
     Font textFont = new Font("pixelart", Font.PLAIN, 20);
     private boolean passed = false;
-    
+    private boolean stopped;
+    long cont = 0, last;
 
     public WorldLibrary(Handler handler, String path, GameState state) {
         super(handler);
@@ -51,6 +52,8 @@ public class WorldLibrary extends World {
         loadWorld(path);
         entityM.getJoan().setX(spawnX);
         entityM.getJoan().setY(spawnY);
+        stopped = false;
+        last = System.currentTimeMillis();
     }
 
     @Override
@@ -59,6 +62,15 @@ public class WorldLibrary extends World {
         if (checkPositionEndGame()) {
             if (!passed) {
                 checkBooks();
+                if (stopped) {
+                    cont += System.currentTimeMillis() - last;
+                    last = System.currentTimeMillis();
+
+                    if (cont > 5000) {
+                        stopped = false;
+                        cont = 0;
+                    }
+                }
             }
         }
     }
@@ -76,6 +88,9 @@ public class WorldLibrary extends World {
                 getTile(x, y).render(g, (int) (x * Tile.TILEWIDTH - handler.getGameCamara().getxOffset()),
                         (int) (y * Tile.TILEHEIGHT - handler.getGameCamara().getyOffset()));
             }
+        }
+        if(stopped){
+            g.drawImage(Assets.restrictionLvl1, 200,450,null);
         }
         entityM.render(g);
     }
@@ -106,7 +121,7 @@ public class WorldLibrary extends World {
             }
         }
     }
-    
+
     public int getWidth() {
         return width;
     }
@@ -123,17 +138,20 @@ public class WorldLibrary extends World {
         this.entityM = entityManager;
     }
 
-    public void setFinished(){
+    public void setFinished() {
         entityM.getJoan().setGameFinished(true);
     }
-    
-    public boolean checkPositionEndGame(){
+
+    public boolean checkPositionEndGame() {
         return this.entityM.getJoan().checkEnd();
     }
-    
+
     private void checkBooks(){
         if(bookcount < 6){
             entityM.getJoan().setX(entityM.getJoan().getX()-20);
+            stopped=true;
+        }else{
+            passed = true;
         }
     }
 
@@ -144,11 +162,9 @@ public class WorldLibrary extends World {
     public static void setBookcount(int bookcount) {
         WorldLibrary.bookcount = bookcount;
     }
-    
-    public void startQuiz(){
-        
+
+    public void startQuiz() {
+
     }
-    
-    
-    
+
 }

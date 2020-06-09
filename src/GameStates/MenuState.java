@@ -88,7 +88,7 @@ public class MenuState extends GameState implements SaveGame {
                 gsm.setState(1);
             }
         }));
-        uimanager.addUIObject(new UIHelper(Assets.UIHelperMenu, 8000, 540, 430, 475, 200));
+        uimanager.addUIObject(new UIHelper(Assets.UIHelperMenu, 15000, 540, 430, 475, 200));
         anm = new Animation(100, Assets.backgroundMenu);
         init();
 

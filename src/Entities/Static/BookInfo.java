@@ -90,7 +90,7 @@ public class BookInfo extends StaticEntity {
                 return Assets.Books[WorldLibrary.bookcount - 1];
             } else {
                 if (this.id == 6) {
-                    return Assets.Books[2];
+                    return Assets.QuizAsk;
                 } else {
                     return Assets.Books[this.id];
                 }
