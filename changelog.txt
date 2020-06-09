@@ -125,4 +125,30 @@ Version 3.1
 -Se añade el fin del juego del library game
 -Se actualiza el changelog
 
+Version 3.1b
+-Se añade el video que reproducirá al final
+
+Version 3.2
+-Se hizo merge con cambios del minijuego principal
+-Se agregaron assets
+-Se corrigieron bugs
+
+Version 3.3
+-Se solucionan los ultimos bugs para la finalizacion del juego
+
+Version 3.3b
+-Se borró intro.mp4 porque no permite el uso correcto de github
+
+Version 3.3c
+-Se añade intro.mp4 después de comprar storage en github
+
+Version 3.4
+-Corrección de bugs
+-Se añaden sprites faltantes
+
+Version 3.5
+-Es la version final
+
+Version 3.6
+-Se actualiza el changelog y se añaden las referencias del proyecto.
 
